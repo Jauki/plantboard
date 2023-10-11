@@ -1,21 +1,22 @@
+"use client";
 import React from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { signOut, useSession } from 'next-auth/react';
 
 const Header: React.FC = () => {
-  const router = useRouter();
+  const routerPathname = usePathname();
   const isActive: (pathname: string) => boolean = (pathname) =>
-    router.pathname === pathname;
+  routerPathname === pathname;
 
   const { data: session, status } = useSession();
 
   let left = (
     <div className="left">
       <Link href="/">
-        <a className="bold" data-active={isActive('/')}>
+        
           Feed
-        </a>
+        
       </Link>
     </div>
   );
@@ -26,9 +27,7 @@ const Header: React.FC = () => {
     left = (
       <div className="left">
         <Link href="/">
-          <a className="bold" data-active={isActive('/')}>
             Feed
-          </a>
         </Link>
       </div>
     );
@@ -43,7 +42,7 @@ const Header: React.FC = () => {
     right = (
       <div className="right">
         <Link href="/api/auth/signin">
-          <a data-active={isActive('/signup')}>Log in</a>
+          log in
         </Link>
       </div>
     );
@@ -53,12 +52,12 @@ const Header: React.FC = () => {
     left = (
       <div className="left">
         <Link href="/">
-          <a className="bold" data-active={isActive('/')}>
+          
             Feed
-          </a>
+          
         </Link>
         <Link href="/drafts">
-          <a data-active={isActive('/drafts')}>My drafts</a>
+         My drafts
         </Link>
       </div>
     );
@@ -68,9 +67,7 @@ const Header: React.FC = () => {
           {session.user!.name} ({session.user!.email})
         </p>
         <Link href="/create">
-          <button>
-            <a>New post</a>
-          </button>
+          Post
         </Link>
         <button onClick={() => signOut()}>
           <a>Log out</a>
