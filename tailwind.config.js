@@ -22,7 +22,8 @@ module.exports = {
     },
   },
   plugins: [
-    require("tailwindcss-radix")()
+    require("tailwindcss-radix")(),
+    require('@tailwindcss/forms')
   ],
 }
 

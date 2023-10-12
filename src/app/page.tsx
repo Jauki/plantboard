@@ -1,12 +1,11 @@
-import Header from '../components/Header'
-
 
 export default function Home() {
   return (
     <main>
-      <Header/>
-      <h1 className='text-xl  font-semibold'>Hello World!</h1>
-      <div></div>
+      <div className="h-48 w-full bg-primary"></div>
+      <div className="max-w-[1728px] px-12 py-8 grid grid-cols-8 gap-6 items-center">
+        <h1 className="text-6xl col-span-3">Welcome to <span className="text-primary">Plantboard</span>, your virtual plant-stash</h1>
+      </div>
     </main>
   )
 }
