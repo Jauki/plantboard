@@ -14,12 +14,12 @@ const Navbar: React.FC = () => {
         <nav className="max-w-[1728px] px-12 py-8 grid grid-cols-8 gap-6 items-center">
             <h1 className="text-3xl font-medium">Plantboard</h1>
             <Searchbar/>
-            <button className="bg-primary-light rounded-md  text-primary py-2">Add Room</button>
-            <Link href={"/feedback"} className="flex gap-2 col-start-6 items-center hover:bg-background-grey transition-colors ease-in h-full p-2 rounded-md" >
+            <button className="bg-primary-light rounded-md  text-primary py-2 hover:bg-primary hover:text-white transition-colors ease-out">Add Room</button>
+            <Link href={"/feedback"} className="flex gap-2 col-start-6 py-2 items-center hover:bg-background-grey transition-colors ease-in h-min p-2 rounded-md" >
                 <MessageCircle/>
                 Give us Feedback
             </Link>
-            <Link href={"/feedback"} className="flex gap-2 items-center hover:bg-background-grey transition-colors ease-in h-full p-2 rounded-md" >
+            <Link href={"/feedback"} className="flex gap-2 items-center py-2 h-min hover:bg-background-grey transition-colors ease-in  p-2 rounded-md" >
                 <Info/>
                 Help & Support
             </Link>

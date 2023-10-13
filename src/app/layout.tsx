@@ -17,7 +17,6 @@ export default function RootLayout({
     <html lang="en" className={`${outfit.variable} font-body`}>
       <body>
         <ProviderWrapper>
-          <Navbar/>
           {children}
           </ProviderWrapper>
       </body>
