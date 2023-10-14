@@ -10,15 +10,6 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Post {
-  id        String  @id @default(cuid())
-  title     String
-  content   String?
-  published Boolean @default(false)
-  author    User?@relation(fields:[authorId], references:[id])
-  authorId  String?
-}
-
 model Account {
   id                 String  @id @default(cuid())
   userId             String  @map("user_id")
@@ -35,28 +26,28 @@ model Account {
   oauth_token_secret String?
   oauth_token        String?
 
-  user User @relation(fields:[userId], references:[id], onDelete: Cascade)
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
 }
 
 model Session {
   id           String   @id @default(cuid())
-  sessionToken String   @unique@map("session_token")
+  sessionToken String   @unique @map("session_token")
   userId       String   @map("user_id")
   expires      DateTime
-  user         User     @relation(fields:[userId], references:[id], onDelete: Cascade)
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model User {
   id            String    @id @default(cuid())
   name          String?
-  email         String?@unique
+  email         String?   @unique
   emailVerified DateTime?
   image         String?
-  posts         Post[]
   accounts      Account[]
   sessions      Session[]
+  Room          Room[]
 }
 
 model VerificationToken {
@@ -66,4 +57,22 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+// Make User unique for a room as long as you don't introduce WG'S or Families
+model Room {
+  id        Int     @id @default(autoincrement())
+  name      String
+  isOutdoor Boolean
+  userId    String
+  user      User    @relation(fields: [userId], references: [id])
+  plants    Plant[]
+}
+
+model Plant {
+  id      Int    @id @default(autoincrement())
+  name    String
+  species String
+  roomId  Int
+  room    Room   @relation(fields: [roomId], references: [id])
 }
