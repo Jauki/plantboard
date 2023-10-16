@@ -1,10 +1,9 @@
 import { NextRequest } from 'next/server';
-import { useParams, useSearchParams } from 'next/navigation';
-import prisma from '../../../../../prisma/client';
 import { getServerSession } from 'next-auth';
+import prisma from '../../../../prisma/client';
 
 /**
- * Get destinct Room by id
+ * Gets the rooms of a person
  * @param request
  * @param param1
  * @returns
@@ -16,8 +15,12 @@ export async function GET(
   // I don't need to actually verify, bc middleware should do this!
   const session = await getServerSession();
   const user = await prisma.user.findUnique({
-    where: { email: session?.user?.email! }
+    where: { email: session?.user?.email! },
+    include: {
+      rooms: true,
+    },
   });
-  console.log(user);
-  return new Response("hrllo");
+  return user?.rooms
+    ? new Response(JSON.stringify(user.rooms))
+    : new Response('No rooms', { status: 404 });
 }
