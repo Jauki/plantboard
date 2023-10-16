@@ -5,6 +5,10 @@ generator client {
   provider = "prisma-client-js"
 }
 
+generator json {
+  provider = "prisma-json-types-generator"
+}
+
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
@@ -59,15 +63,20 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
+
+
 // Make User unique for a room as long as you don't introduce WG'S or Families
 model Room {
   id        Int     @id @default(autoincrement())
   name      String
+  icon      Json
   isOutdoor Boolean
   userId    String
   user      User    @relation(fields: [userId], references: [id])
   plants    Plant[]
 }
+
+
 
 model Plant {
   id      Int    @id @default(autoincrement())
