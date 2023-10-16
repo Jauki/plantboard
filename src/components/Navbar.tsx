@@ -7,8 +7,9 @@ import { useSession } from 'next-auth/react';
 import { Session } from 'next-auth';
 import { Profil } from './navbar/Profil';
 
-const Navbar: React.FC = () => {
+const Navbar = () => {
   const { data: session, status } = useSession();
+  
   return (
     <nav className='grid max-w-[1728px] grid-cols-8 items-center gap-6 px-12 py-8'>
       <h1 className='text-3xl font-medium'>Plantboard</h1>
