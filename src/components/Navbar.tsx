@@ -10,22 +10,22 @@ import { Profil } from './navbar/Profil';
 const Navbar: React.FC = () => {
   const { data: session, status } = useSession();
   return (
-    <nav className='max-w-[1728px] px-12 py-8 grid grid-cols-8 gap-6 items-center'>
+    <nav className='grid max-w-[1728px] grid-cols-8 items-center gap-6 px-12 py-8'>
       <h1 className='text-3xl font-medium'>Plantboard</h1>
       <Searchbar />
-      <button className='bg-primary-light rounded-md  text-primary py-2 hover:bg-primary hover:text-white transition-colors ease-out'>
+      <button className='rounded-md bg-primary-light  py-2 text-primary transition-colors ease-out hover:bg-primary hover:text-white'>
         plant a Plant
       </button>
       <Link
         href={'/feedback'}
-        className='flex gap-2 col-start-6 py-2 items-center hover:bg-background-grey transition-colors ease-in h-min p-2 rounded-md'
+        className='col-start-6 flex h-min items-center gap-2 rounded-md p-2 py-2 transition-colors ease-in hover:bg-background-grey'
       >
         <MessageCircle />
         Give us Feedback
       </Link>
       <Link
         href={'/feedback'}
-        className='flex gap-2 items-center py-2 h-min hover:bg-background-grey transition-colors ease-in  p-2 rounded-md'
+        className='flex h-min items-center gap-2 rounded-md p-2 py-2 transition-colors  ease-in hover:bg-background-grey'
       >
         <Info />
         Help & Support
@@ -45,9 +45,9 @@ const AuthenticationStatusSwitch = ({
   return status === 'unauthenticated' ? (
     <Link
       href='/api/auth/signin'
-      className='bg-gray-900 rounded-md p-2 flex w-full text-white font-regular mt-8 cursor-pointer text-sm gap-2 justify-center'
+      className='font-regular h-12 p-2 flex w-full cursor-pointer justify-center gap-2 rounded-md bg-gray-900 items-center text-sm text-white'
     >
-      <div className='flex justify-center items-center'>
+      <div className='flex items-center justify-center'>
         <GitHub size={16} />
       </div>
       Connect with Github

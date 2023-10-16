@@ -8,13 +8,13 @@ const Searchbar: React.FC = () => {
   const { data: session, status } = useSession();
 
   return (
-    <div className='col-span-2 flex gap-2 p-2 font-normal bg-background-grey rounded-md'>
+    <div className='col-span-2 flex gap-2 rounded-md bg-background-grey p-2 font-normal'>
       <Select.Root>
-        <Select.Trigger className='w-6 h-6 flex justify-center items-center rounded bg-primary-light'>
+        <Select.Trigger className='flex h-6 w-6 items-center justify-center rounded bg-primary-light'>
           🪴
         </Select.Trigger>
         <input
-          className='p-0 border-none focus:ring-0 bg-transparent font-light text-black w-full'
+          className='w-full border-none bg-transparent p-0 font-light text-black focus:ring-0'
           placeholder='Living Room'
         />
         <Select.Trigger className='text-foreground-grey'>
