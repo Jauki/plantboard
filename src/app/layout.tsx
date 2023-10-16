@@ -1,25 +1,22 @@
-import { Outfit } from 'next/font/google'
-import ProviderWrapper from './ProviderWrapper'
-import './globals.css'
-import Navbar from '@/components/Navbar'
+import { Outfit } from 'next/font/google';
+import ProviderWrapper from './ProviderWrapper';
+import './globals.css';
 
 const outfit = Outfit({
-  subsets: ["latin"],
-  variable: "--body-font"
-})
+  subsets: ['latin'],
+  variable: '--body-font',
+});
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={`${outfit.variable} font-body`}>
+    <html lang='en' className={`${outfit.variable} font-body`}>
       <body>
-        <ProviderWrapper>
-          {children}
-          </ProviderWrapper>
+        <ProviderWrapper>{children}</ProviderWrapper>
       </body>
     </html>
-  )
+  );
 }

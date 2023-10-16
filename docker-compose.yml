@@ -9,4 +9,4 @@ services:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: root
     ports:
-      - "5432:5432"
+      - '5432:5432'
