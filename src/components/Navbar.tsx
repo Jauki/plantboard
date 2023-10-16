@@ -14,7 +14,7 @@ const Navbar: React.FC = () => {
         <nav className="max-w-[1728px] px-12 py-8 grid grid-cols-8 gap-6 items-center">
             <h1 className="text-3xl font-medium">Plantboard</h1>
             <Searchbar/>
-            <button className="bg-primary-light rounded-md  text-primary py-2 hover:bg-primary hover:text-white transition-colors ease-out">Add Room</button>
+            <button className="bg-primary-light rounded-md  text-primary py-2 hover:bg-primary hover:text-white transition-colors ease-out">plant a Plant</button>
             <Link href={"/feedback"} className="flex gap-2 col-start-6 py-2 items-center hover:bg-background-grey transition-colors ease-in h-min p-2 rounded-md" >
                 <MessageCircle/>
                 Give us Feedback
@@ -29,7 +29,7 @@ const Navbar: React.FC = () => {
 }
 
 const AuthenticationStatusSwitch = ({status, session}: {status: "unauthenticated" | "loading" | "authenticated", session: Session}) => {
-    return status === "unauthenticated" ? <Link href={"/signup"}>Signup</Link> : <Profil session={session}/>
+    return status === "unauthenticated" ? <Link href={"/signup"} className="flex justify-center items-center bg-primary-light text-primary p-2 rounded-md">Signup</Link> : <Profil session={session}/>
 }
 
 
