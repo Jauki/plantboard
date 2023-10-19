@@ -1,12 +1,5 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
-}
-
-generator json {
-  provider = "prisma-json-types-generator"
 }
 
 datasource db {
@@ -29,8 +22,7 @@ model Account {
   session_state      String?
   oauth_token_secret String?
   oauth_token        String?
-
-  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user               User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
 }
@@ -45,13 +37,13 @@ model Session {
 
 model User {
   id            String    @id @default(cuid())
-  name          String?
   email         String?   @unique
+  name          String?
   emailVerified DateTime?
   image         String?
   accounts      Account[]
-  sessions      Session[]
   rooms         Room[]
+  sessions      Session[]
 }
 
 model VerificationToken {
@@ -63,20 +55,14 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
-
-
-// Make User unique for a room as long as you don't introduce WG'S or Families
 model Room {
   id        Int     @id @default(autoincrement())
   name      String
-  icon      Json
   isOutdoor Boolean
   userId    String
-  user      User    @relation(fields: [userId], references: [id])
   plants    Plant[]
+  user      User    @relation(fields: [userId], references: [id])
 }
-
-
 
 model Plant {
   id      Int    @id @default(autoincrement())

@@ -34,15 +34,15 @@ const Searchbar: React.FC = () => {
       </Select.Trigger>
       <Select.Content>
         <Select.Viewport className='flex flex-col gap-2 rounded-lg bg-white p-2 shadow-lg'>
-          <Select.Group>
+          <Select.Group className='flex flex-col gap-1'>
             {
               rooms.map((room, k) => (
                 <Select.Item
                   key={room.id}
                   value={k.toString()}
-                  className='group flex w-full cursor-pointer gap-2 rounded-md border border-background-grey bg-white p-2 font-light outline-primary transition-all ease-in hover:bg-gray-50'
-                >
-                  <Select.ItemIndicator className='flex h-6 w-6 items-center justify-center rounded bg-primary-light transition-all ease-in group-hover:bg-primary'></Select.ItemIndicator>
+                  className='group flex w-full cursor-pointer gap-2 rounded-md border border-background-grey bg-white p-2 font-light  transition-all ease-in hover:bg-gray-50'
+                  >
+                  <div className='flex h-6 w-6 items-center justify-center rounded bg-primary-light transition-all ease-in group-hover:bg-primary'></div>
                   <Select.ItemText className='gap-2 rounded-md bg-background-grey p-2 text-sm font-light'>
                     {room.name}
                   </Select.ItemText>
@@ -50,12 +50,13 @@ const Searchbar: React.FC = () => {
               ))
               // todo: make outdoor in own group!
               // maybe a small pulse when hovered?
+              // defaultSelection
+              // ring color
             }
           </Select.Group>
           <Select.Group>
             <Select.Item
               disabled
-              onClick={() => console.log('fo')}
               value='addRoom'
               className='w-full cursor-pointer justify-center gap-2 rounded-md bg-primary-light p-2 font-medium  text-primary'
             >
