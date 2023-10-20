@@ -3,6 +3,7 @@ import { useState } from 'react';
 import React, { useRef } from 'react';
 import { X } from 'react-feather';
 import { motion, useAnimation } from 'framer-motion';
+import EmojiPicker, { EmojiClickData } from 'emoji-picker-react';
 
 const RoomCreationModal = ({}) => {
 
@@ -188,6 +189,49 @@ const OutdoorIndoorButton = ({
   );
 };
 
+interface IconCreatorProps {
+  onIconCreated: (icon: JSX.Element) => void;
+}
+
+const IconCreator: React.FC<IconCreatorProps> = ({ onIconCreated }) => {
+  const [selectedEmoji, setSelectedEmoji] = useState<string>('');
+  const [selectedColor, setSelectedColor] = useState<string>('#000000');
+
+  const handleEmojiClick = (emoji: EmojiClickData, mouseEvent: MouseEvent) => {
+    setSelectedEmoji(emoji.emoji);
+  };
+
+  const handleColorChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSelectedColor(e.target.value);
+  };
+
+  const createIcon = () => {
+    const icon = (
+      <div className="text-xl" style={{ color: selectedColor }}>
+        {selectedEmoji}
+      </div>
+    );
+
+    onIconCreated(icon);
+  };
+
+  return (
+    <div className="flex flex-col items-center">
+      <h1 className="text-2xl mb-4">Icon Creator</h1>
+      <EmojiPicker onEmojiClick={handleEmojiClick} />
+      <input
+        type="color"
+        value={selectedColor}
+        onChange={handleColorChange}
+        className="mt-4"
+      />
+      <button onClick={createIcon} className="mt-4 p-2 bg-blue-500 text-white rounded">
+        Create Icon
+      </button>
+    </div>
+  );
+};
+
 
 const StepTwo = () => (
   <div>
@@ -199,13 +243,12 @@ const StepTwo = () => (
       </div>
 
       <div className='flex flex-col gap-1'>
-        <div>Icon</div>
-        <input className='px-2 py-1 border-background-grey border rounded-md w-full focus:border-background-grey transition-all focus:border-1 focus:ring-0 focus:outline-2 focus:outline-primary'/>
+        <IconCreator onIconCreated={(icon) => console.log(icon)}/>
       </div>
       
       <div className='flex flex-col gap-1'>
         <div>Room Size</div>
-        <input type='range'/>
+        
       </div>
       </div>
   </div>
