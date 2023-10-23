@@ -2,6 +2,7 @@ import Navbar from '@/components/Navbar';
 
 
 
+
 export default async function Home() {
   return (
     <>
@@ -13,6 +14,7 @@ export default async function Home() {
             Welcome to <span className='text-primary'>Plantboard</span>, your
             virtual plant-stash
           </h1>
+
         </div>
       </main>
     </>
