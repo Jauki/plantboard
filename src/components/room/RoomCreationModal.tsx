@@ -6,7 +6,6 @@ import { motion, useAnimation } from 'framer-motion';
 import EmojiPicker, { EmojiClickData } from 'emoji-picker-react';
 
 const RoomCreationModal = ({}) => {
-
   return (
     <Dialog.Root>
       <Dialog.Trigger className='flex h-full w-full justify-center subpixel-antialiased'>
@@ -24,7 +23,6 @@ const RoomCreationModal = ({}) => {
 };
 
 export default RoomCreationModal;
-
 
 const StepOne = () => {
   return (
@@ -94,9 +92,6 @@ const StepOne = () => {
     </div>
   );
 };
-
-
-
 
 type RoomCarouselProps = {
   children: React.ReactNode[];
@@ -189,67 +184,66 @@ const OutdoorIndoorButton = ({
   );
 };
 
-interface IconCreatorProps {
-  onIconCreated: (icon: JSX.Element) => void;
-}
-
-const IconCreator: React.FC<IconCreatorProps> = ({ onIconCreated }) => {
-  const [selectedEmoji, setSelectedEmoji] = useState<string>('');
-  const [selectedColor, setSelectedColor] = useState<string>('#000000');
-
-  const handleEmojiClick = (emoji: EmojiClickData, mouseEvent: MouseEvent) => {
-    setSelectedEmoji(emoji.emoji);
-  };
-
-  const handleColorChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedColor(e.target.value);
-  };
-
-  const createIcon = () => {
-    const icon = (
-      <div className="text-xl" style={{ color: selectedColor }}>
-        {selectedEmoji}
-      </div>
-    );
-
-    onIconCreated(icon);
-  };
-
-  return (
-    <div className="flex flex-col items-center">
-      <h1 className="text-2xl mb-4">Icon Creator</h1>
-      <EmojiPicker onEmojiClick={handleEmojiClick} />
-      <input
-        type="color"
-        value={selectedColor}
-        onChange={handleColorChange}
-        className="mt-4"
-      />
-      <button onClick={createIcon} className="mt-4 p-2 bg-blue-500 text-white rounded">
-        Create Icon
-      </button>
-    </div>
-  );
-};
-
-
 const StepTwo = () => (
-  <div>
-    <Dialog.Title className='text-2xl w-60'>Room Personalization</Dialog.Title>
-      <div className='flex flex-col gap-2.5 mt-4'>
+  <div className='w-full'>
+    <Dialog.Title className='text-2xl'>Room Personalization</Dialog.Title>
+    <div className='mt-4 flex flex-col gap-4'>
       <div className='flex flex-col gap-1'>
         <div>Roomname*</div>
-        <input className='px-2 py-1 border-background-grey border rounded-md w-full focus:border-background-grey transition-all focus:border-1 focus:ring-0 focus:outline-2 focus:outline-primary'/>
+        <input className='focus:border-1 w-full rounded-md border border-background-grey px-2 py-1 transition-all focus:border-background-grey focus:outline-2 focus:outline-primary focus:ring-0' />
+      </div>
+      <div className='flex items-center justify-between'>
+        <div>Room Icon Color:</div>
+        <div className='flex gap-2.5'>
+          <input
+            type='radio'
+            name='green'
+            id='green'
+            className='h-5 w-5 rounded-sm border-none bg-primary text-primary focus:ring-2 focus:ring-primary'
+          />
+          <input
+            type='radio'
+            name='green'
+            id='green'
+            className='h-5 w-5 rounded-sm border-none bg-green-500 text-green-500 focus:ring-2 focus:ring-primary'
+          />
+          <input
+            type='radio'
+            name='green'
+            id='green'
+            className='h-5 w-5 rounded-sm border-none bg-primary-light text-primary-light focus:ring-2 focus:ring-primary'
+          />
+        </div>
       </div>
 
       <div className='flex flex-col gap-1'>
-        <IconCreator onIconCreated={(icon) => console.log(icon)}/>
+        <div>Room Size:</div>
+        <p className='text-sm font-light text-foreground-grey'>
+          Tailor your room's ambiance for healthier plants. Begin by entering
+          your room dimensions.
+        </p>
+        <div className='mx-10 my-3  flex flex-row gap-8'>
+          <div className='flex aspect-square cursor-pointer flex-col items-center justify-center rounded-lg border border-background-grey transition-all hover:outline hover:outline-2 hover:outline-primary'>
+            <div className='text-lg font-medium'>S</div>
+            <div className='w-3/4 text-center text-xs font-light text-foreground-grey'>
+              Cozy, perfect for small spaces. 5m<sup>2</sup>
+            </div>
+          </div>
+          <div className='flex  aspect-square cursor-pointer  flex-col items-center justify-center rounded-lg border border-background-grey transition-all hover:outline hover:outline-2 hover:outline-primary'>
+            <div className='text-lg font-medium'>M</div>
+            <div className='w-3/4 text-center text-xs font-light text-foreground-grey'>
+              A standard, comfortable size. Up to 40m<sup>2</sup>
+            </div>
+          </div>
+          <div className='flex aspect-square cursor-pointer  flex-col items-center justify-center rounded-lg border border-background-grey transition-all hover:outline hover:outline-2 hover:outline-primary'>
+            <div className='text-lg font-medium'>L</div>
+            <div className='w-3/4 text-center text-xs font-light text-foreground-grey'>
+              Generous for abundant growth. Up to 75m<sup>2</sup>
+            </div>
+          </div>
+        </div>
       </div>
-      
-      <div className='flex flex-col gap-1'>
-        <div>Room Size</div>
-        
-      </div>
-      </div>
+    </div>
   </div>
-)
+);
+
