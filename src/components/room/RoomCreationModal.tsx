@@ -16,6 +16,7 @@ const RoomCreationModal = ({}) => {
         <RoomCarousel>
           <StepOne />
           <StepTwo />
+          <StepThree />
         </RoomCarousel>
       </Dialog.Portal>
     </Dialog.Root>
@@ -247,3 +248,19 @@ const StepTwo = () => (
   </div>
 );
 
+const StepThree = () => (
+  <div className='w-full'>
+    <Dialog.Title className='text-2xl'>Fill it up with Plants</Dialog.Title>
+    <div className='mt-4 flex flex-col gap-4 '>
+      <div className='flex gap-2'>
+        <input className='focus:border-1 w-full rounded-md border border-background-grey px-2 py-1 transition-all focus:border-background-grey focus:outline-2 focus:outline-primary focus:ring-0' />
+      </div>
+      <div>Results
+        
+      </div>
+      <div>
+        Recently added
+      </div>
+    </div>
+  </div>
+)
