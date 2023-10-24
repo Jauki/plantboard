@@ -3,12 +3,12 @@ const nextConfig = {
   images: {
     domains: ['avatars.githubusercontent.com'],
   },
-  experimental: {
-    appDir: true,
-    serverActions: true,
-    fontLoaders: [
+  fontLoaders: [
       { loader: '@next/font/google', options: { subsets: ['latin'] } },
     ],
+  experimental: {
+    serverActions: true,
+
   },
 };
 
