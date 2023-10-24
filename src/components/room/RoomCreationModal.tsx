@@ -1,8 +1,12 @@
 'use client';
-// @ts-ignore
-import { experimental_useFormState as useFormState } from 'react-dom';
+
+import {
+  experimental_useFormStatus as useFormStatus,
+  // @ts-ignore
+  experimental_useFormState as useFormState,
+} from 'react-dom';
 import * as Dialog from '@radix-ui/react-dialog';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import React from 'react';
 import { X } from 'react-feather';
 import { motion } from 'framer-motion';
@@ -13,20 +17,13 @@ import { createRoom } from '@/app/actions';
 
 // todo: Build Next Form to fill out these tools
 
-const initialState: RoomDTO = {
+const initialState = {
   roomType: 'indoor',
   roomName: '',
   roomColor: '',
   roomSize: 'm',
 };
 
-type RoomDTO = {
-  roomType: 'indoor' | 'oudoort';
-  roomName: string;
-  roomColor: string;
-  roomSize: 's' | 'm' | 'l';
-  // plants: Plant
-};
 
 const RoomCreationModal = () => {
   return (
@@ -68,6 +65,7 @@ const RoomCarousel: React.FC<RoomCarouselProps> = ({ children }) => {
     }
   };
 
+
   return (
     <Dialog.Content className='w-90vw max-h-85vh absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 transform flex-col rounded-lg bg-white p-8 shadow-lg'>
       <form action={formAction}>
@@ -102,13 +100,7 @@ const RoomCarousel: React.FC<RoomCarouselProps> = ({ children }) => {
               Next
             </div>
           )}
-          {step === React.Children.count(children) - 1 && (
-            <input
-              type='submit'
-              value="import"
-              className='flex h-8 w-32 cursor-pointer items-center justify-center rounded-md bg-primary-light px-4 py-1 text-primary'
-            />
-          )}
+          {step === React.Children.count(children) - 1 && <SubmitButton />}
         </div>
         <Dialog.Close asChild>
           <button
@@ -120,5 +112,21 @@ const RoomCarousel: React.FC<RoomCarouselProps> = ({ children }) => {
         </Dialog.Close>
       </form>
     </Dialog.Content>
+  );
+};
+
+const SubmitButton = () => {
+  const { pending } = useFormStatus();
+
+  return (
+    <Dialog.Close asChild>
+      <input
+        value={pending ? 'Import...' : "Import"}
+        aria-label='submit'
+        aria-disabled={pending}
+        type='submit'
+        className='flex h-8 w-32 cursor-pointer items-center justify-center rounded-md bg-primary-light px-4 py-1 text-primary'
+      />
+    </Dialog.Close>
   );
 };

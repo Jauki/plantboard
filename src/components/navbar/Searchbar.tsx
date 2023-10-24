@@ -16,11 +16,12 @@ const Searchbar: React.FC = () => {
     getRooms()
       .then((data) => {
         setRooms(data);
-        setLoading(true);
+      
+        setLoading(false);
       })
       .catch((error) => {
         console.error('Error fetching rooms:', error);
-        setLoading(false);
+        setLoading(true);
       });
   }, []);
 
@@ -36,18 +37,27 @@ const Searchbar: React.FC = () => {
         <Select.Viewport className='flex flex-col gap-2 rounded-lg bg-white p-2 shadow-lg'>
           <Select.Group className='flex flex-col gap-1'>
             {
-              rooms.map((room, k) => (
-                <Select.Item
-                  key={room.id}
-                  value={k.toString()}
-                  className='group flex w-full cursor-pointer gap-2 rounded-md border border-background-grey bg-white p-2 font-light  transition-all ease-in hover:bg-gray-50'
-                >
-                  <div className='flex h-6 w-6 items-center justify-center rounded bg-primary-light transition-all ease-in group-hover:bg-primary'></div>
+              loading ? (
+                <Select.Item  value='d' className='group flex w-full cursor-pointer gap-2 rounded-md border border-background-grey bg-white p-2 font-light  transition-all ease-in hover:bg-gray-50'>
+                  <div className='flex h-6 w-6 items-center justify-center rounded bg-foreground-grey transition-all ease-in '></div>
                   <Select.ItemText className='gap-2 rounded-md bg-background-grey p-2 text-sm font-light'>
-                    {room.name}
+                    loading
                   </Select.ItemText>
                 </Select.Item>
-              ))
+              ) : (
+                rooms.map((room, k) => (
+                  <Select.Item
+                    key={room.id}
+                    value={k.toString()}
+                    className='group flex w-full cursor-pointer gap-2 rounded-md border border-background-grey bg-white p-2 font-light  transition-all ease-in hover:bg-gray-50'
+                  >
+                    <div className='flex h-6 w-6 items-center justify-center rounded bg-primary-light transition-all ease-in group-hover:bg-primary'></div>
+                    <Select.ItemText className='gap-2 rounded-md bg-background-grey p-2 text-sm font-light'>
+                      {room.roomName}
+                    </Select.ItemText>
+                  </Select.Item>
+                ))
+              )
               // todo: make outdoor in own group!
               // maybe a small pulse when hovered?
               // defaultSelection

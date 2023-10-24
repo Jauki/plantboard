@@ -6,7 +6,6 @@ const RoomIconColorRadioGroup = () => {
   const [selectedColor, setSelectedColor] = useState('green');
 
   const handleColorChange = (color: string) => {
-    console.log(selectedColor);
     setSelectedColor(color);
   };
 
