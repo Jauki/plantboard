@@ -9,7 +9,7 @@ import { Profil } from './navbar/Profil';
 
 const Navbar = () => {
   const { data: session, status } = useSession();
-  
+
   return (
     <nav className='grid max-w-[1728px] grid-cols-8 items-center gap-6 px-12 py-8'>
       <h1 className='text-3xl font-medium'>Plantboard</h1>
@@ -46,7 +46,7 @@ const AuthenticationStatusSwitch = ({
   return status === 'unauthenticated' ? (
     <Link
       href='/api/auth/signin'
-      className='font-regular h-12 p-2 flex w-full cursor-pointer justify-center gap-2 rounded-md bg-gray-900 items-center text-sm text-white'
+      className='font-regular flex h-12 w-full cursor-pointer items-center justify-center gap-2 rounded-md bg-gray-900 p-2 text-sm text-white'
     >
       <div className='flex items-center justify-center'>
         <GitHub size={16} />

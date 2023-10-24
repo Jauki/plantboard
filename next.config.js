@@ -4,11 +4,10 @@ const nextConfig = {
     domains: ['avatars.githubusercontent.com'],
   },
   fontLoaders: [
-      { loader: '@next/font/google', options: { subsets: ['latin'] } },
-    ],
+    { loader: '@next/font/google', options: { subsets: ['latin'] } },
+  ],
   experimental: {
     serverActions: true,
-
   },
 };
 

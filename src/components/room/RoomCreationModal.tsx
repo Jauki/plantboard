@@ -1,3 +1,6 @@
+'use client';
+// @ts-ignore
+import { experimental_useFormState as useFormState } from 'react-dom';
 import * as Dialog from '@radix-ui/react-dialog';
 import { useState } from 'react';
 import React from 'react';
@@ -6,16 +9,14 @@ import { motion } from 'framer-motion';
 import RoomCreationStepOne from './creation/RoomCreationStepOne';
 import RoomCreationStepTwo from './creation/RoomCreationStepTwo';
 import RoomCreationStepThree from './creation/RoomCreationStepThree';
-
 import { createRoom } from '@/app/actions';
-import { useFormState } from 'react-dom';
 
 // todo: Build Next Form to fill out these tools
 
 const initialState: RoomDTO = {
   roomType: 'indoor',
-  roomName: 'fpp',
-  roomColor: '#44444',
+  roomName: '',
+  roomColor: '',
   roomSize: 'm',
 };
 
@@ -56,7 +57,6 @@ const RoomCarousel: React.FC<RoomCarouselProps> = ({ children }) => {
   const [step, setStep] = useState<number>(0);
 
   const onNextStep = () => {
-    console.log(state);
     if (step < React.Children.count(children) - 1) {
       setStep(step + 1);
     }
@@ -105,10 +105,9 @@ const RoomCarousel: React.FC<RoomCarouselProps> = ({ children }) => {
           {step === React.Children.count(children) - 1 && (
             <input
               type='submit'
+              value="import"
               className='flex h-8 w-32 cursor-pointer items-center justify-center rounded-md bg-primary-light px-4 py-1 text-primary'
-            >
-              Import
-            </input>
+            />
           )}
         </div>
         <Dialog.Close asChild>

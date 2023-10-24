@@ -1,6 +1,6 @@
 'use client';
 import Image from 'next/image';
-import {  User, LogOut, Moon } from 'react-feather';
+import { User, LogOut, Moon } from 'react-feather';
 import { Session } from 'next-auth';
 import { useAnimation, motion, AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
@@ -94,7 +94,7 @@ const ProfilAnimated = ({ session }: { session: Session }) => {
         <div className='my-2 h-[1px] bg-gray-300'></div>
         <div
           onClick={() => signOut()}
-          className='flex h-min hover:bg-gray-300 transition-colors ease-in cursor-pointer rounded-md flex-row gap-1 py-2 px-1.5 mx-2 my-2 text-sm font-light'
+          className='mx-2 my-2 flex h-min cursor-pointer flex-row gap-1 rounded-md px-1.5 py-2 text-sm font-light transition-colors ease-in hover:bg-gray-300'
         >
           <div className='flex items-center justify-center'>
             <LogOut size={16} />

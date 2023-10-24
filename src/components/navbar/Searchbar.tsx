@@ -41,7 +41,7 @@ const Searchbar: React.FC = () => {
                   key={room.id}
                   value={k.toString()}
                   className='group flex w-full cursor-pointer gap-2 rounded-md border border-background-grey bg-white p-2 font-light  transition-all ease-in hover:bg-gray-50'
-                  >
+                >
                   <div className='flex h-6 w-6 items-center justify-center rounded bg-primary-light transition-all ease-in group-hover:bg-primary'></div>
                   <Select.ItemText className='gap-2 rounded-md bg-background-grey p-2 text-sm font-light'>
                     {room.name}
@@ -62,7 +62,7 @@ const Searchbar: React.FC = () => {
             >
               <Select.ItemIndicator className='flex h-6 w-6 items-center justify-center rounded bg-primary-light transition-all ease-in group-hover:bg-primary'></Select.ItemIndicator>
               <Select.ItemText className=''>
-                <RoomCreationModal/>
+                <RoomCreationModal />
               </Select.ItemText>
             </Select.Item>
           </Select.Group>

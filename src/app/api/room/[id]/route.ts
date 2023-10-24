@@ -16,8 +16,8 @@ export async function GET(
   // I don't need to actually verify, bc middleware should do this!
   const session = await getServerSession();
   const user = await prisma.user.findUnique({
-    where: { email: session?.user?.email! }
+    where: { email: session?.user?.email! },
   });
   console.log(user);
-  return new Response("hrllo");
+  return new Response('hrllo');
 }
