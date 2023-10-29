@@ -16,7 +16,6 @@ const Searchbar: React.FC = () => {
     getRooms()
       .then((data) => {
         setRooms(data);
-      
         setLoading(false);
       })
       .catch((error) => {

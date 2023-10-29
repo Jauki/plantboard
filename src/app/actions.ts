@@ -6,7 +6,8 @@ import { authOptions } from './api/auth/[...nextauth]/route';
 import prisma from '../../prisma/client';
 import { LocationType, Size } from '@prisma/client';
 
-export async function createRoom(prevState: any, formData: FormData) {
+export async function createRoom( formData: FormData) {
+  "use server";
   // Authorization Stuff
   const seesion = await getServerSession(authOptions);
   if (!seesion) {

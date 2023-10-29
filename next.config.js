@@ -6,9 +6,6 @@ const nextConfig = {
   fontLoaders: [
     { loader: '@next/font/google', options: { subsets: ['latin'] } },
   ],
-  experimental: {
-    serverActions: true,
-  },
 };
 
 module.exports = nextConfig;

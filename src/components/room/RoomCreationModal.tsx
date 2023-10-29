@@ -1,10 +1,3 @@
-'use client';
-
-import {
-  experimental_useFormStatus as useFormStatus,
-  // @ts-ignore
-  experimental_useFormState as useFormState,
-} from 'react-dom';
 import * as Dialog from '@radix-ui/react-dialog';
 import { useEffect, useState } from 'react';
 import React from 'react';
@@ -13,22 +6,19 @@ import { motion } from 'framer-motion';
 import RoomCreationStepOne from './creation/RoomCreationStepOne';
 import RoomCreationStepTwo from './creation/RoomCreationStepTwo';
 import RoomCreationStepThree from './creation/RoomCreationStepThree';
-import { createRoom } from '@/app/actions';
 import * as Toast from '@radix-ui/react-toast';
-// todo: Build Next Form to fill out these tools
+import prisma from '../../../prisma/client';
+import { LocationType, Size } from '@prisma/client';
+import z from "zod"
+import { getServerSession } from 'next-auth';
+import { authOptions } from '@/app/api/auth/[...nextauth]/route';
+import { createRoom } from '@/app/actions';
 
-const initialState = {
-  roomType: 'indoor',
-  roomName: '',
-  roomColor: '',
-  roomSize: 'm',
-};
 
 
 const RoomCreationModal = () => {
   return (
     <Dialog.Root>
-      
       <Dialog.Trigger className='flex h-full w-full justify-center subpixel-antialiased'>
         Add Room
       </Dialog.Trigger>
@@ -39,8 +29,7 @@ const RoomCreationModal = () => {
           <RoomCreationStepTwo />
           <RoomCreationStepThree />
         </RoomCarousel>
-      </Dialog.Portal>
-        <Toast.Viewport className="[--viewport-padding:_25px] fixed bottom-0 right-0 flex flex-col p-[var(--viewport-padding)] gap-[10px] w-[390px] max-w-[100vw] m-0 list-none z-[2147483647] outline-none" />
+      </Dialog.Portal> 
     </Dialog.Root>
   );
 };
@@ -52,7 +41,6 @@ type RoomCarouselProps = {
 };
 
 const RoomCarousel: React.FC<RoomCarouselProps> = ({ children }) => {
-  const [state, formAction] = useFormState(createRoom, initialState);
   const [open, setOpen] = useState(false);
   const [step, setStep] = useState<number>(0);
 
@@ -68,10 +56,9 @@ const RoomCarousel: React.FC<RoomCarouselProps> = ({ children }) => {
     }
   };
 
-
   return (
     <Dialog.Content className='w-90vw max-h-85vh absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 transform flex-col rounded-lg bg-white p-8 shadow-lg'>
-      <form action={formAction}>
+      <form action={createRoom}>
         <div className='h-full w-full '>
           {React.Children.map(children, (child, index) => (
             <motion.div
@@ -103,36 +90,36 @@ const RoomCarousel: React.FC<RoomCarouselProps> = ({ children }) => {
               Next
             </div>
           )}
-          {step === React.Children.count(children) - 1 && <SubmitButton onClick={() => setOpen(true)} />}
+          {step === React.Children.count(children) - 1 && (
+            <SubmitButton onClick={() => setOpen(true)} />
+          )}
         </div>
         <Dialog.Close asChild>
           <button
-            className='absolute right-8 flex items-center justify-center rounded-md border border-background-grey p-1 text-foreground-grey transition-all ease-in hover:border-red-600 hover:bg-red-400 hover:text-red-600'
+            className='absolute right-8 top-8 flex items-center justify-center rounded-md border border-background-grey p-1 text-foreground-grey transition-all ease-in hover:border-gray-300 hover:bg-gray-50 hover:text-gray-300'
             aria-label='Close'
           >
             <X size={16} />
           </button>
         </Dialog.Close>
       </form>
+
       <Toast.Root open={open} onOpenChange={setOpen} duration={3000}>
-          <Toast.Description className='bg-white rounded-md border-background-grey border-2 p-5 z-20' >
-            Imported Room!
-          </Toast.Description>
-        </Toast.Root>
-    
-
-
+        <Toast.Description className='z-20 rounded-md border-2 border-background-grey bg-white p-5'>
+          Imported Room!
+        </Toast.Description>
+      </Toast.Root>
     </Dialog.Content>
   );
 };
 
-const SubmitButton = ({onClick}: {onClick: () => void}) => {
-  const { pending } = useFormStatus();
+const SubmitButton = ({ onClick }: { onClick: () => void }) => {
+  const { pending } = {pending: false}; // useFormStatus?
 
   return (
     <Dialog.Close onClick={onClick} asChild>
       <input
-        value={pending ? 'Import...' : "Import"}
+        value={pending ? 'Import...' : 'Import'}
         aria-label='submit'
         aria-disabled={pending}
         type='submit'
