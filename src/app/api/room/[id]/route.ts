@@ -13,13 +13,11 @@ export async function GET(
   request: NextRequest,
   { params }: { params: { id: number } }
 ) {
+  // I don't need to actually verify, bc middleware should do this!
   const session = await getServerSession();
-  console.log(session);
   const user = await prisma.user.findUnique({
-    where: { id: 'fo' },
-    include: {
-      Room: true,
-    },
+    where: { email: session?.user?.email! },
   });
-  return new Response('Hello world!');
+  console.log(user);
+  return new Response('hrllo');
 }
