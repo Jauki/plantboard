@@ -9,18 +9,28 @@ import RoomCreationStepThree from './creation/RoomCreationStepThree';
 import * as Toast from '@radix-ui/react-toast';
 import prisma from '../../../prisma/client';
 import { LocationType, Size } from '@prisma/client';
-import z from "zod"
+import z from 'zod';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import { createRoom } from '@/app/actions';
-
-
+import * as Select from '@radix-ui/react-select'
+import { Plus } from 'react-feather';
 
 const RoomCreationModal = () => {
   return (
     <Dialog.Root>
       <Dialog.Trigger className='flex h-full w-full justify-center subpixel-antialiased'>
-        Add Room
+         <Select.Item
+              value='addRoom'
+              disabled
+              className='group w-full flex cursor-pointer gap-2 rounded-md bg-primary-light p-2 font-medium  text-primary'
+            >
+              <div className='flex h-6 w-6 items-center justify-center text-primary'>
+                <Plus width={24} height={24}/>
+              </div>
+              <Select.ItemText>Add room</Select.ItemText>
+              
+            </Select.Item>
       </Dialog.Trigger>
       <Dialog.Portal>
         <Dialog.Overlay className='fixed inset-0 bg-black bg-opacity-20' />
@@ -114,7 +124,7 @@ const RoomCarousel: React.FC<RoomCarouselProps> = ({ children }) => {
 };
 
 const SubmitButton = ({ onClick }: { onClick: () => void }) => {
-  const { pending } = {pending: false}; // useFormStatus?
+  const { pending } = { pending: false }; // useFormStatus?
 
   return (
     <Dialog.Close onClick={onClick} asChild>

@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import RoomCreationModal from '../room/RoomCreationModal';
 import _ from 'lodash';
 
+
 const getRooms = async (): Promise<Record<LocationType, Room[]>> => {
   const roomResponse = await fetch('http://localhost:3000/api/room');
   const rooms = await roomResponse.json();
@@ -33,42 +34,34 @@ const Searchbar: React.FC = () => {
       </Select.Trigger>
       <Select.Content>
         <Select.Viewport className='flex flex-col gap-2 rounded-lg bg-white p-2 shadow-lg'>
-          {rooms &&
-            Object.entries(rooms as Record<LocationType, Room[]>).map(
-              ([roomType, rooms], i) => (
-                <Select.Group
-                  key={roomType.toString()}
-                  className='flex flex-col gap-1'
-                >
-                  <Select.Label className='text-sm'>
-                    {_.capitalize(roomType)}
-                  </Select.Label>
-                  {rooms.map((room) => (
-                    <Select.Item
-                      key={room.id}
-                      value={i.toString()}
-                      className='group flex w-full cursor-pointer gap-2 rounded-md border border-background-grey bg-white p-2 font-light transition-colors ease-in hover:bg-gray-50 focus-visible:outline  focus-visible:outline-2 focus-visible:outline-primary'
-                    >
-                      <div className='flex h-6 w-6 items-center justify-center rounded bg-primary-light transition-all ease-in group-hover:bg-primary'></div>
-                      <Select.ItemText className='gap-2 rounded-md bg-background-grey p-2 text-sm font-light'>
-                        {room.roomName}
-                      </Select.ItemText>
-                    </Select.Item>
-                  ))}
-                </Select.Group>
+          {rooms
+            ? Object.entries(rooms as Record<LocationType, Room[]>).map(
+                ([roomType, rooms], i) => (
+                  <Select.Group
+                    key={roomType.toString()}
+                    className='flex flex-col gap-1'
+                  >
+                    <Select.Label className='text-sm'>
+                      {_.capitalize(roomType)}
+                    </Select.Label>
+                    {rooms.map((room) => (
+                      <Select.Item
+                        key={room.id}
+                        value={i.toString()}
+                        className='group flex w-full cursor-pointer gap-2 rounded-md border border-background-grey bg-white p-2 font-light transition-colors ease-in hover:bg-gray-50 focus-visible:outline  focus-visible:outline-2 focus-visible:outline-primary'
+                      >
+                        <div className='flex h-6 w-6 items-center justify-center rounded bg-primary-light transition-all ease-in group-hover:bg-primary'></div>
+                        <Select.ItemText className='gap-2 rounded-md bg-background-grey p-2 text-sm font-light'>
+                          {room.roomName}
+                        </Select.ItemText>
+                      </Select.Item>
+                    ))}
+                  </Select.Group>
+                )
               )
-            )}
-          <Select.Group>
-            <Select.Item
-              disabled
-              value='addRoom'
-              className='w-full cursor-pointer justify-center gap-2 rounded-md bg-primary-light p-2 font-medium  text-primary'
-            >
-              <Select.ItemIndicator className='flex h-6 w-6 items-center justify-center rounded bg-primary-light transition-all ease-in group-hover:bg-primary'></Select.ItemIndicator>
-              <Select.ItemText>
-                <RoomCreationModal />
-              </Select.ItemText>
-            </Select.Item>
+            : null}
+          <Select.Group className='flex w-full flex-col gap-1'>
+            <RoomCreationModal />
           </Select.Group>
         </Select.Viewport>
       </Select.Content>
