@@ -29,7 +29,7 @@ const RoomCreationModal = () => {
           <RoomCreationStepTwo />
           <RoomCreationStepThree />
         </RoomCarousel>
-      </Dialog.Portal> 
+      </Dialog.Portal>
     </Dialog.Root>
   );
 };

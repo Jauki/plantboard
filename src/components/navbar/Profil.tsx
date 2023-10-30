@@ -27,7 +27,7 @@ export const ProfilSkeleton = () => {
   );
 };
 
-// todo: fixme Animat on Apperance or smth like that
+// todo: fixme Animate on Apperance or smth like that
 const ProfilAnimated = ({ session }: { session: Session }) => {
   const [isOpen, setIsOpen] = useState(true);
   const controls = useAnimation();
