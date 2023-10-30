@@ -42,25 +42,28 @@ const RoomIconColorRadioGroup = () => {
   );
 };
 
-
 const RadioButtonGroup = () => {
-  const [selectedSize, setSelectedSize] = useState<Size>(Size.S); 
+  const [selectedSize, setSelectedSize] = useState<Size>(Size.S);
 
   const handleSizeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedSize(event.target.value as Size); 
+    setSelectedSize(event.target.value as Size);
   };
 
   return (
     <div className='mx-10 my-3  flex flex-row gap-8'>
       {/* Element "S" */}
-      <label className={`flex aspect-square cursor-pointer flex-col items-center justify-center rounded-lg border border-background-grey transition-all hover:outline outline-primary outline-2 ${selectedSize === Size.S ? 'outline outline-primary' : ''}`}>
+      <label
+        className={`flex aspect-square cursor-pointer flex-col items-center justify-center rounded-lg border border-background-grey outline-2 outline-primary transition-all hover:outline ${
+          selectedSize === Size.S ? 'outline outline-primary' : ''
+        }`}
+      >
         <input
           type='radio'
           name='roomSize'
           value={Size.S}
           checked={selectedSize === Size.S}
           onChange={handleSizeChange}
-          style={{ display: 'none' }} 
+          style={{ display: 'none' }}
         />
         <div className='text-lg font-medium'>{Size.S}</div>
         <div className='w-3/4 text-center text-xs font-light text-foreground-grey'>
@@ -69,14 +72,18 @@ const RadioButtonGroup = () => {
       </label>
 
       {/* Element "M" */}
-      <label className={`flex aspect-square cursor-pointer flex-col items-center justify-center rounded-lg border border-background-grey transition-all hover:outline outline-primary outline-2 ${selectedSize === Size.M ? 'outline outline-primary' : ''}`}>
+      <label
+        className={`flex aspect-square cursor-pointer flex-col items-center justify-center rounded-lg border border-background-grey outline-2 outline-primary transition-all hover:outline ${
+          selectedSize === Size.M ? 'outline outline-primary' : ''
+        }`}
+      >
         <input
           type='radio'
           name='roomSize'
           value={Size.M}
           checked={selectedSize === Size.M}
           onChange={handleSizeChange}
-          style={{ display: 'none' }} 
+          style={{ display: 'none' }}
         />
         <div className='text-lg font-medium'>{Size.M}</div>
         <div className='w-3/4 text-center text-xs font-light text-foreground-grey'>
@@ -85,14 +92,18 @@ const RadioButtonGroup = () => {
       </label>
 
       {/* Element "L" */}
-      <label className={`flex aspect-square cursor-pointer flex-col items-center justify-center rounded-lg border border-background-grey transition-all hover:outline outline-primary outline-2 ${selectedSize === Size.L ? 'outline outline-primary' : ''}`}>
+      <label
+        className={`flex aspect-square cursor-pointer flex-col items-center justify-center rounded-lg border border-background-grey outline-2 outline-primary transition-all hover:outline ${
+          selectedSize === Size.L ? 'outline outline-primary' : ''
+        }`}
+      >
         <input
           type='radio'
           name='roomSize'
           value={Size.L}
           checked={selectedSize === Size.L}
           onChange={handleSizeChange}
-          style={{ display: 'none' }} 
+          style={{ display: 'none' }}
         />
         <div className='text-lg font-medium'>{Size.L}</div>
         <div className='w-3/4 text-center text-xs font-light text-foreground-grey'>
@@ -101,11 +112,7 @@ const RadioButtonGroup = () => {
       </label>
     </div>
   );
-}
-
-
-
-
+};
 
 const RoomCreationStepTwo = () => (
   <div className='w-full'>
@@ -122,11 +129,11 @@ const RoomCreationStepTwo = () => (
       <div className='flex flex-col gap-1'>
         <div>Room Size:</div>
         <p className='text-sm font-light text-foreground-grey'>
-          Tailor your room's ambiance for healthier plants. Begin by entering
-          your room dimensions.
+          Tailor your room&lsquos; ambiance for healthier plants. Begin by
+          entering your room dimensions.
         </p>
-          <RadioButtonGroup/>
-        </div>
+        <RadioButtonGroup />
+      </div>
     </div>
   </div>
 );

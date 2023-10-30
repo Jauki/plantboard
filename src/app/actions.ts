@@ -6,8 +6,8 @@ import { authOptions } from './api/auth/[...nextauth]/route';
 import prisma from '../../prisma/client';
 import { LocationType, Size } from '@prisma/client';
 
-export async function createRoom( formData: FormData) {
-  "use server";
+export async function createRoom(formData: FormData) {
+  'use server';
   // Authorization Stuff
   const seesion = await getServerSession(authOptions);
   if (!seesion) {
@@ -22,7 +22,6 @@ export async function createRoom( formData: FormData) {
     userId: z.string(),
     plants: z.array(z.unknown()),
   });
-
 
   try {
     const roomData = roomSchema.parse({
@@ -40,10 +39,10 @@ export async function createRoom( formData: FormData) {
         roomColor: roomData.roomColor,
         userId: seesion.user.id,
         roomSize: roomData.roomSize as Size,
-        roomLocation: (roomData.roomLocation).toUpperCase() as LocationType,
+        roomLocation: roomData.roomLocation.toUpperCase() as LocationType,
       },
     });
-    
+
     // onValid Spawn toast!
     // Close with pending?
     return revalidatePath('/');

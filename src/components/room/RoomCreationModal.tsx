@@ -13,24 +13,23 @@ import z from 'zod';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/app/api/auth/[...nextauth]/route';
 import { createRoom } from '@/app/actions';
-import * as Select from '@radix-ui/react-select'
+import * as Select from '@radix-ui/react-select';
 import { Plus } from 'react-feather';
 
 const RoomCreationModal = () => {
   return (
     <Dialog.Root>
       <Dialog.Trigger className='flex h-full w-full justify-center subpixel-antialiased'>
-         <Select.Item
-              value='addRoom'
-              disabled
-              className='group w-full flex cursor-pointer gap-2 rounded-md bg-primary-light p-2 font-medium  text-primary'
-            >
-              <div className='flex h-6 w-6 items-center justify-center text-primary'>
-                <Plus width={24} height={24}/>
-              </div>
-              <Select.ItemText>Add room</Select.ItemText>
-              
-            </Select.Item>
+        <Select.Item
+          value='addRoom'
+          disabled
+          className='group flex w-full cursor-pointer gap-2 rounded-md bg-primary-light p-2 font-medium  text-primary'
+        >
+          <div className='flex h-6 w-6 items-center justify-center text-primary'>
+            <Plus width={24} height={24} />
+          </div>
+          <Select.ItemText>Add room</Select.ItemText>
+        </Select.Item>
       </Dialog.Trigger>
       <Dialog.Portal>
         <Dialog.Overlay className='fixed inset-0 bg-black bg-opacity-20' />

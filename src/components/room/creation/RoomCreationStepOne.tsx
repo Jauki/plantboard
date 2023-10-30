@@ -60,13 +60,15 @@ const OutdoorIndoorButton = React.forwardRef(
   }
 );
 
+OutdoorIndoorButton.displayName = 'OutdoorIndoorButton';
+
 const RoomCreationStepOne = () => {
   const [roomType, setRoomType] = useState('indoor');
 
   return (
     <div className=''>
       <Dialog.Title className='text-2xl'>Add Room</Dialog.Title>
-      <Dialog.DialogDescription className='font-ligth mt-4 text-sm text-gray-700 '>
+      <Dialog.DialogDescription className='mt-4 text-sm font-light text-gray-700 '>
         Create dedicated plant spaces by adding rooms your plantboard. Organize
         your plant collection based on location or environmental requirements
         for more effective plant care management.

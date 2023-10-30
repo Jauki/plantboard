@@ -2,7 +2,6 @@ import { Outfit } from 'next/font/google';
 import ProviderWrapper from './ProviderWrapper';
 import './globals.css';
 
-
 const outfit = Outfit({
   subsets: ['latin'],
   variable: '--body-font',
@@ -16,9 +15,7 @@ export default function RootLayout({
   return (
     <html lang='en' className={`${outfit.variable} font-body`}>
       <body>
-       
-          <ProviderWrapper>{children}</ProviderWrapper>
-      
+        <ProviderWrapper>{children}</ProviderWrapper>
       </body>
     </html>
   );

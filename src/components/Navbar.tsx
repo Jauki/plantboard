@@ -6,7 +6,7 @@ import { MessageCircle, Info, GitHub } from 'react-feather';
 import { useSession } from 'next-auth/react';
 import { Session } from 'next-auth';
 import { Profil } from './navbar/Profil';
-import * as Toast from "@radix-ui/react-toast";
+import * as Toast from '@radix-ui/react-toast';
 
 const Navbar = () => {
   const { data: session, status } = useSession();
