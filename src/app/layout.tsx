@@ -1,5 +1,5 @@
 import { Outfit } from 'next/font/google';
-import ProviderWrapper from './ProviderWrapper';
+import ProviderWrapper from '@/utils/ProviderWrapper';
 import './globals.css';
 
 const outfit = Outfit({

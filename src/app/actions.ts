@@ -1,13 +1,15 @@
 'use server';
+
 import { getServerSession } from 'next-auth';
 import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
 import { authOptions } from './api/auth/[...nextauth]/route';
 import prisma from '../../prisma/client';
 import { LocationType, Size } from '@prisma/client';
+import axios from 'axios';
+
 
 export async function createRoom(formData: FormData) {
-  'use server';
   // Authorization Stuff
   const seesion = await getServerSession(authOptions);
   if (!seesion) {
@@ -49,5 +51,17 @@ export async function createRoom(formData: FormData) {
   } catch (e) {
     console.error(e);
     return { message: 'Failed to create' };
+  }
+}
+
+export async function getExternalPlants() {
+  try {
+    const response = await fetch(
+      `https://trefle.io/api/v1/plants?token=${process.env.TREFLE_API_TOKEN}&page=2`
+    );
+
+    return { data: await response.json() };
+  } catch (error) {
+    return { error: error };
   }
 }
