@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import RoomCreationModal from '../room/RoomCreationModal';
 import _ from 'lodash';
 
-const getRooms = async (): Promise<Record<LocationType, Room[]>> => {
+export const getRooms = async (): Promise<Record<LocationType, Room[]>> => {
   const roomResponse = await fetch('http://localhost:3000/api/room');
   const rooms = await roomResponse.json();
   return _.groupBy(rooms, 'roomLocation') as Record<LocationType, Room[]>;
