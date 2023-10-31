@@ -56,11 +56,24 @@ export async function createRoom(formData: FormData) {
 export async function getExternalPlants() {
   try {
     const response = await fetch(
-      `https://trefle.io/api/v1/plants?token=${process.env.TREFLE_API_TOKEN}&order[common_name]=asc&page=2`
+      `https://trefle.io/api/v1/plants?token=${process.env.TREFLE_API_TOKEN}&order[common_name]=asc&page=1`
     );
     const plantData = await response.json();
 
-    return { data: plantData.data } as {data: []};
+    return { data: plantData.data } as { data: [] };
+  } catch (error) {
+    return { error: error };
+  }
+}
+
+export async function getExternalPlantsSearch(searchQuery: string) {
+  try {
+    const response = await fetch(
+      `https://trefle.io/api/v1/plants/search?token=${process.env.TREFLE_API_TOKEN}&order[common_name]=asc&q=${searchQuery}`
+    );
+    const plantData = await response.json();
+  
+    return { data: plantData.data } as { data: [] };
   } catch (error) {
     return { error: error };
   }

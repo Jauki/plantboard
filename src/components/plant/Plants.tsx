@@ -2,12 +2,12 @@
 
 import Image from 'next/image';
 import * as ContextMenu from '@radix-ui/react-context-menu';
-import { useQuery } from '@tanstack/react-query';
-import { getExternalPlants } from '@/app/actions';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { getExternalPlants, getExternalPlantsSearch } from '@/app/actions';
 import { ChevronRight } from 'react-feather';
-
 import { useEffect, useState } from 'react';
 import { Room } from '@prisma/client';
+import Searchbar from './Searchbar';
 
 const getRooms = async (): Promise<Room[]> => {
   const roomResponse = await fetch('http://localhost:3000/api/room');
@@ -17,11 +17,19 @@ const getRooms = async (): Promise<Room[]> => {
 
 export default function Plants({ plants }: { plants: any }) {
   const [rooms, setRooms] = useState<Room[]>();
+  const queryClient = useQueryClient();
+  const [searchQuery, setSearchQuery] = useState<string>('');
   const { data, error, isFetched } = useQuery({
-    queryKey: ['plants'],
-    queryFn: getExternalPlants,
+    queryKey: ['plants', searchQuery],
+    queryFn: () => getExternalPlantsSearch(searchQuery),
     initialData: plants,
   });
+
+  const handleSearch = (query: string) => {
+    if (query) {
+      setSearchQuery(query);
+    }
+  };
 
   useEffect(() => {
     getRooms()
@@ -34,17 +42,22 @@ export default function Plants({ plants }: { plants: any }) {
   }, []);
 
   return (
-    <div className='col-span-8 grid grid-cols-10'>
-      {data.data.map((plantData: any) => (
-        <Plant
-          rooms={rooms!}
-          id={plantData.id}
-          common_name={plantData.common_name}
-          image_url={plantData.image_url}
-          scientific_name={plantData.scientific_name}
-        />
-      ))}
-    </div>
+    <>
+      <Searchbar onSearch={handleSearch} />
+      <div className='col-span-8 grid grid-cols-10'>
+        {data.data &&
+          data.data.map((plantData: any, k: number) => (
+            <Plant
+              key={k.toString(23)}
+              rooms={rooms!}
+              id={plantData.id}
+              common_name={plantData.common_name}
+              image_url={plantData.image_url}
+              scientific_name={plantData.scientific_name}
+            />
+          ))}
+      </div>
+    </>
   );
 }
 
@@ -67,15 +80,17 @@ const Plant = ({
         className='flex aspect-auto cursor-pointer flex-col rounded-lg p-3 hover:bg-gray-50'
         key={id}
       >
-        <div className='relative mb-2 aspect-square w-full rounded-lg'>
-          <Image
-            fill
-            quality={20}
-            priority={false}
-            src={image_url}
-            className='rounded-lg'
-            alt={scientific_name}
-          ></Image>
+        <div className='relative mb-2 aspect-square w-full rounded-lg bg-primary'>
+          {image_url ? (
+            <Image
+              fill
+              quality={20}
+              priority={false}
+              src={image_url}
+              className='rounded-lg'
+              alt={scientific_name}
+            />
+          ) : null}
         </div>
         <div className='flex flex-col'>
           <div className='text-lg font-medium leading-tight'>{common_name}</div>
@@ -106,11 +121,16 @@ const Plant = ({
             </ContextMenu.SubTrigger>
             <ContextMenu.Portal>
               <ContextMenu.SubContent className='min-w-[220px] overflow-hidden rounded-md bg-white p-2 shadow-md'>
-                {rooms.map((room) => (
-                  <ContextMenu.Item className='group relative flex cursor-pointer select-none items-center rounded-md py-1 pl-6 pr-2 text-sm leading-none outline-none transition-colors ease-in hover:bg-primary-light hover:text-primary data-[disabled]:pointer-events-none'>
-                    {room.roomName}
-                  </ContextMenu.Item>
-                ))}
+                {rooms
+                  ? rooms.map((room, k) => (
+                      <ContextMenu.Item
+                        key={k}
+                        className='group relative flex cursor-pointer select-none items-center rounded-md py-1 pl-6 pr-2 text-sm leading-none outline-none transition-colors ease-in hover:bg-primary-light hover:text-primary data-[disabled]:pointer-events-none'
+                      >
+                        {room.roomName}
+                      </ContextMenu.Item>
+                    ))
+                  : null}
               </ContextMenu.SubContent>
             </ContextMenu.Portal>
           </ContextMenu.Sub>
