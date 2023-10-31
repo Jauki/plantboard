@@ -1,6 +1,7 @@
 'use client';
 
 import Image from 'next/image';
+import * as ContextMenu from '@radix-ui/react-context-menu';
 import { useQuery } from '@tanstack/react-query';
 import { getExternalPlants } from '@/app/actions';
 
@@ -11,7 +12,6 @@ export default function Plants({ plants }: { plants: any }) {
     initialData: plants,
   });
 
-  console.log(data);
 
   return (
     <div className='col-span-8 grid grid-cols-10'>
@@ -39,20 +39,28 @@ const Plant = ({
   scientific_name: string;
 }) => {
   return (
-    <div className='flex hover:bg-gray-50 cursor-pointer flex-col aspect-auto rounded-lg p-3' key={id}>
-      <div className='relative mb-2 w-full aspect-square rounded-lg'>
-      <Image
-        fill
-        src={image_url}
-        className='rounded-lg'
-        alt={scientific_name}
-      ></Image>
-      </div>
-      <div className='flex flex-col'>
-        <div className='text-lg leading-tight font-medium'>{common_name}</div>
-        <div className='text-xs text-foreground-grey'>{scientific_name}</div>
-      </div>
-      
-    </div>
+    <ContextMenu.Root>
+      <ContextMenu.Trigger
+        className='flex aspect-auto cursor-pointer flex-col rounded-lg p-3 hover:bg-gray-50'
+        key={id}
+      >
+        <div className='relative mb-2 aspect-square w-full rounded-lg'>
+          <Image
+            fill
+            quality={50}
+            src={image_url}
+            className='rounded-lg'
+            alt={scientific_name}
+          ></Image>
+        </div>
+        <div className='flex flex-col'>
+          <div className='text-lg font-medium leading-tight'>{common_name}</div>
+          <div className='text-xs text-foreground-grey'>{scientific_name}</div>
+        </div>
+      </ContextMenu.Trigger>
+      <ContextMenu.Portal>
+
+      </ContextMenu.Portal>
+    </ContextMenu.Root>
   );
 };

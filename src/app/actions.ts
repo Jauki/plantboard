@@ -56,7 +56,7 @@ export async function createRoom(formData: FormData) {
 export async function getExternalPlants() {
   try {
     const response = await fetch(
-      `https://trefle.io/api/v1/plants?token=${process.env.TREFLE_API_TOKEN}&page=2`
+      `https://trefle.io/api/v1/plants?token=${process.env.TREFLE_API_TOKEN}&order[common_name]=asc&page=2`
     );
     const plantData = await response.json();
 
