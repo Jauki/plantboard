@@ -8,7 +8,6 @@ import prisma from '../../prisma/client';
 import { LocationType, Size } from '@prisma/client';
 import axios from 'axios';
 
-
 export async function createRoom(formData: FormData) {
   // Authorization Stuff
   const seesion = await getServerSession(authOptions);
@@ -59,8 +58,9 @@ export async function getExternalPlants() {
     const response = await fetch(
       `https://trefle.io/api/v1/plants?token=${process.env.TREFLE_API_TOKEN}&page=2`
     );
+    const plantData = await response.json();
 
-    return { data: await response.json() };
+    return { data: plantData.data } as {data: []};
   } catch (error) {
     return { error: error };
   }
