@@ -44,6 +44,7 @@ model User {
   accounts      Account[]
   rooms         Room[]
   sessions      Session[]
+  Wishlist      Wishlist?
 }
 
 model VerificationToken {
@@ -56,14 +57,42 @@ model VerificationToken {
 }
 
 model Room {
-  id        Int     @id @default(autoincrement())
-  roomName  String
-  roomLocation  LocationType
-  roomColor String
-  roomSize  Size
-  userId    String
-  plants    Plant[]
-  user      User    @relation(fields: [userId], references: [id])
+  id           Int          @id @default(autoincrement())
+  userId       String
+  roomColor    String
+  roomLocation LocationType
+  roomName     String
+  roomSize     Size
+  plants       Plant[]
+  user         User         @relation(fields: [userId], references: [id])
+}
+
+model Wishlist {
+  id     Int     @id @default(autoincrement())
+  userId String  @unique
+  plants Plant[] @relation("PlantOnWishlist")
+  user   User    @relation(fields: [userId], references: [id])
+}
+
+model Plant {
+  id               Int      @id @default(autoincrement())
+  name             String
+  roomId           Int
+  author           String?
+  bibliography     String?
+  family           String?
+  familyCommonName String?
+  genus            String?
+  genusId          Int?
+  imageUrl         String?
+  isOnWishlist     Boolean
+  rank             String?
+  status           String?
+  synonyms         String[] @default([])
+  wishlistId       Int
+  year             Int?
+  room             Room?     @relation(fields: [roomId], references: [id])
+  wishlist         Wishlist @relation("PlantOnWishlist", fields: [wishlistId], references: [id])
 }
 
 enum LocationType {
@@ -75,12 +104,4 @@ enum Size {
   S
   M
   L
-}
-
-model Plant {
-  id      Int    @id @default(autoincrement())
-  name    String
-  species String
-  roomId  Int
-  room    Room   @relation(fields: [roomId], references: [id])
 }
