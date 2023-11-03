@@ -54,11 +54,11 @@ export async function POST(request: NextRequest) {
 
     const partialPlant = (await request.json()) as Partial<Plant>;
     delete partialPlant.id;
-    console.log(partialPlant);
+    // todo: please strictly cut away overhead fields
     const plant: Plant = {
       ...partialPlant,
     } as Plant;
-    console.log(plant);
+    
     plant.isOnWishlist = true;
 
     const updatedWishlist = await prisma.wishlist.update({
