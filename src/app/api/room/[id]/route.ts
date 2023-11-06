@@ -1,5 +1,4 @@
 import { NextRequest } from 'next/server';
-import { useParams, useSearchParams } from 'next/navigation';
 import prisma from '../../../../../prisma/client';
 import { auth } from '@/auth';
 
@@ -15,6 +14,7 @@ export async function GET(
 ) {
   // I don't need to actually verify, bc middleware should do this!
   const session = await auth();
+  console.log(session);
   const user = await prisma.user.findUnique({
     where: { email: session?.user?.email! },
   });

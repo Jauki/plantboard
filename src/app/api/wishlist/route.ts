@@ -1,9 +1,9 @@
-import prisma from '../../../../../prisma/client';
+import prisma from '../../../../prisma/client';
 import { NextRequest } from 'next/server';
 import { Plant } from '@prisma/client';
 import { auth } from '@/auth';
 
-export async function GET(request: Request) {
+export async function GET() {
   try {
     const session = await auth();
     console.log(session);
