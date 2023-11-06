@@ -1,11 +1,12 @@
 'use client';
 import Image from 'next/image';
-import { User, LogOut, Moon } from 'react-feather';
+import { User, LogOut, Moon, Star } from 'react-feather';
 import { Session } from 'next-auth';
 import { useAnimation, motion, AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
 import * as Switch from '@radix-ui/react-switch';
 import { signOut } from 'next-auth/react';
+import Link from 'next/link';
 
 export const Profil = ({ session }: { session: Session }) => {
   return session === undefined ? (
@@ -38,14 +39,14 @@ const ProfilAnimated = ({ session }: { session: Session }) => {
 
   return (
     <motion.div
-      className={`relative rounded-md p-1.5  hover:bg-background-grey ${
-        !isOpen && 'bg-background-grey'
+      className={`relative rounded-md p-1.5   ${
+        !isOpen && 'bg-white shadow-md '
       }`}
       initial={true}
       animate={controls}
     >
       <div
-        className={`flex max-h-10 cursor-pointer gap-2 rounded-md transition-colors ease-in`}
+        className={`flex max-h-10 cursor-pointer gap-2 rounded-md transition-colors ease-in hover:outline hover:outline-1`}
         onClick={handleDropdownClick}
       >
         <div className='flex items-center justify-center '>
@@ -65,7 +66,7 @@ const ProfilAnimated = ({ session }: { session: Session }) => {
         </div>
       </div>
       <motion.div
-        className={`absolute left-0 z-20 flex  w-full flex-col rounded-b-md bg-background-grey `}
+        className={`absolute left-0 z-20 flex w-full flex-col rounded-b-md bg-white pt-2 shadow-md `}
         initial='open'
         animate={isOpen ? 'open' : 'closed'}
         variants={{
@@ -74,13 +75,22 @@ const ProfilAnimated = ({ session }: { session: Session }) => {
         }}
         transition={{ duration: 0.3, ease: 'easeInOut' }}
       >
-        <div className='flex h-min flex-row gap-1 p-2 text-sm font-light'>
+        <div className='mx-2 flex h-min cursor-pointer flex-row gap-1 rounded-md px-1.5 py-2 text-sm font-light transition-colors ease-in hover:bg-primary hover:bg-opacity-5 hover:text-primary'>
           <div className='flex items-center justify-center'>
             <User size={16} />
           </div>
           Account Settings
         </div>
-        <div className='flex h-min flex-row gap-1 p-2 text-sm font-light'>
+        <Link
+          href='/wishlist'
+          className='mx-2 flex h-min cursor-pointer flex-row gap-1 rounded-md px-1.5 py-2 text-sm font-light transition-colors ease-in hover:bg-primary hover:bg-opacity-5 hover:text-primary'
+        >
+          <div className='flex items-center justify-center'>
+            <Star size={16} />
+          </div>
+          My Wishlist
+        </Link>
+        <div className='mx-2 flex h-min cursor-pointer flex-row gap-1 rounded-md px-1.5 py-2 text-sm font-light transition-colors ease-in hover:bg-primary hover:bg-opacity-5 hover:text-primary'>
           <div className='flex items-center justify-center'>
             <Moon size={16} />
           </div>
@@ -94,7 +104,7 @@ const ProfilAnimated = ({ session }: { session: Session }) => {
         <div className='my-2 h-[1px] bg-gray-300'></div>
         <div
           onClick={() => signOut()}
-          className='mx-2 my-2 flex h-min cursor-pointer flex-row gap-1 rounded-md px-1.5 py-2 text-sm font-light transition-colors ease-in hover:bg-gray-300'
+          className='mx-2 my-2 flex h-min cursor-pointer flex-row gap-1 rounded-md px-1.5 py-2 text-sm font-light transition-colors ease-in hover:bg-red-500 hover:bg-opacity-5 hover:text-red-500'
         >
           <div className='flex items-center justify-center'>
             <LogOut size={16} />

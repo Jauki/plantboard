@@ -72,7 +72,7 @@ export async function getExternalPlantsSearch(searchQuery: string) {
       `https://trefle.io/api/v1/plants/search?token=${process.env.TREFLE_API_TOKEN}&order[common_name]=asc&q=${searchQuery}`
     );
     const plantData = await response.json();
-  
+
     return { data: plantData.data } as { data: [] };
   } catch (error) {
     return { error: error };

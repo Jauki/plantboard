@@ -1,6 +1,5 @@
-import { NextRequest } from 'next/server';
-import { getServerSession } from 'next-auth';
 import prisma from '../../../../prisma/client';
+import { auth } from '@/auth';
 
 /**
  * Gets the rooms of a person
@@ -8,13 +7,10 @@ import prisma from '../../../../prisma/client';
  * @param param1
  * @returns
  */
-export async function GET(
-  request: NextRequest,
-  { params }: { params: { id: number } }
-) {
+export async function GET() {
   // I don't need to actually verify, bc middleware should do this!
   try {
-    const session = await getServerSession();
+    const session = await auth();
     const user = await prisma.user.findUnique({
       where: { email: session?.user?.email! },
       include: {
@@ -26,8 +22,8 @@ export async function GET(
       ? new Response(JSON.stringify(user.rooms))
       : new Response('No rooms', { status: 404 });
   } catch (e) {
-    // fixme: not so sure about this, concerning my Middleware
+    // todo: not so sure about this, concerning my Middleware
     // as now i want to reject the user by simply not letting do api fetches -> maybe a matcher on /api
-    return new Response('Unauthenticated', { status: 403 });
+    return new Response('Unauthenticated', { status: 401 });
   }
 }
