@@ -48,7 +48,7 @@ export default function Plants({ plants }: { plants: Plant[] }) {
   const { data, error, isFetched } = useQuery({
     queryKey: ['exploredPlants', searchQuery],
     queryFn: () => getExternalPlantsSearch(searchQuery),
-    initialData: plants,
+    initialData: {data: plants},
   });
 
   const handleSearch = (query: string) => {
@@ -70,7 +70,6 @@ export default function Plants({ plants }: { plants: Plant[] }) {
       <Searchbar onSearch={handleSearch} />
       <div className='col-span-8 grid grid-cols-10'>
         {data.data.length !== 0 ? (
-          // @ts-ignore fixme: weird ass ts bug
           data.data.map((plantData: Plant, k: number) => (
             <Plant key={k.toString(23)} rooms={rooms!} plant={plantData} />
           ))

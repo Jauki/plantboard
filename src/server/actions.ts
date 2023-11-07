@@ -54,6 +54,8 @@ export async function createRoom(formData: FormData) {
   }
 }
 
+
+
 export async function getExternalPlants() {
   try {
     const response = await fetch(
@@ -61,14 +63,16 @@ export async function getExternalPlants() {
     );
     const plantData = await response.json();
 
-    return { data: convertDataToPlants(plantData.data) } as { data: Plant[] };
+    return { data: convertDataToPlants(plantData.data) };
   } catch (error) {
     console.error('Error on getExternalPlants: ', error);
-    return { error };
+    return { data: [] };
   }
 }
 
-export async function getExternalPlantsSearch(searchQuery: string) {
+export async function getExternalPlantsSearch(
+  searchQuery: string
+){
   try {
     /**
      * Accidentaly fires first loaded needs Issue!
@@ -88,6 +92,6 @@ export async function getExternalPlantsSearch(searchQuery: string) {
     }
     return { data: convertDataToPlants(plantData.data) } as { data: Plant[] };
   } catch (error) {
-    return { error };
+    return { data: [] };
   }
 }

@@ -3,8 +3,9 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 }
 
 model Account {
@@ -91,7 +92,7 @@ model Plant {
   synonyms         String[] @default([])
   wishlistId       Int
   year             Int?
-  room             Room?     @relation(fields: [roomId], references: [id])
+  room             Room?    @relation(fields: [roomId], references: [id])
   wishlist         Wishlist @relation("PlantOnWishlist", fields: [wishlistId], references: [id])
 }
 
