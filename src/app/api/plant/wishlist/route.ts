@@ -6,7 +6,6 @@ import { auth } from '@/auth';
 export async function GET() {
   try {
     const session = await auth();
-    console.log(session);
     const user = await prisma.user.findUnique({
       where: { email: session?.user?.email },
     });

@@ -8,6 +8,7 @@ import { Plant, Room } from '@prisma/client';
 import Searchbar from './Searchbar';
 import { getExternalPlantsSearch } from '@/server/actions';
 import { useQuery } from '@tanstack/react-query';
+import { toast } from 'sonner';
 
 const getRooms = async (): Promise<Room[]> => {
   try {
@@ -36,6 +37,15 @@ const putPlantOnWishlist = async (plant: Partial<Plant>) => {
       console.log(response);
       throw new Error('Failed to add plant to wishlist');
     }
+
+    toast(
+      <div className='select-none text-sm'>
+        Successfully added{' '}
+        <span className='font-medium text-primary'>{plant.name!} 🌿</span>, to
+        your Wishlist
+      </div>,
+      { duration: 3000 }
+    );
   } catch (error) {
     console.error('Error adding plant to wishlist:', error);
     throw error;
@@ -48,7 +58,7 @@ export default function Plants({ plants }: { plants: Plant[] }) {
   const { data, error, isFetched } = useQuery({
     queryKey: ['exploredPlants', searchQuery],
     queryFn: () => getExternalPlantsSearch(searchQuery),
-    initialData: {data: plants},
+    initialData: { data: plants },
   });
 
   const handleSearch = (query: string) => {

@@ -54,8 +54,6 @@ export async function createRoom(formData: FormData) {
   }
 }
 
-
-
 export async function getExternalPlants() {
   try {
     const response = await fetch(
@@ -70,9 +68,7 @@ export async function getExternalPlants() {
   }
 }
 
-export async function getExternalPlantsSearch(
-  searchQuery: string
-){
+export async function getExternalPlantsSearch(searchQuery: string) {
   try {
     /**
      * Accidentaly fires first loaded needs Issue!

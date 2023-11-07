@@ -1,8 +1,6 @@
 import Plants from '@/components/plant/Plants';
 import { getExternalPlants } from '@/server/actions';
 
-
-
 export default async function PlantPage() {
   const plants = await getExternalPlants();
 
