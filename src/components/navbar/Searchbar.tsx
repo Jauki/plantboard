@@ -66,6 +66,16 @@ const Searchbar: React.FC = () => {
               )
             : null}
           <Select.Group className='flex w-full flex-col gap-1'>
+            <Select.Item
+              value='select one!'
+              className='group flex w-full cursor-pointer gap-2 rounded-md border border-background-grey bg-white p-2 font-light transition-colors ease-in hover:bg-gray-50 focus-visible:outline  focus-visible:outline-2 focus-visible:outline-primary'
+            >
+              <div className='flex h-6 w-6 items-center justify-center rounded bg-primary-light transition-all ease-in group-hover:bg-primary'>🌵</div>
+              <Select.ItemText className='gap-2 rounded-md bg-background-grey p-2 text-sm font-light'>
+                Select a room...
+              </Select.ItemText>
+            </Select.Item>
+
             <RoomCreationModal />
           </Select.Group>
         </Select.Viewport>
