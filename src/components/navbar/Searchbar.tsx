@@ -5,6 +5,7 @@ import RoomCreationModal from '../room/RoomCreationModal';
 import _ from 'lodash';
 
 export const getRooms = async (): Promise<Record<LocationType, Room[]>> => {
+  // todo: DON'T fetch here! should be in the server
   const roomResponse = await fetch('http://localhost:3000/api/room');
   const rooms = await roomResponse.json();
   return _.groupBy(rooms, 'roomLocation') as Record<LocationType, Room[]>;
@@ -43,10 +44,15 @@ const Searchbar: React.FC = () => {
                     <Select.Label className='text-sm'>
                       {_.capitalize(roomType)}
                     </Select.Label>
-                    {rooms.map((room) => (
+                    {rooms.map((room, k) => (
                       <Select.Item
                         key={room.id}
-                        value={i.toString()}
+                        value={(
+                          roomType.toString() +
+                          i.toString(23) +
+                          room.roomName.toString() +
+                          k.toString(23)
+                        ).toString()}
                         className='group flex w-full cursor-pointer gap-2 rounded-md border border-background-grey bg-white p-2 font-light transition-colors ease-in hover:bg-gray-50 focus-visible:outline  focus-visible:outline-2 focus-visible:outline-primary'
                       >
                         <div className='flex h-6 w-6 items-center justify-center rounded bg-primary-light transition-all ease-in group-hover:bg-primary'></div>

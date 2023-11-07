@@ -7,12 +7,7 @@ import RoomCreationStepOne from './creation/RoomCreationStepOne';
 import RoomCreationStepTwo from './creation/RoomCreationStepTwo';
 import RoomCreationStepThree from './creation/RoomCreationStepThree';
 import * as Toast from '@radix-ui/react-toast';
-import prisma from '../../../prisma/client';
-import { LocationType, Size } from '@prisma/client';
-import z from 'zod';
-import { getServerSession } from 'next-auth';
-import { authOptions } from '@/app/api/auth/[...nextauth]/route';
-import { createRoom } from '@/app/actions';
+import { createRoom } from '@/server/actions';
 import * as Select from '@radix-ui/react-select';
 import { Plus } from 'react-feather';
 

@@ -1,7 +1,6 @@
 import { NextRequest } from 'next/server';
-import { useParams, useSearchParams } from 'next/navigation';
 import prisma from '../../../../../prisma/client';
-import { getServerSession } from 'next-auth';
+import { auth } from '@/auth';
 
 /**
  * Get destinct Room by id
@@ -14,7 +13,8 @@ export async function GET(
   { params }: { params: { id: number } }
 ) {
   // I don't need to actually verify, bc middleware should do this!
-  const session = await getServerSession();
+  const session = await auth();
+  console.log(session);
   const user = await prisma.user.findUnique({
     where: { email: session?.user?.email! },
   });

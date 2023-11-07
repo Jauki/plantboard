@@ -1,16 +1,16 @@
 'use server';
 
-import { getServerSession } from 'next-auth';
 import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
-import { authOptions } from './api/auth/[...nextauth]/route';
 import prisma from '../../prisma/client';
-import { LocationType, Size } from '@prisma/client';
-import axios from 'axios';
+import { LocationType, Plant, Size } from '@prisma/client';
+import { auth } from '@/auth';
+import camelcaseKeys from 'camelcase-keys';
+import { convertDataToPlants } from '@/utils/plantsCommunication';
 
 export async function createRoom(formData: FormData) {
   // Authorization Stuff
-  const seesion = await getServerSession(authOptions);
+  const seesion = await auth();
   if (!seesion) {
     return { message: 'Unauthorized' };
   }
@@ -45,6 +45,7 @@ export async function createRoom(formData: FormData) {
     });
 
     // onValid Spawn toast!
+    // todo: sppoooner
     // Close with pending?
     return revalidatePath('/');
   } catch (e) {
@@ -53,28 +54,44 @@ export async function createRoom(formData: FormData) {
   }
 }
 
+
+
 export async function getExternalPlants() {
   try {
     const response = await fetch(
-      `https://trefle.io/api/v1/plants?token=${process.env.TREFLE_API_TOKEN}&order[common_name]=asc&page=1`
+      `http://trefle.io/api/v1/plants?token=${process.env.TREFLE_API_TOKEN}&order[common_name]=asc&page=1`
     );
     const plantData = await response.json();
 
-    return { data: plantData.data } as { data: [] };
+    return { data: convertDataToPlants(plantData.data) };
   } catch (error) {
-    return { error: error };
+    console.error('Error on getExternalPlants: ', error);
+    return { data: [] };
   }
 }
 
-export async function getExternalPlantsSearch(searchQuery: string) {
+export async function getExternalPlantsSearch(
+  searchQuery: string
+){
   try {
+    /**
+     * Accidentaly fires first loaded needs Issue!
+     */
+    if (searchQuery.trim() === '') {
+      return getExternalPlants();
+    }
+
     const response = await fetch(
-      `https://trefle.io/api/v1/plants/search?token=${process.env.TREFLE_API_TOKEN}&order[common_name]=asc&q=${searchQuery}`
+      `http://trefle.io/api/v1/plants/search?q=${searchQuery}&token=${process.env.TREFLE_API_TOKEN}&order[common_name]=asc&page=1`
     );
     const plantData = await response.json();
-  
-    return { data: plantData.data } as { data: [] };
+
+    // catch error from External API (trefle.io)
+    if (plantData.error) {
+      throw new Error(plantData.message);
+    }
+    return { data: convertDataToPlants(plantData.data) } as { data: Plant[] };
   } catch (error) {
-    return { error: error };
+    return { data: [] };
   }
 }

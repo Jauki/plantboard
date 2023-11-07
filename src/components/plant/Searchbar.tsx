@@ -1,5 +1,5 @@
-"use client";
-import { Filter } from "react-feather";
+'use client';
+import { Filter } from 'react-feather';
 
 type SearchbarProps = {
   onSearch: (searchQuery: string) => void;
