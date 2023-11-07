@@ -14,7 +14,6 @@ import {
   Home,
 } from 'react-feather';
 import { Session } from 'next-auth';
-import { useAnimation, motion, AnimatePresence } from 'framer-motion';
 import { useState } from 'react';
 import * as Switch from '@radix-ui/react-switch';
 import { signOut } from 'next-auth/react';
@@ -122,7 +121,7 @@ const CollapsedSideBarProfile = ({
         </div>
         <div className='mt-4  flex h-8 w-full cursor-pointer items-center gap-2 rounded-md px-2 text-sm font-light hover:bg-background-grey'>
           {
-            // Todo: add Status
+            // Todo: add Status like github Dialog
           }
           <div>🌵</div> <span>plantdad</span>
         </div>
@@ -135,9 +134,17 @@ const CollapsedSideBarProfile = ({
 
         <section id='User' className='flex flex-col gap-0'>
           <div className='my-2 h-[1px] bg-gray-300'></div>
-          <ItemWithIcon icon={<Heart size={16} />} text='Your Plants' />
+          <ItemWithIcon
+            icon={<Heart size={16} />}
+            text='Your Plants'
+            href='/plants'
+          />
           <ItemWithIcon icon={<Home size={16} />} text='Your Rooms' />
-          <ItemWithIcon icon={<Bookmark size={16} />} text='Your Wishlist' />
+          <ItemWithIcon
+            icon={<Bookmark size={16} />}
+            text='Your Wishlist'
+            href='/wishlist'
+          />
           <ItemWithIcon icon={<Users size={16} />} text='Your Housemates' />
           <ItemWithIcon icon={<Smile size={16} />} text='Your Friends' />
         </section>
@@ -160,7 +167,7 @@ const CollapsedSideBarProfile = ({
 
         <div
           onClick={() => signOut()}
-          className='flex mt-auto h-8 w-full cursor-pointer items-center gap-1 rounded-md px-2 text-sm font-light hover:bg-background-grey'
+          className='mt-auto flex h-8 w-full cursor-pointer items-center gap-1 rounded-md px-2 text-sm font-light hover:bg-background-grey'
         >
           <div className='flex items-center justify-center text-gray-500'>
             <LogOut size={16} />
@@ -200,13 +207,13 @@ const ItemWrapper = ({
 }) =>
   href ? (
     <Link
-      className='flex h-8 w-full cursor-pointer select-none items-center gap-1 rounded-md px-2 text-sm font-light hover:bg-background-grey'
+      className='flex h-8 w-full cursor-pointer select-none items-center gap-2 rounded-md px-2 text-sm font-light hover:bg-background-grey'
       href={href}
     >
       {children}
     </Link>
   ) : (
-    <div className='flex h-8 w-full cursor-pointer select-none items-center gap-1 rounded-md px-2 text-sm font-light hover:bg-background-grey'>
+    <div className='flex h-8 w-full cursor-pointer select-none items-center gap-2 rounded-md px-2 text-sm font-light hover:bg-background-grey'>
       {children}
     </div>
   );

@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import Searchbar from './navbar/Searchbar';
-import { MessageCircle, Info, GitHub } from 'react-feather';
+import { MessageCircle, Info, GitHub, Search } from 'react-feather';
 import { Session } from 'next-auth';
 import { Profil } from './navbar/Profil';
 import * as Toast from '@radix-ui/react-toast';
@@ -26,11 +26,11 @@ const Navbar = () => {
         Give us Feedback
       </Link>
       <Link
-        href={'/feedback'}
+        href={'/plants'}
         className='flex h-min items-center gap-2 rounded-md p-2 py-2 transition-colors  ease-in hover:bg-background-grey'
       >
-        <Info />
-        Help & Support
+        <Search />
+        Find other Plants
       </Link>
       <AuthenticationStatusSwitch status={status} session={session!} />
     </nav>

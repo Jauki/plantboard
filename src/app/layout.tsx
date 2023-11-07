@@ -19,7 +19,7 @@ export default function RootLayout({
         <ProviderWrapper>
           <Navbar />
           {children}
-          </ProviderWrapper>
+        </ProviderWrapper>
       </body>
     </html>
   );
