@@ -59,6 +59,7 @@
     "react-dom": "^18",
     "react-feather": "^2.0.10",
     "react-range": "^1.8.14",
+    "sonner": "^1.2.0",
     "tailwindcss-radix": "^2.8.0",
     "typescript": "5.1.6",
     "zod": "^3.22.4"

@@ -6,7 +6,7 @@ import { ChevronRight } from 'react-feather';
 import { useEffect, useState } from 'react';
 import { Plant, Room } from '@prisma/client';
 import Searchbar from './Searchbar';
-import { getExternalPlants, getExternalPlantsSearch } from '@/server/actions';
+import { getExternalPlantsSearch } from '@/server/actions';
 import { useQuery } from '@tanstack/react-query';
 
 const getRooms = async (): Promise<Room[]> => {
