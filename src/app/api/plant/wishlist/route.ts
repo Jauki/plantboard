@@ -1,4 +1,4 @@
-import prisma from '../../../../prisma/client';
+import prisma from '../../../../../prisma/client';
 import { NextRequest } from 'next/server';
 import { Plant } from '@prisma/client';
 import { auth } from '@/auth';
@@ -30,7 +30,7 @@ export async function POST(request: NextRequest) {
   try {
     const session = await auth();
     const user = await prisma.user.findUnique({
-      where: { email: session?.user?.email },
+      where: { id: session?.user?.id },
     });
 
     let wishlist = await prisma.wishlist.findUnique({
@@ -79,6 +79,6 @@ export async function POST(request: NextRequest) {
       : new Response('No wishlist', { status: 404 });
   } catch (e) {
     console.error(e);
-    return new Response('Unauthenticated' + e, { status: 403 });
+    return new Response('Unauthenticated' + e, { status: 401 });
   }
 }

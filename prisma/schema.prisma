@@ -77,7 +77,7 @@ model Wishlist {
 model Plant {
   id               Int      @id @default(autoincrement())
   name             String
-  roomId           Int
+  roomId           Int?
   author           String?
   bibliography     String?
   family           String?

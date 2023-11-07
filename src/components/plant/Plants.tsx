@@ -33,6 +33,7 @@ const putPlantOnWishlist = async (plant: Partial<Plant>) => {
       body: JSON.stringify(plant),
     });
     if (!response.ok) {
+      console.log(response);
       throw new Error('Failed to add plant to wishlist');
     }
   } catch (error) {
