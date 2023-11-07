@@ -48,7 +48,14 @@ const putPlantOnWishlist = async (plant: Partial<Plant>) => {
     );
   } catch (error) {
     console.error('Error adding plant to wishlist:', error);
-    throw error;
+    toast(
+      <div className='select-none text-sm'>
+        Error while adding{' '}
+        <span className='font-medium text-red-500'>{plant.name!} 🌿</span>, to
+        your Wishlist
+      </div>,
+      { duration: 3000 }
+    );
   }
 };
 
