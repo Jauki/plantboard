@@ -8,7 +8,9 @@ import { auth } from '@/auth';
 import camelcaseKeys from 'camelcase-keys';
 import { convertDataToPlants } from '@/utils/plantsCommunication';
 
-export async function createRoom(formData: FormData) {
+export async function createRoom(prevState: any, formData: FormData) {
+  console.log("foo!");
+  console.log(formData);
   // Authorization Stuff
   const seesion = await auth();
   if (!seesion) {

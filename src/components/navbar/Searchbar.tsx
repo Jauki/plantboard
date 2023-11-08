@@ -17,7 +17,7 @@ const Searchbar: React.FC = () => {
   useEffect(() => {
     getRooms()
       .then((data: Record<LocationType, Room[]>) => {
-        setRooms(data);
+        setRooms(data); 
       })
       .catch((error) => {
         console.error('Error fetching rooms:', error);
@@ -70,7 +70,9 @@ const Searchbar: React.FC = () => {
               value='null'
               className='group flex w-full cursor-pointer gap-2 rounded-md border border-background-grey bg-white p-2 font-light transition-colors ease-in hover:bg-gray-50 focus-visible:outline  focus-visible:outline-2 focus-visible:outline-primary'
             >
-              <div className='flex h-6 w-6 items-center justify-center rounded bg-primary-light transition-all ease-in group-hover:bg-primary'>🌵</div>
+              <div className='flex h-6 w-6 items-center justify-center rounded bg-primary-light transition-all ease-in group-hover:bg-primary'>
+                🌵
+              </div>
               <Select.ItemText className='gap-2 rounded-md bg-background-grey p-2 text-sm font-light'>
                 Select a room...
               </Select.ItemText>
