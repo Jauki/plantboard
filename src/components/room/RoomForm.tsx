@@ -6,9 +6,7 @@ import * as Dialog from '@radix-ui/react-dialog';
 import { motion } from 'framer-motion';
 import React, { useEffect } from 'react';
 import { Loader, X } from 'react-feather';
-import { Room, Size } from '@prisma/client';
 import { toast } from 'sonner';
-import { isJsxClosingFragment } from 'typescript';
 
 type RoomCarouselProps = {
   children: React.ReactNode[];
@@ -20,7 +18,6 @@ type RoomCarouselProps = {
 
 export function RoomForm({ children, setOpen, open }: RoomCarouselProps) {
   const [message, formAction] = useFormState(createRoom, null);
-  const { pending } = useFormStatus();
   const [step, setStep] = React.useState<number>(0);
 
   const onNextStep = () => {

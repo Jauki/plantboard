@@ -5,9 +5,7 @@ import { z } from 'zod';
 import prisma from '../../prisma/client';
 import { LocationType, Plant, Size } from '@prisma/client';
 import { auth } from '@/auth';
-import camelcaseKeys from 'camelcase-keys';
 import { convertDataToPlants } from '@/utils/plantsCommunication';
-import { toast } from 'sonner';
 
 // Todo: Add react query with dehydration for rooms!
 export async function createRoom(prevState: any, formData: FormData) {
@@ -47,7 +45,7 @@ export async function createRoom(prevState: any, formData: FormData) {
 
     return {
       success: true,
-      toast: `You have successfully added ${room.roomName}!`,
+      toast: `You have successfully added ${roomData.roomName}!`,
     };
   } catch (e) {
     console.log(e);
