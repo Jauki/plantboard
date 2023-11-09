@@ -15,11 +15,12 @@ export async function createRoom(prevState: any, formData: FormData) {
   console.log("foo!");
   console.log(formData);
   
-  // const seesion = await auth();
-  // if (!seesion) {
-  //   return { message: 'Unauthorized' };
-  // }
+  const seesion = await auth();
+  if (!seesion) {
+    return { message: 'Unauthorized' };
+  }
 
+  console.log(seesion);
   // const roomSchema = z.object({
   //   roomName: z.string(),
   //   roomLocation: z.string(),

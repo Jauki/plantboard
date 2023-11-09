@@ -8,8 +8,10 @@ import { Plus } from 'react-feather';
 import { RoomForm } from './RoomForm';
 
 const RoomCreationModal = () => {
+  const [open, setOpen] = React.useState(false);
+
   return (
-    <Dialog.Root>
+    <Dialog.Root onOpenChange={setOpen} open={open}>
       <Dialog.Trigger className='flex h-full w-full justify-center subpixel-antialiased'>
         <Select.Item
           value='addRoom'
@@ -25,7 +27,7 @@ const RoomCreationModal = () => {
       <Dialog.Portal>
         <Dialog.Overlay className='fixed inset-0 bg-black bg-opacity-20' />
         <Dialog.Content className='w-90vw max-h-85vh absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 transform flex-col rounded-lg bg-white p-8 shadow-lg'>
-          <RoomForm>
+          <RoomForm setOpen={setOpen} open={open}>
             <RoomCreationStepOne />
             <RoomCreationStepTwo />
             <RoomCreationStepThree />

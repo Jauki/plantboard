@@ -10,6 +10,8 @@ import { Room, Size } from '@prisma/client';
 
 type RoomCarouselProps = {
   children: React.ReactNode[];
+  open: boolean;
+  setOpen:  (value: boolean | ((prevVar: boolean) => boolean)) => void;
 };
 
 const initialState: Partial<Room> = {
@@ -19,11 +21,11 @@ const initialState: Partial<Room> = {
   roomLocation: "OUTDOOR",
 }
 
+const wait = () => new Promise((resolve) => setTimeout(resolve, 1000));
 // Todo: Use good CSS some bugs still there height to the top and X in the wrong corner i Guess
 
-export function RoomForm ({ children }: RoomCarouselProps) {
+export function RoomForm ({ children, setOpen, open }: RoomCarouselProps) {
   const [state, formAction] = useFormState(createRoom, initialState);
-  const [open, setOpen] = React.useState(false);
   const [step, setStep] = React.useState<number>(0);
 
   const onNextStep = () => {
@@ -38,8 +40,11 @@ export function RoomForm ({ children }: RoomCarouselProps) {
     }
   };
 
+
   return (
-    <form action={formAction}>
+    <form action={formAction} onSubmit={(event) => 
+      setOpen(false)}
+          >
       <div className='h-full w-full '>
         {React.Children.map(children, (child, index) => (
           <motion.div
@@ -72,7 +77,7 @@ export function RoomForm ({ children }: RoomCarouselProps) {
           </div>
         )}
         {step === React.Children.count(children) - 1 && (
-          <SubmitButton onClick={() => setOpen(true)} />
+          <SubmitButton />
         )}
       </div>
       <Dialog.Close asChild>
@@ -88,20 +93,18 @@ export function RoomForm ({ children }: RoomCarouselProps) {
   );
 };
 
-const SubmitButton = ({ onClick }: { onClick: () => void }) => {
+const SubmitButton = () => {
   const { pending } = useFormStatus();
 
-
   return (
-    <Dialog.Close asChild>
+    
       <input
         value={pending ? 'Import...' : 'Import'}
         aria-label='submit'
         aria-disabled={pending}
         type='submit'
-        onClick={onClick}
         className='flex h-8 w-32 cursor-pointer items-center justify-center rounded-md bg-primary-light px-4 py-1 text-primary'
       />
-    </Dialog.Close>
+    
   );
 };
