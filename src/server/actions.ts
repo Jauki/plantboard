@@ -10,54 +10,56 @@ import { convertDataToPlants } from '@/utils/plantsCommunication';
 import { toast } from 'sonner';
 
 
-// Server Action
+
+// Todo: Add react query with dehydration for rooms!
 export async function createRoom(prevState: any, formData: FormData) {
-  console.log("foo!");
-  console.log(formData);
-  
   const seesion = await auth();
   if (!seesion) {
     return { message: 'Unauthorized' };
   }
 
-  console.log(seesion);
-  // const roomSchema = z.object({
-  //   roomName: z.string(),
-  //   roomLocation: z.string(),
-  //   roomColor: z.string(),
-  //   roomSize: z.string(),
-  //   userId: z.string(),
-  //   plants: z.array(z.unknown()),
-  // });
 
-  // try {
-  //   const roomData = roomSchema.parse({
-  //     roomName: formData.get('roomName'),
-  //     roomLocation: formData.get('roomType'),
-  //     roomColor: formData.get('roomIconColor'),
-  //     roomSize: formData.get('roomSize'),
-  //     userId: seesion!.user.id,
-  //     plants: [],
-  //   });
+  const roomSchema = z.object({
+    roomName: z.string(),
+    roomLocation: z.string(),
+    roomColor: z.string(),
+    roomSize: z.string(),
+    userId: z.string(),
+    plants: z.array(z.unknown()),
+  });
 
-  //   const room = await prisma.room.create({
-  //     data: {
-  //       roomName: roomData.roomName,
-  //       roomColor: roomData.roomColor,
-  //       userId: seesion.user.id,
-  //       roomSize: roomData.roomSize as Size,
-  //       roomLocation: roomData.roomLocation.toUpperCase() as LocationType,
-  //     },
-  //   });
+  try {
+    const roomData = roomSchema.parse({
+      roomName: formData.get('roomName'),
+      roomLocation: formData.get('roomType'),
+      roomColor: formData.get('roomIconColor'),
+      roomSize: formData.get('roomSize'),
+      userId: seesion!.user.id,
+      plants: [],
+    });
 
-  //   // onValid Spawn toast!
-  //   // todo: sppoooner
-  //   // Close with pending?
-  //   return revalidatePath('/');
-  // } catch (e) {
-  //   console.error(e);
-  //   return { message: 'Failed to create' };
-  // }
+    const room = await prisma.room.create({
+      data: {
+        roomName: roomData.roomName,
+        roomColor: roomData.roomColor,
+        userId: seesion.user.id,
+        roomSize: roomData.roomSize as Size,
+        roomLocation: roomData.roomLocation.toUpperCase() as LocationType,
+      },
+    });
+
+    return {
+      success: true,
+      toast: `You have successfully added ${room.roomName}!`
+    };
+  } catch (e) {
+    console.log(e);
+    return {
+      success: false,
+      toast: "Ooops! An error happend!"
+    };;
+  }
+  
 }
 
 export async function getExternalPlants() {

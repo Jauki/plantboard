@@ -4,9 +4,11 @@ import { createRoom } from '@/server/actions';
 import { useFormState, useFormStatus } from 'react-dom';
 import * as Dialog from '@radix-ui/react-dialog';
 import { motion } from 'framer-motion';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { X } from 'react-feather';
 import { Room, Size } from '@prisma/client';
+import { toast } from 'sonner';
+import { isJsxClosingFragment } from 'typescript';
 
 type RoomCarouselProps = {
   children: React.ReactNode[];
@@ -14,18 +16,11 @@ type RoomCarouselProps = {
   setOpen:  (value: boolean | ((prevVar: boolean) => boolean)) => void;
 };
 
-const initialState: Partial<Room> = {
-  roomName: "",
-  roomColor: "",
-  roomSize: Size.S,
-  roomLocation: "OUTDOOR",
-}
-
-const wait = () => new Promise((resolve) => setTimeout(resolve, 1000));
 // Todo: Use good CSS some bugs still there height to the top and X in the wrong corner i Guess
 
 export function RoomForm ({ children, setOpen, open }: RoomCarouselProps) {
-  const [state, formAction] = useFormState(createRoom, initialState);
+  const [message, formAction] = useFormState(createRoom, null);
+  const {pending} = useFormStatus();
   const [step, setStep] = React.useState<number>(0);
 
   const onNextStep = () => {
@@ -40,11 +35,16 @@ export function RoomForm ({ children, setOpen, open }: RoomCarouselProps) {
     }
   };
 
+  useEffect(() => {
+    if (message) {
+      toast(<div>{message.toast}</div>, { duration: 3000 });
+      setOpen(false);
+    }
+  }, [message]);
 
+  
   return (
-    <form action={formAction} onSubmit={(event) => 
-      setOpen(false)}
-          >
+    <form action={formAction}>
       <div className='h-full w-full '>
         {React.Children.map(children, (child, index) => (
           <motion.div
@@ -88,7 +88,7 @@ export function RoomForm ({ children, setOpen, open }: RoomCarouselProps) {
           <X size={16} />
         </button>
       </Dialog.Close>
-      
+      <div>{message?.success} {pending}</div>
     </form>
   );
 };
