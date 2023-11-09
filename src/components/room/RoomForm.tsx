@@ -1,23 +1,27 @@
 'use client';
 
 import { createRoom } from '@/server/actions';
-import { useFormState } from 'react-dom';
+import { useFormState, useFormStatus } from 'react-dom';
 import * as Dialog from '@radix-ui/react-dialog';
 import { motion } from 'framer-motion';
 import React from 'react';
 import { X } from 'react-feather';
+import { Room, Size } from '@prisma/client';
 
 type RoomCarouselProps = {
   children: React.ReactNode[];
 };
 
-const initialState = {
-
+const initialState: Partial<Room> = {
+  roomName: "",
+  roomColor: "",
+  roomSize: Size.S,
+  roomLocation: "OUTDOOR",
 }
 
 // Todo: Use good CSS some bugs still there height to the top and X in the wrong corner i Guess
 
-export const RoomForm: React.FC<RoomCarouselProps> = ({ children }) => {
+export function RoomForm ({ children }: RoomCarouselProps) {
   const [state, formAction] = useFormState(createRoom, initialState);
   const [open, setOpen] = React.useState(false);
   const [step, setStep] = React.useState<number>(0);
@@ -35,7 +39,7 @@ export const RoomForm: React.FC<RoomCarouselProps> = ({ children }) => {
   };
 
   return (
-    <form action={createRoom}>
+    <form action={formAction}>
       <div className='h-full w-full '>
         {React.Children.map(children, (child, index) => (
           <motion.div
@@ -64,7 +68,7 @@ export const RoomForm: React.FC<RoomCarouselProps> = ({ children }) => {
             className='flex h-8 w-32 cursor-pointer items-center justify-center rounded-md bg-primary-light px-4 py-1 text-primary'
             onClick={onNextStep}
           >
-            Next
+            Next 
           </div>
         )}
         {step === React.Children.count(children) - 1 && (
@@ -79,20 +83,23 @@ export const RoomForm: React.FC<RoomCarouselProps> = ({ children }) => {
           <X size={16} />
         </button>
       </Dialog.Close>
+      
     </form>
   );
 };
 
 const SubmitButton = ({ onClick }: { onClick: () => void }) => {
-  const { pending } = useFormState();
+  const { pending } = useFormStatus();
+
 
   return (
-    <Dialog.Close onClick={onClick} asChild>
+    <Dialog.Close asChild>
       <input
         value={pending ? 'Import...' : 'Import'}
         aria-label='submit'
         aria-disabled={pending}
         type='submit'
+        onClick={onClick}
         className='flex h-8 w-32 cursor-pointer items-center justify-center rounded-md bg-primary-light px-4 py-1 text-primary'
       />
     </Dialog.Close>
