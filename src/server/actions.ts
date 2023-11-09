@@ -9,15 +9,12 @@ import camelcaseKeys from 'camelcase-keys';
 import { convertDataToPlants } from '@/utils/plantsCommunication';
 import { toast } from 'sonner';
 
-
-
 // Todo: Add react query with dehydration for rooms!
 export async function createRoom(prevState: any, formData: FormData) {
   const seesion = await auth();
   if (!seesion) {
     return { message: 'Unauthorized' };
   }
-
 
   const roomSchema = z.object({
     roomName: z.string(),
@@ -50,16 +47,15 @@ export async function createRoom(prevState: any, formData: FormData) {
 
     return {
       success: true,
-      toast: `You have successfully added ${room.roomName}!`
+      toast: `You have successfully added ${room.roomName}!`,
     };
   } catch (e) {
     console.log(e);
     return {
       success: false,
-      toast: "Ooops! An error happend!"
-    };;
+      toast: 'Ooops! An error happend!',
+    };
   }
-  
 }
 
 export async function getExternalPlants() {
