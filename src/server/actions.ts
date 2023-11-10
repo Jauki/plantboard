@@ -5,13 +5,12 @@ import { z } from 'zod';
 import prisma from '../../prisma/client';
 import { LocationType, Plant, Size } from '@prisma/client';
 import { auth } from '@/auth';
-import camelcaseKeys from 'camelcase-keys';
 import { convertDataToPlants } from '@/utils/plantsCommunication';
+import { QueryClient } from '@tanstack/react-query';
 
+// Todo: Add react query with dehydration for rooms!
 export async function createRoom(prevState: any, formData: FormData) {
-  console.log("foo!");
-  console.log(formData);
-  // Authorization Stuff
+  const queryClient = new QueryClient();
   const seesion = await auth();
   if (!seesion) {
     return { message: 'Unauthorized' };
@@ -46,13 +45,18 @@ export async function createRoom(prevState: any, formData: FormData) {
       },
     });
 
-    // onValid Spawn toast!
-    // todo: sppoooner
-    // Close with pending?
-    return revalidatePath('/');
+    queryClient.invalidateQueries({ queryKey: ['rooms'] });
+
+    return {
+      success: true,
+      toast: `You have successfully added ${roomData.roomName}!`,
+    };
   } catch (e) {
-    console.error(e);
-    return { message: 'Failed to create' };
+    console.log(e);
+    return {
+      success: false,
+      toast: 'Ooops! An error happend!',
+    };
   }
 }
 

@@ -1,3 +1,5 @@
+'use client';
+
 import * as Dialog from '@radix-ui/react-dialog';
 import { useState } from 'react';
 import { Size } from '@prisma/client';

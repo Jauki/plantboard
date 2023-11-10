@@ -1,25 +1,23 @@
 'use client';
 
 import { createRoom } from '@/server/actions';
-import { useFormState } from 'react-dom';
+import { useFormState, useFormStatus } from 'react-dom';
 import * as Dialog from '@radix-ui/react-dialog';
 import { motion } from 'framer-motion';
-import React from 'react';
-import { X } from 'react-feather';
+import React, { useEffect } from 'react';
+import { Loader, X } from 'react-feather';
+import { toast } from 'sonner';
 
 type RoomCarouselProps = {
   children: React.ReactNode[];
+  open: boolean;
+  setOpen: (value: boolean | ((prevVar: boolean) => boolean)) => void;
 };
-
-const initialState = {
-
-}
 
 // Todo: Use good CSS some bugs still there height to the top and X in the wrong corner i Guess
 
-export const RoomForm: React.FC<RoomCarouselProps> = ({ children }) => {
-  const [state, formAction] = useFormState(createRoom, initialState);
-  const [open, setOpen] = React.useState(false);
+export function RoomForm({ children, setOpen, open }: RoomCarouselProps) {
+  const [message, formAction] = useFormState(createRoom, null);
   const [step, setStep] = React.useState<number>(0);
 
   const onNextStep = () => {
@@ -34,8 +32,15 @@ export const RoomForm: React.FC<RoomCarouselProps> = ({ children }) => {
     }
   };
 
+  useEffect(() => {
+    if (message) {
+      toast(<div>{message.toast}</div>, { duration: 3000 });
+      setOpen(false);
+    }
+  }, [message]);
+
   return (
-    <form action={createRoom}>
+    <form action={formAction}>
       <div className='h-full w-full '>
         {React.Children.map(children, (child, index) => (
           <motion.div
@@ -67,9 +72,7 @@ export const RoomForm: React.FC<RoomCarouselProps> = ({ children }) => {
             Next
           </div>
         )}
-        {step === React.Children.count(children) - 1 && (
-          <SubmitButton onClick={() => setOpen(true)} />
-        )}
+        {step === React.Children.count(children) - 1 && <SubmitButton />}
       </div>
       <Dialog.Close asChild>
         <button
@@ -81,20 +84,25 @@ export const RoomForm: React.FC<RoomCarouselProps> = ({ children }) => {
       </Dialog.Close>
     </form>
   );
-};
+}
 
-const SubmitButton = ({ onClick }: { onClick: () => void }) => {
-  const { pending } = useFormState();
-
+const SubmitButton = () => {
+  const { pending } = useFormStatus();
+  // todo: Please rework loading state!
   return (
-    <Dialog.Close onClick={onClick} asChild>
-      <input
-        value={pending ? 'Import...' : 'Import'}
-        aria-label='submit'
-        aria-disabled={pending}
-        type='submit'
-        className='flex h-8 w-32 cursor-pointer items-center justify-center rounded-md bg-primary-light px-4 py-1 text-primary'
-      />
-    </Dialog.Close>
+    <button
+      aria-label='submit'
+      aria-disabled={pending}
+      type='submit'
+      className='flex h-8 w-32 cursor-pointer items-center justify-center rounded-md bg-primary-light px-4 py-1 text-primary'
+    >
+      {pending ? (
+        <div className='animate-spin text-primary'>
+          <Loader size={14} />
+        </div>
+      ) : (
+        'Import'
+      )}
+    </button>
   );
 };

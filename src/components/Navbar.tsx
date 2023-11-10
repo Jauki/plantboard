@@ -1,11 +1,10 @@
 'use client';
 
 import Link from 'next/link';
-import Searchbar from './navbar/Searchbar';
+import Searchbar, { getRooms } from './navbar/Searchbar';
 import { MessageCircle, Info, GitHub, Search } from 'react-feather';
 import { Session } from 'next-auth';
 import { Profil } from './navbar/Profil';
-import * as Toast from '@radix-ui/react-toast';
 import { useSession } from 'next-auth/react';
 
 const Navbar = () => {

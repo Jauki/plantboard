@@ -8,9 +8,11 @@ import { Plus } from 'react-feather';
 import { RoomForm } from './RoomForm';
 
 const RoomCreationModal = () => {
+  const [open, setOpen] = React.useState(false);
+
   return (
-    <Dialog.Root>
-      <Dialog.Trigger className='flex h-full w-full justify-center subpixel-antialiased'>
+    <Dialog.Root onOpenChange={setOpen} open={open}>
+      <Dialog.Trigger className='flex h-full w-full justify-center'>
         <Select.Item
           value='addRoom'
           disabled
@@ -24,12 +26,14 @@ const RoomCreationModal = () => {
       </Dialog.Trigger>
       <Dialog.Portal>
         <Dialog.Overlay className='fixed inset-0 bg-black bg-opacity-20' />
-        <Dialog.Content className='w-90vw max-h-85vh absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 transform flex-col rounded-lg bg-white p-8 shadow-lg'>
-          <RoomForm>
-            <RoomCreationStepOne />
-            <RoomCreationStepTwo />
-            <RoomCreationStepThree />
-          </RoomForm>
+        <Dialog.Content className='fixed inset-0 flex flex-col items-center justify-center'>
+          <div className='w-5/12 rounded-lg bg-white p-8 shadow-lg'>
+            <RoomForm setOpen={setOpen} open={open}>
+              <RoomCreationStepOne />
+              <RoomCreationStepTwo />
+              <RoomCreationStepThree />
+            </RoomForm>
+          </div>
         </Dialog.Content>
       </Dialog.Portal>
     </Dialog.Root>
