@@ -1,4 +1,12 @@
+import { getRooms } from '@/components/navbar/Searchbar';
+import { QueryClient } from '@tanstack/react-query';
+
 export default async function Home() {
+  // const queryClient = new QueryClient();
+  // await queryClient.prefetchQuery({
+  //   queryKey: ['rooms'],
+  //   queryFn: () => getRooms(),
+  // });
   return (
     <>
       <main>

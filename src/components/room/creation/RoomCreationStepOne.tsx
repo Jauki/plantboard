@@ -1,3 +1,4 @@
+'use client';
 import * as Dialog from '@radix-ui/react-dialog';
 import React, { useState } from 'react';
 
@@ -46,7 +47,7 @@ const RadioButtonGroup: React.FC<RadioButtonGroupProps> = ({
   selectedValue,
 }) => {
   return (
-    <div className='flex flex-col gap-2'>
+    <div className='my-8 flex flex-col gap-2'>
       {options.map((option) => (
         <RadioButton
           key={option.value}

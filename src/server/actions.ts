@@ -6,9 +6,11 @@ import prisma from '../../prisma/client';
 import { LocationType, Plant, Size } from '@prisma/client';
 import { auth } from '@/auth';
 import { convertDataToPlants } from '@/utils/plantsCommunication';
+import { QueryClient } from '@tanstack/react-query';
 
 // Todo: Add react query with dehydration for rooms!
 export async function createRoom(prevState: any, formData: FormData) {
+  const queryClient = new QueryClient();
   const seesion = await auth();
   if (!seesion) {
     return { message: 'Unauthorized' };
@@ -42,6 +44,8 @@ export async function createRoom(prevState: any, formData: FormData) {
         roomLocation: roomData.roomLocation.toUpperCase() as LocationType,
       },
     });
+
+    queryClient.invalidateQueries({ queryKey: ['rooms'] });
 
     return {
       success: true,

@@ -3,6 +3,7 @@ import { LocationType, Room } from '@prisma/client';
 import { useEffect, useState } from 'react';
 import RoomCreationModal from '../room/RoomCreationModal';
 import _ from 'lodash';
+import { useQuery } from '@tanstack/react-query';
 
 export const getRooms = async (): Promise<Record<LocationType, Room[]>> => {
   // React Querry get rooms from Querry
@@ -18,20 +19,10 @@ export const getRooms = async (): Promise<Record<LocationType, Room[]>> => {
 };
 
 const Searchbar: React.FC = () => {
-  const [rooms, setRooms] = useState<Record<LocationType, Room[]>>({
-    INDOOR: [],
-    OUTDOOR: [],
+  const { data: rooms } = useQuery({
+    queryKey: ['rooms'],
+    queryFn: () => getRooms(),
   });
-
-  useEffect(() => {
-    getRooms()
-      .then((data: Record<LocationType, Room[]>) => {
-        setRooms(data);
-      })
-      .catch((error) => {
-        console.error('Error fetching rooms:', error);
-      });
-  }, []);
 
   return (
     <Select.Root>
