@@ -118,7 +118,7 @@ export async function recommendExternalPlantsSearch(searchQuery: string) {
       throw new Error(plantData.message);
     }
     // maybe filter here once more
-    const data = plantData.data.map((plant: any) => plant.common_name) || [];
+    const data = convertDataToPlants(plantData.data);
 
     const filteredNames =
       filterAndRankApiResults(searchQuery, data, 0.3, 5) || [];
@@ -126,7 +126,7 @@ export async function recommendExternalPlantsSearch(searchQuery: string) {
     return {
       data: filteredNames,
     } as {
-      data: string[];
+      data: Partial<Plant>[];
     };
   } catch (error) {
     return { data: [] };
@@ -147,15 +147,15 @@ export async function recommendExternalSpeciesSearch(searchQuery: string) {
       throw new Error(plantData.message);
     }
     // maybe filter here once more
-    const data = plantData.data.map((plant: any) => plant.common_name) || [];
+    const data = convertDataToPlants(plantData.data);
 
     const filteredNames =
-      filterAndRankApiResults(searchQuery, data, 0.3, 5) || [];
+      filterAndRankApiResults(searchQuery, data, 0.3, 5, true) || [];
 
     return {
       data: filteredNames,
     } as {
-      data: string[];
+      data: Partial<Plant>[];
     };
   } catch (error) {
     return { data: [] };

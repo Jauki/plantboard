@@ -48,13 +48,17 @@ function levenshteinDistance(a: string, b: string): number {
 
 export function filterAndRankApiResults(
   userInput: string,
-  apiResults: string[],
+  apiResults: Partial<Plant>[],
   threshold: number,
-  limit: number
-): string[] {
+  limit: number,
+  family = false
+): Partial<Plant>[] {
   const resultsWithSimilarity = apiResults.map((result) => ({
     result,
-    similarity: calculateSimilarity(userInput, result),
+    similarity: calculateSimilarity(
+      userInput,
+      !family ? result.name! : result.family!
+    ),
   }));
 
   const filteredResults = resultsWithSimilarity.filter(

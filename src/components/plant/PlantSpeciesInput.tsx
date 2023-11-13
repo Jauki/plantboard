@@ -2,17 +2,29 @@ import { recommendExternalSpeciesSearch } from '@/server/actions';
 import { useQuery } from '@tanstack/react-query';
 import { ChangeEvent, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
+import { Plant } from '@prisma/client';
 
-export const PlantSpeciesInput = () => {
+export const PlantSpeciesInput = ({
+  setPlant,
+  plant,
+}: {
+  setPlant: (
+    plant:
+      | Partial<Plant>
+      | undefined
+      | ((prevVar: Partial<Plant> | undefined) => Partial<Plant>)
+  ) => void;
+  plant: Partial<Plant> | undefined;
+}) => {
   const [open, setOpen] = useState<boolean>(true);
   const [recommendation, setRecommendation] = useState<string>('');
   const { data, isFetched } = useQuery({
-    queryKey: ['externalPlants', recommendation],
+    queryKey: ['externalPlantspecies', recommendation],
     queryFn: () => recommendExternalSpeciesSearch(recommendation),
   });
 
-  const selectHandler = () => {
-    setRecommendation(recommendation);
+  const selectHandler = (plantName: string) => {
+    setRecommendation(plantName);
     setOpen(false);
   };
 
@@ -22,35 +34,35 @@ export const PlantSpeciesInput = () => {
   };
 
   return (
-    <div className=' relative flex flex-col gap-1'>
+    <div className='relative flex flex-col gap-1'>
       <label>Species:*</label>
       <input
         type='text'
-        name='plantname'
+        name='plantspecies'
         required
-        value={recommendation}
+        value={plant === undefined ? recommendation : plant.family!}
         onChange={inputHandler}
-        className={`focus:border-1  w-full rounded-md border border-background-grey px-2 py-1 transition-all focus:border-background-grey focus:outline-2 focus:outline-primary focus:ring-0`}
+        className={`focus:border-1 w-full rounded-md border border-background-grey px-2 py-1 transition-all focus:border-background-grey focus:outline-2 focus:outline-primary focus:ring-0`}
       />
       {data?.data.length !== 0 && isFetched && open ? (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className='absolute bottom-0 flex w-full translate-y-full flex-col gap-1 rounded-md bg-white p-2 shadow-md'
+          className='absolute bottom-0 z-20 flex w-full translate-y-full flex-col gap-1 rounded-md bg-white p-2 shadow-md'
         >
           <AnimatePresence>
-            {data?.data.map((plantName: string, k: number) => (
+            {data?.data.map((plant, k: number) => (
               <motion.div
-                key={plantName + k}
+                key={plant.id! + k}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.3 }}
                 className='cursor-pointer rounded-md px-2 py-1 hover:bg-primary hover:bg-opacity-10 hover:text-primary focus:ring-primary'
-                onClick={selectHandler}
+                onClick={() => selectHandler(plant.name!)}
               >
-                {plantName}
+                {plant.name}
               </motion.div>
             ))}
           </AnimatePresence>

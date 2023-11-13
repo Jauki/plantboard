@@ -2,22 +2,32 @@ import { recommendExternalPlantsSearch } from '@/server/actions';
 import { useQuery } from '@tanstack/react-query';
 import { ChangeEvent, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
+import { Plant } from '@prisma/client';
 
-export const PlantNameInput = () => {
+export const PlantNameInput = ({
+  setPlant,
+  plant,
+}: {
+  setPlant: (
+    plant:
+      | Partial<Plant>
+      | undefined
+      | ((prevVar: Partial<Plant> | undefined) => Partial<Plant>)
+  ) => void;
+  plant: Partial<Plant> | undefined;
+}) => {
   const [open, setOpen] = useState<boolean>(true);
+  // change to partial plant as i can set the data automatically instead of fetching!
   const [recommendation, setRecommendation] = useState<string>('');
   const { data, isFetched } = useQuery({
-    queryKey: ['externalPlants', recommendation],
+    queryKey: ['externalPlantname', recommendation],
     queryFn: () => recommendExternalPlantsSearch(recommendation),
   });
 
-  const closeDropdown = () => {
+  const selectHandler = (plant: Partial<Plant>) => {
+    setRecommendation(plant.name!);
     setOpen(false);
-  };
-
-  const selectHandler = () => {
-    setRecommendation(recommendation);
-    setOpen(false);
+    setPlant(plant);
   };
 
   const inputHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -32,7 +42,7 @@ export const PlantNameInput = () => {
         type='text'
         name='plantname'
         required
-        value={recommendation}
+        value={plant === undefined ? recommendation : plant.name}
         onChange={inputHandler}
         className={`focus:border-1  w-full rounded-md border border-background-grey px-2 py-1 transition-all focus:border-background-grey focus:outline-2 focus:outline-primary focus:ring-0`}
       />
@@ -41,21 +51,21 @@ export const PlantNameInput = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className='absolute bottom-0 flex w-full translate-y-full flex-col gap-1 rounded-md bg-white p-2 shadow-md'
+          className='absolute bottom-0 z-20 flex w-full translate-y-full flex-col gap-1 rounded-md bg-white p-2 shadow-md'
         >
           <AnimatePresence>
-            {data?.data.map((plantName: string, k: number) => (
+            {data?.data.map((plant: Partial<Plant>, k: number) => (
               <motion.div
-                key={plantName + k}
+                key={plant.id! + k + 'foo!'}
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.3 }}
                 className='cursor-pointer rounded-sm px-2 py-1 hover:bg-primary hover:bg-opacity-10 hover:text-primary'
-                onClick={selectHandler}
+                onClick={() => selectHandler(plant)}
                 tabIndex={k + 1}
               >
-                {plantName}
+                {plant.name}
               </motion.div>
             ))}
           </AnimatePresence>
