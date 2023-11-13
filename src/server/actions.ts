@@ -4,7 +4,10 @@ import { z } from 'zod';
 import prisma from '../../prisma/client';
 import { LocationType, Plant, Size } from '@prisma/client';
 import { auth } from '@/auth';
-import { convertDataToPlants } from '@/utils/plantsCommunication';
+import {
+  convertDataToPlants,
+  filterAndRankApiResults,
+} from '@/utils/plantsCommunication';
 import { QueryClient } from '@tanstack/react-query';
 import { FormErrorResponse, FormSuccessResponse } from '@/types/general';
 
@@ -95,6 +98,36 @@ export async function getExternalPlantsSearch(searchQuery: string) {
       throw new Error(plantData.message);
     }
     return { data: convertDataToPlants(plantData.data) } as { data: Plant[] };
+  } catch (error) {
+    return { data: [] };
+  }
+}
+
+export async function recommendExternalPlantsSearch(searchQuery: string) {
+  try {
+    /**
+     * Accidentaly fires first loaded needs Issue!
+     */
+    const response = await fetch(
+      `http://trefle.io/api/v1/plants/search?q=${searchQuery}&token=${process.env.TREFLE_API_TOKEN}&order[common_name]=asc&page=1`
+    );
+    const plantData = await response.json();
+
+    // catch error from External API (trefle.io)
+    if (plantData.error) {
+      throw new Error(plantData.message);
+    }
+    // maybe filter here once more
+    const data = plantData.data.map((plant: any) => plant.common_name) || [];
+
+    const filteredNames =
+      filterAndRankApiResults(searchQuery, data, 0.3, 5) || [];
+
+    return {
+      data: filteredNames,
+    } as {
+      data: string[];
+    };
   } catch (error) {
     return { data: [] };
   }
