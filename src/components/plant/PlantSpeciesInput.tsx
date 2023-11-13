@@ -1,19 +1,15 @@
-import { recommendExternalPlantsSearch } from '@/server/actions';
+import { recommendExternalSpeciesSearch } from '@/server/actions';
 import { useQuery } from '@tanstack/react-query';
 import { ChangeEvent, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 
-export const PlantNameInput = () => {
+export const PlantSpeciesInput = () => {
   const [open, setOpen] = useState<boolean>(true);
   const [recommendation, setRecommendation] = useState<string>('');
   const { data, isFetched } = useQuery({
     queryKey: ['externalPlants', recommendation],
-    queryFn: () => recommendExternalPlantsSearch(recommendation),
+    queryFn: () => recommendExternalSpeciesSearch(recommendation),
   });
-
-  const closeDropdown = () => {
-    setOpen(false);
-  };
 
   const selectHandler = () => {
     setRecommendation(recommendation);
@@ -27,7 +23,7 @@ export const PlantNameInput = () => {
 
   return (
     <div className=' relative flex flex-col gap-1'>
-      <label>Plantname:*</label>
+      <label>Species:*</label>
       <input
         type='text'
         name='plantname'
@@ -51,9 +47,8 @@ export const PlantNameInput = () => {
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.3 }}
-                className='cursor-pointer rounded-sm px-2 py-1 hover:bg-primary hover:bg-opacity-10 hover:text-primary'
+                className='cursor-pointer rounded-md px-2 py-1 hover:bg-primary hover:bg-opacity-10 hover:text-primary focus:ring-primary'
                 onClick={selectHandler}
-                tabIndex={k + 1}
               >
                 {plantName}
               </motion.div>

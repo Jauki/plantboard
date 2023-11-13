@@ -132,3 +132,32 @@ export async function recommendExternalPlantsSearch(searchQuery: string) {
     return { data: [] };
   }
 }
+export async function recommendExternalSpeciesSearch(searchQuery: string) {
+  try {
+    /**
+     * Accidentaly fires first loaded needs Issue!
+     */
+    const response = await fetch(
+      `http://trefle.io/api/v1/species/search?q=${searchQuery}&token=${process.env.TREFLE_API_TOKEN}&order[common_name]=asc&page=1`
+    );
+    const plantData = await response.json();
+
+    // catch error from External API (trefle.io)
+    if (plantData.error) {
+      throw new Error(plantData.message);
+    }
+    // maybe filter here once more
+    const data = plantData.data.map((plant: any) => plant.common_name) || [];
+
+    const filteredNames =
+      filterAndRankApiResults(searchQuery, data, 0.3, 5) || [];
+
+    return {
+      data: filteredNames,
+    } as {
+      data: string[];
+    };
+  } catch (error) {
+    return { data: [] };
+  }
+}
