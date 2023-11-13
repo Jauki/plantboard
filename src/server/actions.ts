@@ -1,19 +1,21 @@
 'use server';
 
-import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
 import prisma from '../../prisma/client';
 import { LocationType, Plant, Size } from '@prisma/client';
 import { auth } from '@/auth';
 import { convertDataToPlants } from '@/utils/plantsCommunication';
 import { QueryClient } from '@tanstack/react-query';
+import { FormErrorResponse, FormSuccessResponse } from '@/types/general';
 
-// Todo: Add react query with dehydration for rooms!
-export async function createRoom(prevState: any, formData: FormData) {
+export async function createRoom(
+  prevState: any,
+  formData: FormData
+): Promise<FormSuccessResponse | FormErrorResponse> {
   const queryClient = new QueryClient();
   const seesion = await auth();
   if (!seesion) {
-    return { message: 'Unauthorized' };
+    return { success: false, toast: 'Unauthorized, please login!' };
   }
 
   const roomSchema = z.object({
