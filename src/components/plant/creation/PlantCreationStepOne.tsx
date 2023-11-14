@@ -3,12 +3,19 @@ import { PlantNameInput } from '../PlantNameInput';
 import { PlantSpeciesInput } from '../PlantSpeciesInput';
 import * as Dialog from '@radix-ui/react-dialog';
 import { Upload } from 'react-feather';
-import { useState } from 'react';
+import { ChangeEvent, useState } from 'react';
 import { Plant } from '@prisma/client';
 import Image from 'next/image';
 
 export default function PlanCreationStepOne() {
   const [plant, setPlant] = useState<Partial<Plant> | undefined>(undefined);
+
+  const handleImageChange = (imageUrl: string) => {
+    setPlant((prevPlant) => ({
+      ...prevPlant,
+      imageUrl: imageUrl,
+    }));
+  };
 
   return (
     <div className='flex w-full flex-col gap-2'>
@@ -42,10 +49,31 @@ export default function PlanCreationStepOne() {
               alt={plant.name!}
             />
           ) : (
-            <Upload />
+            <UploadImage onImageChange={handleImageChange} />
           )}
         </div>
       </div>
     </div>
   );
 }
+
+const UploadImage = ({
+  onImageChange,
+}: {
+  onImageChange: (imageUrl: string) => void;
+}) => {
+  const [image, setImage] = useState<File>();
+
+  const handleImage = (e: ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    const image = e.target.value;
+    console.log(image);
+  };
+
+  return (
+    <>
+      <input type='file' name='file' onChange={handleImage} hidden />
+      <Upload />
+    </>
+  );
+};
