@@ -6,6 +6,7 @@ type HeadlessInputFormProps = {
   required?: boolean;
   description?: string;
   error?: string;
+  inputAttributes?: React.InputHTMLAttributes<HTMLInputElement>;
 };
 
 const HeadlessInputForm: React.FC<HeadlessInputFormProps> = ({
@@ -14,6 +15,7 @@ const HeadlessInputForm: React.FC<HeadlessInputFormProps> = ({
   required = false,
   description,
   error,
+  inputAttributes,
 }) => {
   const inputId = `${name}-input`;
 
@@ -27,6 +29,7 @@ const HeadlessInputForm: React.FC<HeadlessInputFormProps> = ({
         type='text'
         name={name}
         id={inputId}
+        {...inputAttributes}
         aria-labelledby={`${inputId}-label`}
         aria-describedby={`${inputId}-description ${inputId}-error`}
         aria-required={required}
