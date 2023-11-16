@@ -161,3 +161,16 @@ export async function recommendExternalSpeciesSearch(searchQuery: string) {
     return { data: [] };
   }
 }
+
+export async function createPlant(prevState: any, formData: FormData) {
+  const queryClient = new QueryClient();
+  const seesion = await auth();
+  if (!seesion) {
+    return { success: false, toast: 'Unauthorized, please login!' };
+  }
+  console.log(formData);
+  return {
+    success: false,
+    toast: 'Ooops! An error happend!',
+  };
+}

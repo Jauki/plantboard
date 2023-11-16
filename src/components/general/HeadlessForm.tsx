@@ -21,6 +21,7 @@ export function HeadlessForm<T>({
   serverAction,
 }: HeadlessFormProps<T>) {
   const [message, formAction] = useFormState(serverAction, null);
+  const { data } = useFormStatus();
   const [step, setStep] = React.useState<number>(0);
 
   const onNextStep = () => {
@@ -44,6 +45,8 @@ export function HeadlessForm<T>({
 
   return (
     <form action={formAction}>
+      <pre>{JSON.stringify(message)}</pre>
+      <pre>{JSON.stringify(data)}</pre>
       <div className='h-full w-full '>
         {React.Children.map(children, (child, index) => (
           <motion.div

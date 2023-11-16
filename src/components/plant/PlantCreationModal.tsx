@@ -1,16 +1,18 @@
 import * as Dialog from '@radix-ui/react-dialog';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { HeadlessForm } from '../general/HeadlessForm';
-import { createRoom } from '@/server/actions';
-import PlanCreationStepOne from './creation/PlantCreationStepOne';
+import { createPlant, createRoom } from '@/server/actions';
+import PlantCreationStepOne from './creation/PlantCreationStepOne';
 import { PlanCreationStepTwo } from './creation/PlantCreationStepTwo';
 import { PlanCreationStepThree } from './creation/PlantCreationStepThree';
-import { PlanCreationStepFour } from './creation/PlantCreationStepFour';
+import { PlantCreationStepFour } from './creation/PlantCreationStepFour';
 import { PlanCreationSummary } from './creation/PlantCreationSummary';
+import { Plant } from '@prisma/client';
 
 export const PlantCreationModal = () => {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const [plant, setPlant] = useState<Partial<Plant>>();
 
   return (
     <Dialog.Root onOpenChange={setOpen} open={open}>
@@ -24,15 +26,13 @@ export const PlantCreationModal = () => {
             <HeadlessForm
               open={open}
               setOpen={setOpen}
-              serverAction={createRoom}
+              serverAction={createPlant}
             >
-              <PlanCreationStepOne />
+              <PlantCreationStepOne plant={plant} setPlant={setPlant} />
               <PlanCreationStepTwo />
               <PlanCreationStepThree />
-              <PlanCreationStepFour />
-              {
-                // <PlanCreationSummary />
-              }
+              <PlantCreationStepFour />
+              <PlanCreationSummary plant={plant} />
             </HeadlessForm>
           </div>
         </Dialog.Content>

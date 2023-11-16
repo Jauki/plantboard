@@ -52,7 +52,7 @@ const WaterFrequencySelector = () => {
   );
 };
 
-export const PlanCreationStepFour = () => {
+export const PlantCreationStepFour = () => {
   return (
     <div className='flex w-full flex-col gap-2'>
       <Dialog.Title className='text-2xl'>

@@ -7,9 +7,18 @@ import { ChangeEvent, useState } from 'react';
 import { Plant } from '@prisma/client';
 import Image from 'next/image';
 
-export default function PlanCreationStepOne() {
-  const [plant, setPlant] = useState<Partial<Plant> | undefined>(undefined);
-
+export default function PlantCreationStepOne({
+  plant,
+  setPlant,
+}: {
+  plant: Partial<Plant> | undefined;
+  setPlant: (
+    plant:
+      | Partial<Plant>
+      | undefined
+      | ((prevVar: Partial<Plant> | undefined) => Partial<Plant>)
+  ) => void;
+}) {
   const handleImageChange = (imageUrl: string) => {
     setPlant((prevPlant) => ({
       ...prevPlant,
