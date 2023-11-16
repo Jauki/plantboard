@@ -1,7 +1,7 @@
 'use client';
 
 import * as Dialog from '@radix-ui/react-dialog';
-import { useState } from 'react';
+import { ReactElement, SVGAttributes, useState } from 'react';
 import { Size } from '@prisma/client';
 import RoomCreationModal from '../RoomCreationModal';
 
@@ -64,11 +64,11 @@ export const RadioButtonGroup = <T extends string>({
   groupName,
 }: RadioButtonGroupProps<T>) => {
   return (
-    <div className='mx-10 my-3  flex flex-row gap-8'>
+    <div className='mx-10 my-3  flex flex-row justify-evenly gap-8'>
       {options.map((option) => (
         <label
           key={option.value}
-          className={`flex aspect-square cursor-pointer flex-col items-center justify-center rounded-lg border border-background-grey outline-2 outline-primary transition-all hover:outline ${
+          className={`flex aspect-square cursor-pointer flex-col items-center justify-center rounded-lg border border-background-grey p-2 outline-2 outline-primary transition-all hover:outline ${
             selectedValue === option.value ? 'outline outline-primary' : ''
           }`}
         >
@@ -80,9 +80,17 @@ export const RadioButtonGroup = <T extends string>({
             onChange={() => onChange(option.value)}
             style={{ display: 'none' }}
           />
-          <div className='my-4'>{option.svg}</div>
+          <div
+            className={`my-4 ${
+              selectedValue == option.value && 'fill-primary text-primary'
+            }`}
+          >
+            {option.svg}
+          </div>
 
-          <div className='text-lg font-medium'>{option.label}</div>
+          <div className='max-w-3/4 truncate text-lg font-medium'>
+            {option.label}
+          </div>
           {option ? (
             <div className='w-3/4 text-center text-xs font-light text-foreground-grey'>
               {option.description}
