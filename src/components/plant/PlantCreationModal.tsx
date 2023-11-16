@@ -6,6 +6,8 @@ import { createRoom } from '@/server/actions';
 import PlanCreationStepOne from './creation/PlantCreationStepOne';
 import { PlanCreationStepTwo } from './creation/PlantCreationStepTwo';
 import { PlanCreationStepThree } from './creation/PlantCreationStepThree';
+import { PlanCreationStepFour } from './creation/PlantCreationStepFour';
+import { PlanCreationSummary } from './creation/PlantCreationSummary';
 
 export const PlantCreationModal = () => {
   const [open, setOpen] = React.useState(false);
@@ -27,6 +29,10 @@ export const PlantCreationModal = () => {
               <PlanCreationStepOne />
               <PlanCreationStepTwo />
               <PlanCreationStepThree />
+              <PlanCreationStepFour />
+              {
+                // <PlanCreationSummary />
+              }
             </HeadlessForm>
           </div>
         </Dialog.Content>

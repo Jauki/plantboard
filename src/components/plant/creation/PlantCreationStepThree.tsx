@@ -11,7 +11,7 @@ enum SunLight {
   HalfShade = 'halfshade',
 }
 
-const RoomSizeSelector = () => {
+const PlantSizeSelector = () => {
   const [selectedSize, setSelectedSize] = useState<SunLight>(SunLight.Sunlight);
 
   const handleSizeChange = (value: SunLight) => {
@@ -81,7 +81,7 @@ export const PlanCreationStepThree = () => {
         happy and thriving. Personalize the brightness and watch your plants
         bask in the ideal conditions within the PlantBoard platform."
       </Dialog.DialogDescription>
-      <RoomSizeSelector />
+      <PlantSizeSelector />
     </div>
   );
 };
