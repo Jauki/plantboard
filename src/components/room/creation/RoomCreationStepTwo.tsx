@@ -3,6 +3,7 @@
 import * as Dialog from '@radix-ui/react-dialog';
 import { useState } from 'react';
 import { Size } from '@prisma/client';
+import RoomCreationModal from '../RoomCreationModal';
 
 const RoomIconColorRadioGroup = () => {
   const [selectedColor, setSelectedColor] = useState('green');
@@ -44,75 +45,87 @@ const RoomIconColorRadioGroup = () => {
   );
 };
 
-const RadioButtonGroup = () => {
-  const [selectedSize, setSelectedSize] = useState<Size>(Size.S);
+export type RadioButtonGroupProps<T extends string> = {
+  selectedValue: T;
+  options: Array<{
+    value: T;
+    label: string;
+    description?: string;
+    svg?: React.ReactNode;
+  }>;
+  onChange: (value: T) => void;
+  groupName: string;
+};
 
-  const handleSizeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSelectedSize(event.target.value as Size);
-  };
-
+export const RadioButtonGroup = <T extends string>({
+  selectedValue,
+  options,
+  onChange,
+  groupName,
+}: RadioButtonGroupProps<T>) => {
   return (
     <div className='mx-10 my-3  flex flex-row gap-8'>
-      {/* Element "S" */}
-      <label
-        className={`flex aspect-square cursor-pointer flex-col items-center justify-center rounded-lg border border-background-grey outline-2 outline-primary transition-all hover:outline ${
-          selectedSize === Size.S ? 'outline outline-primary' : ''
-        }`}
-      >
-        <input
-          type='radio'
-          name='roomSize'
-          value={Size.S}
-          checked={selectedSize === Size.S}
-          onChange={handleSizeChange}
-          style={{ display: 'none' }}
-        />
-        <div className='text-lg font-medium'>{Size.S}</div>
-        <div className='w-3/4 text-center text-xs font-light text-foreground-grey'>
-          Cozy, perfect for small spaces. 5m<sup>2</sup>
-        </div>
-      </label>
+      {options.map((option) => (
+        <label
+          key={option.value}
+          className={`flex aspect-square cursor-pointer flex-col items-center justify-center rounded-lg border border-background-grey outline-2 outline-primary transition-all hover:outline ${
+            selectedValue === option.value ? 'outline outline-primary' : ''
+          }`}
+        >
+          <input
+            type='radio'
+            name={groupName}
+            value={option.value}
+            checked={selectedValue === option.value}
+            onChange={() => onChange(option.value)}
+            style={{ display: 'none' }}
+          />
+          <div className='my-4'>{option.svg}</div>
 
-      {/* Element "M" */}
-      <label
-        className={`flex aspect-square cursor-pointer flex-col items-center justify-center rounded-lg border border-background-grey outline-2 outline-primary transition-all hover:outline ${
-          selectedSize === Size.M ? 'outline outline-primary' : ''
-        }`}
-      >
-        <input
-          type='radio'
-          name='roomSize'
-          value={Size.M}
-          checked={selectedSize === Size.M}
-          onChange={handleSizeChange}
-          style={{ display: 'none' }}
-        />
-        <div className='text-lg font-medium'>{Size.M}</div>
-        <div className='w-3/4 text-center text-xs font-light text-foreground-grey'>
-          A standard, comfortable size. Up to 40m<sup>2</sup>
-        </div>
-      </label>
-
-      {/* Element "L" */}
-      <label
-        className={`flex aspect-square cursor-pointer flex-col items-center justify-center rounded-lg border border-background-grey outline-2 outline-primary transition-all hover:outline ${
-          selectedSize === Size.L ? 'outline outline-primary' : ''
-        }`}
-      >
-        <input
-          type='radio'
-          name='roomSize'
-          value={Size.L}
-          checked={selectedSize === Size.L}
-          onChange={handleSizeChange}
-          style={{ display: 'none' }}
-        />
-        <div className='text-lg font-medium'>{Size.L}</div>
-        <div className='w-3/4 text-center text-xs font-light text-foreground-grey'>
-          Generous for abundant growth. Up to 75m<sup>2</sup>
-        </div>
-      </label>
+          <div className='text-lg font-medium'>{option.label}</div>
+          {option ? (
+            <div className='w-3/4 text-center text-xs font-light text-foreground-grey'>
+              {option.description}
+            </div>
+          ) : null}
+        </label>
+      ))}
     </div>
+  );
+};
+
+const RoomSizeSelector = () => {
+  const [selectedSize, setSelectedSize] = useState<Size>(Size.S);
+
+  const handleSizeChange = (value: Size) => {
+    setSelectedSize(value);
+  };
+
+  const sizeOptions = [
+    {
+      value: Size.S,
+      label: 'Small',
+      description: 'Cozy, perfect for small spaces. 5m²',
+    },
+    {
+      value: Size.M,
+      label: 'Medium',
+      description: 'A standard, comfortable size. Up to 40m²',
+    },
+    {
+      value: Size.L,
+      label: 'Large',
+      description: 'Generous for abundant growth. Up to 75m²',
+    },
+  ];
+
+  return (
+    <RadioButtonGroup
+      selectedValue={selectedSize}
+      options={sizeOptions}
+      onChange={handleSizeChange}
+      groupName='roomSize'
+    />
   );
 };
 
@@ -134,7 +147,7 @@ const RoomCreationStepTwo = () => (
           Tailor your room&lsquos; ambiance for healthier plants. Begin by
           entering your room dimensions.
         </p>
-        <RadioButtonGroup />
+        <RoomSizeSelector />
       </div>
     </div>
   </div>
