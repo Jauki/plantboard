@@ -168,9 +168,42 @@ export async function createPlant(prevState: any, formData: FormData) {
   if (!seesion) {
     return { success: false, toast: 'Unauthorized, please login!' };
   }
-  console.log(formData);
-  return {
-    success: false,
-    toast: 'Ooops! An error happend!',
-  };
+
+  // todo: implement state handler
+  // Without state it is all the rooms combined!
+
+  try {
+    const plantData = {
+      name: formData.get('plantname'),
+      familyCommonName: formData.get('plantspecies'),
+      height: formData.get('size'),
+      sunlight: formData.get('roomSize'),
+      waterFrequency: formData.get('waterFrequency'),
+    } as Plant;
+
+    // please make a zod that checks null values
+
+    const plant = await prisma.plant.create({
+      data: {
+        name: plantData.name!,
+        familyCommonName: plantData.familyCommonName,
+        height: Number(plantData.height == null ? '0' : plantData.height),
+        sunlight: plantData.sunlight,
+        waterFrequency: plantData.waterFrequency!,
+      },
+    });
+
+    queryClient.invalidateQueries({ queryKey: ['rooms'] });
+
+    return {
+      success: true,
+      toast: `Successfull creation of ${plant.name}`,
+    };
+  } catch (e) {
+    console.log(e);
+    return {
+      success: false,
+      toast: 'Ooops! An error happend!',
+    };
+  }
 }

@@ -86,17 +86,17 @@ model Plant {
   genus            String?
   genusId          Int?
   imageUrl         String?
-  isOnWishlist     Boolean
+  isOnWishlist     Boolean?
   rank             String?
   status           String?
   synonyms         String[]        @default([])
-  wishlistId       Int
+  wishlistId       Int?
   sunlight         Sunlight?
   waterFrequency   WaterFrequency?
   height           Int?
   year             Int?
   room             Room?           @relation(fields: [roomId], references: [id])
-  wishlist         Wishlist        @relation("PlantOnWishlist", fields: [wishlistId], references: [id])
+  wishlist         Wishlist?        @relation("PlantOnWishlist", fields: [wishlistId], references: [id])
 }
 
 enum Sunlight {
