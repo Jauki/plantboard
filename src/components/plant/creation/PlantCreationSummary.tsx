@@ -53,6 +53,7 @@ const PlantDisplayForm = ({ plant }: { plant: Partial<Plant> | undefined }) => (
             src={plant.imageUrl}
             objectFit='cover'
             fill
+            sizes='(max-width: 768px) 100vw, 33vw'
             className='rounded-lg'
             alt={plant.name!}
           />
