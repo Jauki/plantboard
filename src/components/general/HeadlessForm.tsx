@@ -45,8 +45,6 @@ export function HeadlessForm<T>({
 
   return (
     <form action={formAction}>
-      <pre>{JSON.stringify(message)}</pre>
-      <pre>{JSON.stringify(data)}</pre>
       <div className='h-full w-full '>
         {React.Children.map(children, (child, index) => (
           <motion.div

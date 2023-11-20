@@ -6,19 +6,12 @@ import { Upload } from 'react-feather';
 import { ChangeEvent, useState } from 'react';
 import { Plant } from '@prisma/client';
 import Image from 'next/image';
+import { PlantCreationChildren } from '../PlantCreationModal';
 
 export default function PlantCreationStepOne({
   plant,
   setPlant,
-}: {
-  plant: Partial<Plant> | undefined;
-  setPlant: (
-    plant:
-      | Partial<Plant>
-      | undefined
-      | ((prevVar: Partial<Plant> | undefined) => Partial<Plant>)
-  ) => void;
-}) {
+}: PlantCreationChildren) {
   const handleImageChange = (imageUrl: string) => {
     setPlant((prevPlant) => ({
       ...prevPlant,

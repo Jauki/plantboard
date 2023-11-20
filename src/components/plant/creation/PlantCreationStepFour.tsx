@@ -1,22 +1,24 @@
 import HeadlessInputForm from '@/components/general/HeadlessInputForm';
 import { RadioButtonGroup } from '@/components/room/creation/RoomCreationStepTwo';
+import { WaterFrequency } from '@prisma/client';
 import * as Dialog from '@radix-ui/react-dialog';
 import { useState } from 'react';
+import { PlantCreationChildren } from '../PlantCreationModal';
 
-enum WaterFrequency {
-  light = 'light',
-  moderate = 'moderate',
-  frequent = 'frequent',
-  abundant = 'abundant',
-}
-
-const WaterFrequencySelector = () => {
-  const [selectedSize, setSelectedSize] = useState<WaterFrequency>(
-    WaterFrequency.frequent
-  );
+const WaterFrequencySelector = ({
+  setPlant,
+}: Pick<PlantCreationChildren, 'setPlant'>) => {
+  const [selectedWaterfrequency, setSelectedWaterfrequency] =
+    useState<WaterFrequency>(WaterFrequency.frequent);
 
   const handleSizeChange = (value: WaterFrequency) => {
-    setSelectedSize(value);
+    setSelectedWaterfrequency(value);
+    setPlant((prev) => {
+      return {
+        ...prev,
+        waterFrequency: selectedWaterfrequency,
+      };
+    });
   };
 
   const waterOptions = [
@@ -44,7 +46,7 @@ const WaterFrequencySelector = () => {
 
   return (
     <RadioButtonGroup
-      selectedValue={selectedSize}
+      selectedValue={selectedWaterfrequency}
       options={waterOptions}
       onChange={handleSizeChange}
       groupName='waterFrequency'
@@ -52,7 +54,10 @@ const WaterFrequencySelector = () => {
   );
 };
 
-export const PlantCreationStepFour = () => {
+export const PlantCreationStepFour = ({
+  plant,
+  setPlant,
+}: PlantCreationChildren) => {
   return (
     <div className='flex w-full flex-col gap-2'>
       <Dialog.Title className='text-2xl'>
@@ -66,7 +71,7 @@ export const PlantCreationStepFour = () => {
         within the PlantBoard platform.
       </Dialog.DialogDescription>
       <label>How often do you water your Plant in a Week?</label>
-      <WaterFrequencySelector />
+      <WaterFrequencySelector setPlant={setPlant} />
     </div>
   );
 };

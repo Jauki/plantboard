@@ -10,6 +10,16 @@ import { PlantCreationStepFour } from './creation/PlantCreationStepFour';
 import { PlanCreationSummary } from './creation/PlantCreationSummary';
 import { Plant } from '@prisma/client';
 
+export type PlantCreationChildren = {
+  plant: Partial<Plant> | undefined;
+  setPlant: (
+    plant:
+      | Partial<Plant>
+      | undefined
+      | ((prevVar: Partial<Plant> | undefined) => Partial<Plant>)
+  ) => void;
+};
+
 export const PlantCreationModal = () => {
   const [open, setOpen] = useState(false);
   const [plant, setPlant] = useState<Partial<Plant>>();
@@ -29,9 +39,9 @@ export const PlantCreationModal = () => {
               serverAction={createPlant}
             >
               <PlantCreationStepOne plant={plant} setPlant={setPlant} />
-              <PlanCreationStepTwo />
-              <PlanCreationStepThree />
-              <PlantCreationStepFour />
+              <PlanCreationStepTwo plant={plant} setPlant={setPlant} />
+              <PlanCreationStepThree plant={plant} setPlant={setPlant} />
+              <PlantCreationStepFour plant={plant} setPlant={setPlant} />
               <PlanCreationSummary plant={plant} />
             </HeadlessForm>
           </div>

@@ -3,34 +3,39 @@ import HeadlessInputForm from '@/components/general/HeadlessInputForm';
 import { RadioButtonGroup } from '@/components/room/creation/RoomCreationStepTwo';
 import { useState } from 'react';
 import { Box, Sun } from 'react-feather';
+import { Sunlight } from '@prisma/client';
+import { PlantCreationChildren } from '../PlantCreationModal';
 
-enum SunLight {
-  Sunlight = 'sunlight',
-  Shade = 'shade',
-  GrowBox = 'growbox',
-  HalfShade = 'halfshade',
-}
+const PlantSizeSelector = ({
+  setPlant,
+}: Pick<PlantCreationChildren, 'setPlant'>) => {
+  const [selectedSunlight, setSelectedSunlight] = useState<Sunlight>(
+    Sunlight.Sunlight
+  );
 
-const PlantSizeSelector = () => {
-  const [selectedSize, setSelectedSize] = useState<SunLight>(SunLight.Sunlight);
-
-  const handleSizeChange = (value: SunLight) => {
-    setSelectedSize(value);
+  const handleSizeChange = (value: Sunlight) => {
+    setSelectedSunlight(value);
+    setPlant((prev) => {
+      return {
+        ...prev,
+        sunlight: selectedSunlight,
+      };
+    });
   };
 
   const sizeOptions = [
     {
-      value: SunLight.Sunlight,
+      value: Sunlight.Sunlight,
       label: 'Sunlight',
       svg: <Sun />,
     },
     {
-      value: SunLight.GrowBox,
+      value: Sunlight.GrowBox,
       label: 'Growbox',
       svg: <Box />,
     },
     {
-      value: SunLight.HalfShade,
+      value: Sunlight.HalfShade,
       label: 'Half-shade',
       svg: (
         <svg
@@ -44,7 +49,7 @@ const PlantSizeSelector = () => {
       ),
     },
     {
-      value: SunLight.Shade,
+      value: Sunlight.Shade,
       label: 'Shade',
       svg: (
         <svg
@@ -61,7 +66,7 @@ const PlantSizeSelector = () => {
 
   return (
     <RadioButtonGroup
-      selectedValue={selectedSize}
+      selectedValue={selectedSunlight}
       options={sizeOptions}
       onChange={handleSizeChange}
       groupName='roomSize'
@@ -69,19 +74,22 @@ const PlantSizeSelector = () => {
   );
 };
 
-export const PlanCreationStepThree = () => {
+export const PlanCreationStepThree = ({
+  plant,
+  setPlant,
+}: PlantCreationChildren) => {
   return (
     <div className='flex w-full flex-col gap-2'>
       <Dialog.Title className='text-2xl'>
         Choose Your Green Companion
       </Dialog.Title>
       <Dialog.DialogDescription className='mb-4 mt-4 text-sm font-light text-gray-700 '>
-        Adjust the sunlight for your plants effortlessly with the Sunlight
+        Adjust the Sunlight for your plants effortlessly with the Sunlight
         Selector. Choose the perfect exposure to keep your green companions
         happy and thriving. Personalize the brightness and watch your plants
         bask in the ideal conditions within the PlantBoard platform."
       </Dialog.DialogDescription>
-      <PlantSizeSelector />
+      <PlantSizeSelector setPlant={setPlant} />
     </div>
   );
 };

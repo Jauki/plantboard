@@ -76,7 +76,7 @@ model Wishlist {
 }
 
 model Plant {
-  id               Int      @id @default(autoincrement())
+  id               Int             @id @default(autoincrement())
   name             String
   roomId           Int?
   author           String?
@@ -89,11 +89,28 @@ model Plant {
   isOnWishlist     Boolean
   rank             String?
   status           String?
-  synonyms         String[] @default([])
+  synonyms         String[]        @default([])
   wishlistId       Int
+  sunlight         Sunlight?
+  waterFrequency   WaterFrequency?
+  height           Int?
   year             Int?
-  room             Room?    @relation(fields: [roomId], references: [id])
-  wishlist         Wishlist @relation("PlantOnWishlist", fields: [wishlistId], references: [id])
+  room             Room?           @relation(fields: [roomId], references: [id])
+  wishlist         Wishlist        @relation("PlantOnWishlist", fields: [wishlistId], references: [id])
+}
+
+enum Sunlight {
+  Sunlight
+  Shade
+  GrowBox
+  HalfShade
+}
+
+enum WaterFrequency {
+  light
+  moderate
+  frequent
+  abundant
 }
 
 enum LocationType {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ChangeEvent } from 'react';
 
 type HeadlessInputFormProps = {
   label: string;
@@ -7,6 +7,7 @@ type HeadlessInputFormProps = {
   description?: string;
   error?: string;
   inputAttributes?: React.InputHTMLAttributes<HTMLInputElement>;
+  onChange?: (value: string) => void; // Callback to handle input changes
 };
 
 const HeadlessInputForm: React.FC<HeadlessInputFormProps> = ({
@@ -16,8 +17,17 @@ const HeadlessInputForm: React.FC<HeadlessInputFormProps> = ({
   description,
   error,
   inputAttributes,
+  onChange, // New onChange prop
 }) => {
   const inputId = `${name}-input`;
+
+  // Function to handle input changes and call the onChange callback
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    if (onChange) {
+      onChange(value);
+    }
+  };
 
   return (
     <div className='flex flex-col gap-1'>
@@ -29,6 +39,7 @@ const HeadlessInputForm: React.FC<HeadlessInputFormProps> = ({
         type='text'
         name={name}
         id={inputId}
+        onChange={handleInputChange} // Call handleInputChange on input change
         {...inputAttributes}
         aria-labelledby={`${inputId}-label`}
         aria-describedby={`${inputId}-description ${inputId}-error`}

@@ -1,7 +1,11 @@
 import HeadlessInputForm from '@/components/general/HeadlessInputForm';
 import * as Dialog from '@radix-ui/react-dialog';
+import { PlantCreationChildren } from '../PlantCreationModal';
 
-export const PlanCreationStepTwo = () => {
+export const PlanCreationStepTwo = ({
+  plant,
+  setPlant,
+}: PlantCreationChildren) => {
   return (
     <div className='flex w-full flex-col gap-2'>
       <Dialog.Title className='text-2xl'>
@@ -21,6 +25,14 @@ export const PlanCreationStepTwo = () => {
           type: 'number',
           placeholder: '30 cm',
         }}
+        onChange={(value: string) =>
+          setPlant((prev) => {
+            return {
+              ...prev,
+              height: Number(value),
+            };
+          })
+        }
       />
     </div>
   );

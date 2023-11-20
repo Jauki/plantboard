@@ -8,8 +8,6 @@ export const PlanCreationSummary = ({
 }: {
   plant: Partial<Plant> | undefined;
 }) => {
-  const foo = useFormStatus();
-
   return (
     <div className='flex w-full flex-col gap-2'>
       <Dialog.Title className='text-2xl'>
@@ -21,7 +19,6 @@ export const PlanCreationSummary = ({
         green companion is ready for a thriving life in your personalized
         digital garden. Verify and let the botanical journey begin!
       </Dialog.DialogDescription>
-      <pre>{JSON.stringify(foo)}</pre>
       <PlantDisplayForm plant={plant} />
     </div>
   );
@@ -31,8 +28,20 @@ const PlantDisplayForm = ({ plant }: { plant: Partial<Plant> | undefined }) => (
   <div className='w-full'>
     <div className='flex justify-between'>
       <div className='flex flex-col gap-1'>
-        <div>{plant?.name}</div>
+        <div className='text-lg'>{plant?.name}</div>
         <div className='text-sm text-foreground-grey'>{plant?.family}</div>
+        <div className='flex items-end gap-1'>
+          <div className='items-center  font-medium'>Height:</div>
+          <div>{plant?.height}cm</div>
+        </div>
+        <div className='flex items-center  gap-1'>
+          <div className=' font-medium'>Waterfrequency:</div>
+          <div>{plant?.waterFrequency}</div>
+        </div>
+        <div className='flex items-center  gap-1'>
+          <div className=' font-medium'>Lighting Condition:</div>
+          <div>{plant?.sunlight}</div>
+        </div>
       </div>
       <div
         className={`relative flex h-32 w-32 items-center justify-center rounded-lg ${
