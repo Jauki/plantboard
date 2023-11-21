@@ -45,9 +45,9 @@ export default function PlantCreationStepOne({
           {plant?.imageUrl ? (
             <Image
               src={plant.imageUrl}
-              objectFit='cover'
               fill
-              className='rounded-lg'
+              sizes='(max-width: 300px) 100vw, 33vw'
+              className='rounded-lg object-cover'
               alt={plant.name!}
             />
           ) : (
