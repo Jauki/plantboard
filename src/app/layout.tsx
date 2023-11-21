@@ -15,7 +15,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang='en' className={`${outfit.variable} font-body`}>
+    <html
+      lang='en'
+      className={`${outfit.variable} font-body`}
+      title='Plantboard'
+    >
       <body>
         <ProviderWrapper>
           <Navbar />
