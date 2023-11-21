@@ -64,9 +64,9 @@ export const PlantCreationStepFour = ({
         Choose Your Green Companion
       </Dialog.Title>
       <Dialog.DialogDescription className='mb-4 mt-4 text-sm font-light text-gray-700 '>
-        Tailor your plant's hydration schedule with the Water Frequency
-        Selector. Choose the watering frequency that suits your plant's needs,
-        ensuring it receives the perfect amount of care. Personalize the
+        Tailor your plant&apos;s hydration schedule with the Water Frequency
+        Selector. Choose the watering frequency that suits your plant&apos;s
+        needs, ensuring it receives the perfect amount of care. Personalize the
         watering routine to create an ideal environment for your green companion
         within the PlantBoard platform.
       </Dialog.DialogDescription>

@@ -14,8 +14,8 @@ export const PlanCreationStepTwo = ({
       <Dialog.DialogDescription className='mb-4 mt-4 text-sm font-light text-gray-700 '>
         Tailor your digital garden on PlantBoard with ease! Simply pick the
         perfect plant height to create a customized oasis in each room. Enjoy
-        watching your virtual garden thrive as you make your selections – it's
-        that simple!
+        watching your virtual garden thrive as you make your selections &ndash;
+        it&apos;s that simple!
       </Dialog.DialogDescription>
       <HeadlessInputForm
         name='size'

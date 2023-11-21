@@ -87,7 +87,7 @@ export const PlanCreationStepThree = ({
         Adjust the Sunlight for your plants effortlessly with the Sunlight
         Selector. Choose the perfect exposure to keep your green companions
         happy and thriving. Personalize the brightness and watch your plants
-        bask in the ideal conditions within the PlantBoard platform."
+        bask in the ideal conditions within the PlantBoard platform.
       </Dialog.DialogDescription>
       <PlantSizeSelector setPlant={setPlant} />
     </div>
