@@ -15,6 +15,13 @@ export const PlanCreationSummary = ({
         Verify that everything is correct
       </Dialog.Title>
       <input hidden aria-hidden name='roomId' value={room?.id} readOnly />
+      <input
+        hidden
+        aria-hidden
+        name='plant'
+        value={JSON.stringify(plant)}
+        readOnly
+      />
       <Dialog.DialogDescription className='mb-4 mt-4 text-sm font-light text-gray-700 '>
         Review and confirm your plant details before importing. Ensure accuracy
         in room placement, sunlight selection, and watering frequency. Your

@@ -2,7 +2,14 @@
 
 import { z } from 'zod';
 import prisma from '../../prisma/client';
-import { LocationType, Plant, Room, Size } from '@prisma/client';
+import {
+  LocationType,
+  Plant,
+  Room,
+  Size,
+  Sunlight,
+  WaterFrequency,
+} from '@prisma/client';
 import { auth } from '@/auth';
 import {
   convertDataToPlants,
@@ -169,25 +176,34 @@ export async function createPlant(prevState: any, formData: FormData) {
     return { success: false, toast: 'Unauthorized, please login!' };
   }
 
-  // todo: implement state handler
-  // Without state it is all the rooms combined!
+  const PlantSchema = z.object({
+    name: z.string(),
+    familyCommonName: z.string(),
+    height: z.number(),
+    sunlight: z.nativeEnum(Sunlight),
+    waterFrequency: z.nativeEnum(WaterFrequency),
+  });
 
   try {
-    const plantData = {
+    let plantData: Partial<Plant> = PlantSchema.parse({
       name: formData.get('plantname'),
       familyCommonName: formData.get('plantspecies'),
-      height: formData.get('size'),
-      sunlight: formData.get('roomSize'),
-      waterFrequency: formData.get('waterFrequency'),
-    } as Plant;
+      height: Number(formData.get('size')),
+      sunlight: formData.get('sunlight') as Sunlight,
+      waterFrequency: formData.get('waterFrequency') as WaterFrequency,
+    });
 
     const roomId = Number(formData.get('roomId'));
-
     const room = (await prisma.room.findUnique({
       where: {
         id: roomId,
       },
     })) as Room | null;
+
+    const partialPlant = formData.get('plant') as string;
+    if (partialPlant != null) {
+      plantData = { ...JSON.parse(partialPlant), ...plantData };
+    }
 
     let plant;
     if (room != null) {
@@ -198,6 +214,12 @@ export async function createPlant(prevState: any, formData: FormData) {
           familyCommonName: plantData.familyCommonName,
           height: Number(plantData.height == null ? '0' : plantData.height),
           sunlight: plantData.sunlight,
+          family: plantData.family,
+          imageUrl: plantData.imageUrl,
+          genus: plantData.genus,
+          genusId: plantData.genusId,
+          bibliography: plantData.bibliography,
+          author: plantData.author,
           waterFrequency: plantData.waterFrequency!,
         },
       });
@@ -208,6 +230,12 @@ export async function createPlant(prevState: any, formData: FormData) {
           familyCommonName: plantData.familyCommonName,
           height: Number(plantData.height == null ? '0' : plantData.height),
           sunlight: plantData.sunlight,
+          family: plantData.family,
+          imageUrl: plantData.imageUrl,
+          genus: plantData.genus,
+          genusId: plantData.genusId,
+          bibliography: plantData.bibliography,
+          author: plantData.author,
           waterFrequency: plantData.waterFrequency!,
         },
       });
@@ -217,7 +245,7 @@ export async function createPlant(prevState: any, formData: FormData) {
 
     return {
       success: true,
-      toast: `Successfull creation of ${plant.name}`,
+      toast: `Successfully planted  ${plant.name}`,
     };
   } catch (e) {
     console.log(e);

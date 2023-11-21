@@ -69,7 +69,7 @@ const PlantSizeSelector = ({
       selectedValue={selectedSunlight}
       options={sizeOptions}
       onChange={handleSizeChange}
-      groupName='roomSize'
+      groupName='sunlight'
     />
   );
 };
