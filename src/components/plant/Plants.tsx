@@ -88,7 +88,11 @@ export default function Plants({ plants }: { plants: Plant[] }) {
       <div className='col-span-8 grid grid-cols-10'>
         {data.data.length !== 0 ? (
           data.data.map((plantData: Plant, k: number) => (
-            <Plant key={k.toString(23)} rooms={rooms!} plant={plantData} />
+            <PlantDisplay
+              key={k.toString(23)}
+              rooms={rooms!}
+              plant={plantData}
+            />
           ))
         ) : (
           <div className='col-span-4'>
@@ -100,7 +104,13 @@ export default function Plants({ plants }: { plants: Plant[] }) {
   );
 }
 
-const Plant = ({ rooms, plant }: { rooms: Room[] | null; plant: Plant }) => {
+const PlantDisplay = ({
+  rooms,
+  plant,
+}: {
+  rooms: Room[] | null;
+  plant: Plant;
+}) => {
   return (
     <ContextMenu.Root>
       <ContextMenu.Trigger

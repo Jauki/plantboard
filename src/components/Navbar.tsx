@@ -6,17 +6,18 @@ import { MessageCircle, Info, GitHub, Search } from 'react-feather';
 import { Session } from 'next-auth';
 import { Profil } from './navbar/Profil';
 import { useSession } from 'next-auth/react';
+import { PlantCreationModal } from './plant/PlantCreationModal';
+import { useRoom } from '@/context/RoomContext';
 
 const Navbar = () => {
   const { data: session, status } = useSession();
+  const { room } = useRoom();
 
   return (
     <nav className='grid max-w-[1728px] grid-cols-8 items-center gap-6 px-12 py-8'>
       <h1 className='text-3xl font-medium'>Plantboard</h1>
       <Searchbar />
-      <button className='rounded-md bg-primary-light  py-2 text-primary transition-colors ease-out hover:bg-primary hover:text-white'>
-        plant a Plant
-      </button>
+      {room != null ? <PlantCreationModal /> : null}
       <Link
         href={'/feedback'}
         className='col-start-6 flex h-min items-center gap-2 rounded-md p-2 py-2 transition-colors ease-in hover:bg-background-grey'

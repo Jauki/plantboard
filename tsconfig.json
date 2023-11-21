@@ -22,7 +22,8 @@
     "paths": {
       "@/*": ["./src/*"]
     },
-    "types": ["react-dom/experimental"]
+    "types": ["react-dom/experimental"],
+    "strictNullChecks": true
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
   "exclude": ["node_modules"]
