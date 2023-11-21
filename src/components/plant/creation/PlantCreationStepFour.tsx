@@ -16,7 +16,7 @@ const WaterFrequencySelector = ({
     setPlant((prev) => {
       return {
         ...prev,
-        waterFrequency: selectedWaterfrequency,
+        waterFrequency: value,
       };
     });
   };

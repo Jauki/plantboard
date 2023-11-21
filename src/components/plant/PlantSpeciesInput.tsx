@@ -1,6 +1,6 @@
 import { recommendExternalSpeciesSearch } from '@/server/actions';
 import { useQuery } from '@tanstack/react-query';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Plant } from '@prisma/client';
 
@@ -17,11 +17,18 @@ export const PlantSpeciesInput = ({
   plant: Partial<Plant> | undefined;
 }) => {
   const [open, setOpen] = useState<boolean>(true);
-  const [recommendation, setRecommendation] = useState<string>('');
+  const [recommendation, setRecommendation] = useState<string>(
+    plant?.familyCommonName ?? ''
+  );
   const { data, isFetched } = useQuery({
     queryKey: ['externalPlantspecies', recommendation],
     queryFn: () => recommendExternalSpeciesSearch(recommendation),
   });
+
+  useEffect(() => {
+    setRecommendation(plant?.family ?? '');
+    setOpen(false);
+  }, [plant]);
 
   const selectHandler = (plantName: string) => {
     setRecommendation(plantName);
@@ -40,7 +47,7 @@ export const PlantSpeciesInput = ({
         type='text'
         name='plantspecies'
         required
-        value={plant === undefined ? recommendation : plant.family!}
+        value={recommendation}
         onChange={inputHandler}
         className={`focus:border-1 w-full rounded-md border border-background-grey px-2 py-1 transition-all focus:border-background-grey focus:outline-2 focus:outline-primary focus:ring-0`}
       />

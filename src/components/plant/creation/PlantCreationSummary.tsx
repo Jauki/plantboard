@@ -1,23 +1,27 @@
+import { useRoom } from '@/context/RoomContext';
 import { Plant } from '@prisma/client';
 import * as Dialog from '@radix-ui/react-dialog';
 import Image from 'next/image';
-import { useFormState, useFormStatus } from 'react-dom';
 
 export const PlanCreationSummary = ({
   plant,
 }: {
   plant: Partial<Plant> | undefined;
 }) => {
+  const { room } = useRoom();
   return (
     <div className='flex w-full flex-col gap-2'>
       <Dialog.Title className='text-2xl'>
         Verify that everything is correct
       </Dialog.Title>
+      <input hidden aria-hidden name='roomId' value={room?.id} readOnly />
       <Dialog.DialogDescription className='mb-4 mt-4 text-sm font-light text-gray-700 '>
         Review and confirm your plant details before importing. Ensure accuracy
         in room placement, sunlight selection, and watering frequency. Your
         green companion is ready for a thriving life in your personalized
-        digital garden. Verify and let the botanical journey begin!
+        digital garden. Verify and let the botanical journey begin! You are
+        adding your plant to{' '}
+        <span className='font-medium text-primary'>{room?.roomName}</span>
       </Dialog.DialogDescription>
       <PlantDisplayForm plant={plant} />
     </div>

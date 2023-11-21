@@ -18,7 +18,7 @@ const PlantSizeSelector = ({
     setPlant((prev) => {
       return {
         ...prev,
-        sunlight: selectedSunlight,
+        sunlight: value,
       };
     });
   };

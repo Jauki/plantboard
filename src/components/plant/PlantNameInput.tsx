@@ -42,7 +42,7 @@ export const PlantNameInput = ({
         type='text'
         name='plantname'
         required
-        value={plant === undefined ? recommendation : plant.name}
+        value={recommendation}
         onChange={inputHandler}
         className={`focus:border-1  w-full rounded-md border border-background-grey px-2 py-1 transition-all focus:border-background-grey focus:outline-2 focus:outline-primary focus:ring-0`}
       />

@@ -2,7 +2,7 @@
 
 import { z } from 'zod';
 import prisma from '../../prisma/client';
-import { LocationType, Plant, Size } from '@prisma/client';
+import { LocationType, Plant, Room, Size } from '@prisma/client';
 import { auth } from '@/auth';
 import {
   convertDataToPlants,
@@ -181,17 +181,37 @@ export async function createPlant(prevState: any, formData: FormData) {
       waterFrequency: formData.get('waterFrequency'),
     } as Plant;
 
-    // please make a zod that checks null values
+    const roomId = Number(formData.get('roomId'));
 
-    const plant = await prisma.plant.create({
-      data: {
-        name: plantData.name!,
-        familyCommonName: plantData.familyCommonName,
-        height: Number(plantData.height == null ? '0' : plantData.height),
-        sunlight: plantData.sunlight,
-        waterFrequency: plantData.waterFrequency!,
+    const room = (await prisma.room.findUnique({
+      where: {
+        id: roomId,
       },
-    });
+    })) as Room | null;
+
+    let plant;
+    if (room != null) {
+      plant = await prisma.plant.create({
+        data: {
+          roomId: roomId,
+          name: plantData.name!,
+          familyCommonName: plantData.familyCommonName,
+          height: Number(plantData.height == null ? '0' : plantData.height),
+          sunlight: plantData.sunlight,
+          waterFrequency: plantData.waterFrequency!,
+        },
+      });
+    } else {
+      plant = await prisma.plant.create({
+        data: {
+          name: plantData.name!,
+          familyCommonName: plantData.familyCommonName,
+          height: Number(plantData.height == null ? '0' : plantData.height),
+          sunlight: plantData.sunlight,
+          waterFrequency: plantData.waterFrequency!,
+        },
+      });
+    }
 
     queryClient.invalidateQueries({ queryKey: ['rooms'] });
 

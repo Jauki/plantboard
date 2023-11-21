@@ -9,6 +9,7 @@ import { PlanCreationStepThree } from './creation/PlantCreationStepThree';
 import { PlantCreationStepFour } from './creation/PlantCreationStepFour';
 import { PlanCreationSummary } from './creation/PlantCreationSummary';
 import { Plant } from '@prisma/client';
+import { useRoom } from '@/context/RoomContext';
 
 export type PlantCreationChildren = {
   plant: Partial<Plant> | undefined;
@@ -23,10 +24,14 @@ export type PlantCreationChildren = {
 export const PlantCreationModal = () => {
   const [open, setOpen] = useState(false);
   const [plant, setPlant] = useState<Partial<Plant>>();
+  const { room } = useRoom();
 
   return (
     <Dialog.Root onOpenChange={setOpen} open={open}>
-      <Dialog.Trigger className='flex h-max w-full items-center justify-center rounded-md bg-primary-light py-2  text-primary transition-colors ease-out hover:bg-primary hover:text-white'>
+      <Dialog.Trigger
+        disabled={room === null}
+        className='flex h-max w-full items-center justify-center rounded-md bg-primary-light py-2  text-primary transition-colors ease-out hover:bg-primary hover:text-white'
+      >
         Cultivate!
       </Dialog.Trigger>
       <Dialog.Portal>
