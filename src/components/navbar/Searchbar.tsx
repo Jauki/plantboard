@@ -9,7 +9,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 export const getRooms = async (): Promise<Record<LocationType, Room[]>> => {
   // React Querry get rooms from Querry
-  const roomResponse = await fetch('http://localhost:3000/api/room');
+  const roomResponse = await fetch('/api/room');
   const rooms = await roomResponse.json();
 
   return rooms.length == 0
@@ -92,7 +92,6 @@ const Searchbar: React.FC = () => {
                       key={room.id}
                       value={`${roomType}_${room.roomName}`}
                       onPointerDown={(event) => event.preventDefault()}
-                      onClick={() => handleRoomChange({} as Room)}
                       className='group flex w-full cursor-pointer gap-2 rounded-md border border-background-grey bg-white p-2 font-light transition-colors ease-in hover:bg-gray-50 focus-visible:outline  focus-visible:outline-2 focus-visible:outline-primary'
                     >
                       <div className='flex h-6 w-6 items-center justify-center rounded bg-primary-light transition-all ease-in group-hover:bg-primary'></div>

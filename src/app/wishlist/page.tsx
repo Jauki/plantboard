@@ -2,7 +2,7 @@ import { ArrowDown, ArrowUp, Filter, Star } from 'react-feather';
 
 async function getWishlist() {
   try {
-    const res = await fetch('http://localhost:3000/api/plant/wishlist');
+    const res = await fetch('/api/plant/wishlist');
     // console.log(res);
     const plants = await res.json();
 
