@@ -3,8 +3,8 @@ import Image from 'next/image';
 
 const PlantDetailView = ({ plant }: { plant: Plant }) => {
   return (
-    <div className='col-span-4 flex  items-center gap-10  rounded-xl bg-white px-8 py-6 shadow-lg'>
-      {plant.imageUrl && (
+    <div className='col-span-4 flex  items-center gap-10  rounded-xl bg-white px-8 py-6'>
+      {plant.imageUrl ? (
         <Image
           src={plant.imageUrl}
           alt={plant.familyCommonName ?? ''}
@@ -13,6 +13,8 @@ const PlantDetailView = ({ plant }: { plant: Plant }) => {
           sizes='(max-width: 768px) 100vw, 33vw'
           className='aspect-square w-56 rounded-md bg-background-grey object-cover'
         />
+      ) : (
+        <div className='aspect-square w-56 rounded-md bg-background-grey'></div>
       )}
       <div className='flex w-full flex-col gap-2'>
         <div className='flex h-6 w-1/3 items-center rounded-xl bg-red-50 p-2 text-sm text-red-500'>
@@ -62,7 +64,7 @@ const CircularProgressBar = ({ progress }: { progress: number }) => {
           fill='none'
         />
         <circle
-          className=' rounded stroke-current text-primary transition-all duration-500 ease-in-out'
+          className='rounded stroke-current text-primary transition-all duration-500 ease-in-out'
           cx='50'
           cy='50'
           r='48'
