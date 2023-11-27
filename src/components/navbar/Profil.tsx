@@ -90,9 +90,9 @@ const CollapsedSideBarProfile = ({
 }) => {
   return (
     <>
-      <div className='absolute left-0 top-0 z-0 h-screen w-screen bg-black opacity-20'></div>
+      <div className='absolute  left-0 top-0 z-0 h-screen w-screen bg-black opacity-20'></div>
       <div
-        className={`absolute right-0 top-0 flex h-screen w-[300px] flex-col gap-2 rounded-l-xl border border-l-background-grey bg-white px-4 py-8`}
+        className={`absolute right-0 top-0 z-20 flex h-screen w-[300px] flex-col gap-2 rounded-l-xl border border-l-background-grey bg-white px-4 py-8`}
       >
         <div className='flex justify-between'>
           <div className={`flex gap-2 rounded-md`}>

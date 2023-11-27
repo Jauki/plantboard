@@ -15,7 +15,9 @@ const Navbar = () => {
 
   return (
     <nav className='grid max-w-[1728px] grid-cols-8 items-center gap-6 px-12 py-8'>
-      <h1 className='text-3xl font-medium'>Plantboard</h1>
+      <Link className='text-3xl font-medium' href={'/'}>
+        Plantboard
+      </Link>
       <Searchbar />
       {room != null ? <PlantCreationModal /> : null}
       <Link
