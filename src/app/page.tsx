@@ -4,7 +4,7 @@ export default async function Home() {
   return (
     <>
       <main>
-        <div className='h-48 w-full bg-primary'></div>
+        <div className='h-32 w-full bg-primary'></div>
         <GridManager />
       </main>
     </>

@@ -1,25 +1,32 @@
 import { Plant } from '@prisma/client';
 import Image from 'next/image';
+import { Edit, Heart } from 'react-feather';
 
 const PlantDetailView = ({ plant }: { plant: Plant }) => {
   return (
-    <div className='col-span-4 flex  items-center gap-10  rounded-xl bg-white px-8 py-6'>
+    <div className='col-span-4 flex  gap-10  rounded-xl bg-white p-8'>
       {plant.imageUrl ? (
         <Image
           src={plant.imageUrl}
           alt={plant.familyCommonName ?? ''}
-          height={220}
-          width={220}
+          height={224}
+          width={224}
           sizes='(max-width: 768px) 100vw, 33vw'
-          className='aspect-square w-56 rounded-md bg-background-grey object-cover'
+          className='aspect-square h-56 w-56 rounded-md bg-background-grey object-cover'
         />
       ) : (
-        <div className='aspect-square w-56 rounded-md bg-background-grey'></div>
+        <div className='aspect-square h-[224px] w-[224px] rounded-md bg-background-grey'></div>
       )}
       <div className='flex w-full flex-col gap-2'>
-        <div className='flex h-6 w-1/3 items-center rounded-xl bg-red-50 p-2 text-sm text-red-500'>
-          water me!
+        <div className='flex items-center justify-between'>
+          <div className=' flex h-6 items-center rounded-xl bg-primary-light px-3 py-2 text-xs text-primary'>
+            Healthy
+          </div>
+          <div>
+            <Heart />
+          </div>
         </div>
+
         <div className='flex w-4/6 flex-col gap-0.5'>
           <div className='text-2xl font-medium'>{plant.name}</div>
           <div className='text-sm text-foreground-grey'>{plant.family}</div>
@@ -30,11 +37,10 @@ const PlantDetailView = ({ plant }: { plant: Plant }) => {
           distinctio repellat hic, doloremque necessitatibus accusamus labore,
           voluptate blanditiis ab libero quod?
         </p>
-        <div className='flex flex-row gap-2 pt-2'>
-          <CircularProgressBar progress={80} />
-          <CircularProgressBar progress={10} />
-          <CircularProgressBar progress={3} />
-          <CircularProgressBar progress={333} />
+        <div className='flex gap-2'>
+          <StateDisplay title='Size' result={`${plant.height} cm`} />
+          <StateDisplay title='Lighting' result={`${plant.sunlight}`} />
+          <StateDisplay title='Watering' result={`${plant.waterFrequency}`} />
         </div>
       </div>
     </div>
@@ -79,6 +85,13 @@ const CircularProgressBar = ({ progress }: { progress: number }) => {
     </div>
   );
 };
+
+const StateDisplay = ({ title, result }: { title: string; result: string }) => (
+  <div className='flex w-32  flex-col'>
+    <div className='text-xs font-light text-foreground-grey'>{title}</div>
+    <div className='text-lg font-medium text-primary'>{result}</div>
+  </div>
+);
 
 export const PlantDetailSkeleton = () => {
   return (
