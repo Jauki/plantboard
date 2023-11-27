@@ -34,7 +34,7 @@ const convertRooms = (rooms: Record<LocationType, Room[]>) => {
 };
 
 const Searchbar: React.FC = () => {
-  const { data: rooms } = useQuery({
+  const { data: rooms, isFetched } = useQuery({
     queryKey: ['rooms'],
     queryFn: () => getRooms(),
   });
@@ -104,7 +104,8 @@ const Searchbar: React.FC = () => {
               ))
             : null}
           <Select.Group className='flex w-full flex-col gap-1'>
-            {rooms?.INDOOR?.length === 0 && rooms?.OUTDOOR?.length === 0 && (
+            {!isFetched ||
+            (rooms?.INDOOR?.length === 0 && rooms?.OUTDOOR?.length === 0) ? (
               <Select.Item
                 value='null'
                 className='group flex w-full cursor-pointer gap-2 rounded-md border border-background-grey bg-white p-2 font-light transition-colors ease-in hover:bg-gray-50 focus-visible:outline  focus-visible:outline-2 focus-visible:outline-primary'
@@ -116,7 +117,7 @@ const Searchbar: React.FC = () => {
                   Select a room...
                 </Select.ItemText>
               </Select.Item>
-            )}
+            ) : null}
             <RoomCreationModal />
           </Select.Group>
         </Select.Viewport>

@@ -26,7 +26,6 @@ const PlantDetailView = ({ plant }: { plant: Plant }) => {
             <Heart />
           </div>
         </div>
-
         <div className='flex w-4/6 flex-col gap-0.5'>
           <div className='text-2xl font-medium'>{plant.name}</div>
           <div className='text-sm text-foreground-grey'>{plant.family}</div>
