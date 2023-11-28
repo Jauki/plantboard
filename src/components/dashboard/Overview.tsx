@@ -1,8 +1,9 @@
 import { Plant, Room } from '@prisma/client';
-import PlantDetailView, { PlantDetailSkeleton } from './PlantDetail';
-import PlantChooser from './PlantChooser';
+import PlantDetailView, { PlantDetailSkeleton } from './overview/PlantDetail';
+import PlantChooser, { PlantChooserSkeleton } from './overview/PlantChooser';
 import { useRoom } from '@/context/RoomContext';
 import { useEffect, useState } from 'react';
+import PlantHealth from './overview/PlantHealth';
 
 const Overview = () => {
   const { room } = useRoom();
@@ -19,13 +20,16 @@ const Overview = () => {
       ) : (
         <PlantDetailSkeleton />
       )}
+      {room ? <PlantHealth /> : <PlantHealth />}
       {room ? (
         <PlantChooser
           detailPlant={detailPlant}
           room={room}
           setDetailPlant={setDetailPlant}
         />
-      ) : null}
+      ) : (
+        <PlantChooserSkeleton />
+      )}
     </>
   );
 };

@@ -73,14 +73,14 @@ const Searchbar: React.FC = () => {
 
   return (
     <Select.Root onValueChange={handleRoomChangePfusch}>
-      <Select.Trigger className='col-span-2 mr-4 flex w-full items-center gap-2 rounded-md bg-background-grey p-2 font-light focus-visible:outline  focus-visible:outline-2 focus-visible:outline-primary data-[placeholder]:text-gray-600 '>
+      <Select.Trigger className=' col-span-2 mr-4 flex w-full items-center gap-2 rounded-md bg-background-grey p-2 font-light focus-visible:outline  focus-visible:outline-2 focus-visible:outline-primary data-[placeholder]:text-gray-600 '>
         <Select.Icon className='flex h-6 w-6 items-center justify-center rounded bg-primary-light transition-all ease-in group-hover:bg-primary'>
           🌵
         </Select.Icon>
         <Select.Value placeholder='Select a room...' />
       </Select.Trigger>
-      <Select.Content>
-        <Select.Viewport className='flex flex-col gap-2 rounded-lg bg-white p-2 shadow-lg'>
+      <Select.Content className='z-30'>
+        <Select.Viewport className=' flex flex-col gap-2 rounded-lg bg-white p-2 shadow-lg'>
           {rooms
             ? convertRooms(rooms).map(({ roomType, rooms, index }) => (
                 <Select.Group key={uuidv4()} className='flex flex-col gap-1'>

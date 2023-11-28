@@ -13,7 +13,7 @@ const PlantChooser = ({
   setDetailPlant: React.Dispatch<React.SetStateAction<Plant>>;
 }) => {
   return (
-    <div className='col-span-4 col-start-1 flex h-full gap-8 overflow-x-scroll rounded-xl bg-white pt-4 '>
+    <div className='-z-10 col-span-5 col-start-1 flex h-full gap-8 overflow-x-scroll rounded-xl bg-white pt-4 '>
       {room.plants.map((plant) => (
         <PlantMini
           key={v4()}
@@ -59,6 +59,24 @@ const PlantMini = ({
         <div className='h-32 w-32 rounded-lg bg-primary'></div>
       )}
       <div className='text-center text-lg font-medium'>{plant.name}</div>
+    </div>
+  );
+};
+
+export const PlantChooserSkeleton = () => {
+  const skeletonData = [{}, {}, {}, {}];
+
+  return (
+    <div className='col-span-5 col-start-1 flex h-full gap-8 rounded-xl bg-white pt-4'>
+      {skeletonData.map((_, index) => (
+        <div
+          key={index}
+          className='aspect-sqaure flex w-[192px] flex-col items-center justify-center gap-1 rounded-lg bg-background-grey py-6'
+        >
+          <div className='h-32 w-32 animate-pulse rounded-lg bg-background-grey'></div>
+          <div className='h-8 w-24 animate-pulse rounded bg-background-grey text-center text-lg font-medium'></div>
+        </div>
+      ))}
     </div>
   );
 };

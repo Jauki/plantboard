@@ -1,10 +1,10 @@
 'use client';
 
 import { useRoom } from '@/context/RoomContext';
-import PlantDetailView, { PlantDetailSkeleton } from './PlantDetail';
+import PlantDetailView, { PlantDetailSkeleton } from './overview/PlantDetail';
 import { Plant } from '@prisma/client';
 import { useEffect, useState } from 'react';
-import PlantChooser from './PlantChooser';
+import PlantChooser from './overview/PlantChooser';
 import DashboardNavigation from './DashboardNavigation';
 
 const GridManager = () => {

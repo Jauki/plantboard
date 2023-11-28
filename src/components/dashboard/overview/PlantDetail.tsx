@@ -4,7 +4,7 @@ import { Edit, Heart } from 'react-feather';
 
 const PlantDetailView = ({ plant }: { plant: Plant }) => {
   return (
-    <div className='col-span-4 flex  gap-10  rounded-xl bg-white px-10 py-4'>
+    <div className='col-span-5 flex  gap-10  rounded-xl bg-white px-10 py-4'>
       {plant.imageUrl ? (
         <Image
           src={plant.imageUrl}
@@ -96,7 +96,7 @@ const CircularProgressBar = ({ progress }: { progress: number }) => {
 
 export const PlantDetailSkeleton = () => {
   return (
-    <div className='col-span-4 flex gap-10 rounded-xl bg-white px-10 py-4'>
+    <div className='col-span-5 flex gap-10 rounded-xl bg-white px-10 py-4'>
       <div className='aspect-square h-56 w-56 animate-pulse rounded-md bg-background-grey object-cover'></div>
       <div className='flex w-full flex-col gap-2'>
         <div className='flex items-center justify-between'>
