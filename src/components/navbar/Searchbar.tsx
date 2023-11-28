@@ -1,11 +1,13 @@
 import * as Select from '@radix-ui/react-select';
-import { LocationType, Room } from '@prisma/client';
+import { LocationType, Plant, Room as r } from '@prisma/client';
 import React, { ReactNode, useEffect, useState } from 'react';
 import RoomCreationModal from '../room/RoomCreationModal';
 import _ from 'lodash';
 import { useQuery } from '@tanstack/react-query';
 import { useRoom } from '@/context/RoomContext';
 import { v4 as uuidv4 } from 'uuid';
+
+type Room = r & { plants: Plant[] };
 
 export const getRooms = async (): Promise<Record<LocationType, Room[]>> => {
   // React Querry get rooms from Querry
@@ -34,7 +36,7 @@ const convertRooms = (rooms: Record<LocationType, Room[]>) => {
 };
 
 const Searchbar: React.FC = () => {
-  const { data: rooms } = useQuery({
+  const { data: rooms, isFetched } = useQuery({
     queryKey: ['rooms'],
     queryFn: () => getRooms(),
   });
@@ -73,14 +75,14 @@ const Searchbar: React.FC = () => {
 
   return (
     <Select.Root onValueChange={handleRoomChangePfusch}>
-      <Select.Trigger className='col-span-2 mr-4 flex w-full items-center gap-2 rounded-md bg-background-grey p-2 font-light focus-visible:outline  focus-visible:outline-2 focus-visible:outline-primary data-[placeholder]:text-gray-600 '>
+      <Select.Trigger className=' col-span-2 mr-4 flex w-full items-center gap-2 rounded-md bg-background-grey p-2 font-light focus-visible:outline  focus-visible:outline-2 focus-visible:outline-primary data-[placeholder]:text-gray-600 '>
         <Select.Icon className='flex h-6 w-6 items-center justify-center rounded bg-primary-light transition-all ease-in group-hover:bg-primary'>
           🌵
         </Select.Icon>
         <Select.Value placeholder='Select a room...' />
       </Select.Trigger>
-      <Select.Content>
-        <Select.Viewport className='flex flex-col gap-2 rounded-lg bg-white p-2 shadow-lg'>
+      <Select.Content className='z-30'>
+        <Select.Viewport className=' flex flex-col gap-2 rounded-lg bg-white p-2 shadow-lg'>
           {rooms
             ? convertRooms(rooms).map(({ roomType, rooms, index }) => (
                 <Select.Group key={uuidv4()} className='flex flex-col gap-1'>
@@ -104,7 +106,8 @@ const Searchbar: React.FC = () => {
               ))
             : null}
           <Select.Group className='flex w-full flex-col gap-1'>
-            {rooms?.INDOOR?.length === 0 && rooms?.OUTDOOR?.length === 0 && (
+            {!isFetched ||
+            (rooms?.INDOOR?.length === 0 && rooms?.OUTDOOR?.length === 0) ? (
               <Select.Item
                 value='null'
                 className='group flex w-full cursor-pointer gap-2 rounded-md border border-background-grey bg-white p-2 font-light transition-colors ease-in hover:bg-gray-50 focus-visible:outline  focus-visible:outline-2 focus-visible:outline-primary'
@@ -116,7 +119,7 @@ const Searchbar: React.FC = () => {
                   Select a room...
                 </Select.ItemText>
               </Select.Item>
-            )}
+            ) : null}
             <RoomCreationModal />
           </Select.Group>
         </Select.Viewport>
