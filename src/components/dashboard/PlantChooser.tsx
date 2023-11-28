@@ -13,7 +13,7 @@ const PlantChooser = ({
   setDetailPlant: React.Dispatch<React.SetStateAction<Plant>>;
 }) => {
   return (
-    <div className='col-span-4 col-start-1 flex h-full gap-8 overflow-x-scroll rounded-xl bg-white p-6 '>
+    <div className='col-span-4 col-start-1 flex h-full gap-8 overflow-x-scroll rounded-xl bg-white pt-4 '>
       {room.plants.map((plant) => (
         <PlantMini
           key={v4()}

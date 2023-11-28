@@ -4,7 +4,7 @@ import { Edit, Heart } from 'react-feather';
 
 const PlantDetailView = ({ plant }: { plant: Plant }) => {
   return (
-    <div className='col-span-4 flex  gap-10  rounded-xl bg-white p-8'>
+    <div className='col-span-4 flex  gap-10  rounded-xl bg-white px-10 py-4'>
       {plant.imageUrl ? (
         <Image
           src={plant.imageUrl}
@@ -28,7 +28,9 @@ const PlantDetailView = ({ plant }: { plant: Plant }) => {
         </div>
         <div className='flex w-4/6 flex-col gap-0.5'>
           <div className='text-2xl font-medium'>{plant.name}</div>
-          <div className='text-sm text-foreground-grey'>{plant.family}</div>
+          <div className='text-sm text-foreground-grey'>
+            {plant.family ?? 'N/A'}
+          </div>
         </div>
         <p className='h-24 w-full rounded text-sm'>
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo est
@@ -94,17 +96,17 @@ const StateDisplay = ({ title, result }: { title: string; result: string }) => (
 
 export const PlantDetailSkeleton = () => {
   return (
-    <div className='py-4lg col-span-4 flex animate-pulse  items-center gap-10 rounded-xl bg-white px-8'>
-      <div className='aspect-square w-56 rounded-md bg-background-grey'></div>
+    <div className='-z-10 col-span-4 flex  items-center  gap-10 rounded-xl bg-white px-8 py-4'>
+      <div className='aspect-square w-56 animate-pulse rounded-md bg-background-grey'></div>
       <div className='flex w-full flex-col gap-2'>
-        <div className='h-6 w-1/3 rounded bg-background-grey'></div>
-        <div className='h-10 w-4/6 rounded bg-background-grey'></div>
-        <div className='h-24 w-full rounded bg-background-grey'></div>
+        <div className='roundedanimate-pulse h-6 w-1/3 animate-pulse bg-background-grey'></div>
+        <div className='h-10 w-4/6 animate-pulse rounded bg-background-grey'></div>
+        <div className='h-24 w-full animate-pulse rounded bg-background-grey'></div>
         <div className='flex flex-row gap-2 pt-2'>
-          <div className='aspect-square w-12 rounded bg-background-grey'></div>
-          <div className='aspect-square w-12 rounded bg-background-grey'></div>
-          <div className='aspect-square w-12 rounded bg-background-grey'></div>
-          <div className='aspect-square w-12 rounded bg-background-grey'></div>
+          <div className='aspect-square w-12 animate-pulse rounded bg-background-grey'></div>
+          <div className='aspect-square w-12 animate-pulse rounded bg-background-grey'></div>
+          <div className='aspect-square w-12 animate-pulse rounded bg-background-grey'></div>
+          <div className='aspect-square w-12 animate-pulse rounded bg-background-grey'></div>
         </div>
       </div>
     </div>

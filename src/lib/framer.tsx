@@ -41,7 +41,7 @@ const Tabs = ({
   return (
     <nav
       ref={navRef}
-      className='relative z-0 flex flex-shrink-0 items-center justify-center py-2'
+      className='relative  flex flex-shrink-0 items-center justify-center py-2'
       onPointerLeave={(e) => setHoveredTabIndex(null)}
     >
       {tabs.map((item, i) => {
