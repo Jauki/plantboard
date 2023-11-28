@@ -1,11 +1,13 @@
 import * as Select from '@radix-ui/react-select';
-import { LocationType, Room } from '@prisma/client';
+import { LocationType, Plant, Room as r } from '@prisma/client';
 import React, { ReactNode, useEffect, useState } from 'react';
 import RoomCreationModal from '../room/RoomCreationModal';
 import _ from 'lodash';
 import { useQuery } from '@tanstack/react-query';
 import { useRoom } from '@/context/RoomContext';
 import { v4 as uuidv4 } from 'uuid';
+
+type Room = r & { plants: Plant[] };
 
 export const getRooms = async (): Promise<Record<LocationType, Room[]>> => {
   // React Querry get rooms from Querry
