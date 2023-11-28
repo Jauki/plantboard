@@ -15,7 +15,7 @@ const PlantDetailView = ({ plant }: { plant: Plant }) => {
           className='aspect-square h-56 w-56 rounded-md bg-background-grey object-cover'
         />
       ) : (
-        <div className='aspect-square h-[224px] w-[224px] rounded-md bg-background-grey'></div>
+        <div className='aspect-square h-[224px] w-[224px] rounded-md bg-primary'></div>
       )}
       <div className='flex w-full flex-col gap-2'>
         <div className='flex items-center justify-between'>
@@ -47,6 +47,13 @@ const PlantDetailView = ({ plant }: { plant: Plant }) => {
     </div>
   );
 };
+
+const StateDisplay = ({ title, result }: { title: string; result: string }) => (
+  <div className='flex w-32  flex-col'>
+    <div className='text-xs font-light text-foreground-grey'>{title}</div>
+    <div className='text-lg font-medium text-primary'>{result}</div>
+  </div>
+);
 
 const CircularProgressBar = ({ progress }: { progress: number }) => {
   const calculateStrokeDasharray = () => {
@@ -87,26 +94,36 @@ const CircularProgressBar = ({ progress }: { progress: number }) => {
   );
 };
 
-const StateDisplay = ({ title, result }: { title: string; result: string }) => (
-  <div className='flex w-32  flex-col'>
-    <div className='text-xs font-light text-foreground-grey'>{title}</div>
-    <div className='text-lg font-medium text-primary'>{result}</div>
-  </div>
-);
-
 export const PlantDetailSkeleton = () => {
   return (
-    <div className='-z-10 col-span-4 flex  items-center  gap-10 rounded-xl bg-white px-8 py-4'>
-      <div className='aspect-square w-56 animate-pulse rounded-md bg-background-grey'></div>
+    <div className='col-span-4 flex gap-10 rounded-xl bg-white px-10 py-4'>
+      <div className='aspect-square h-56 w-56 animate-pulse rounded-md bg-background-grey object-cover'></div>
       <div className='flex w-full flex-col gap-2'>
-        <div className='roundedanimate-pulse h-6 w-1/3 animate-pulse bg-background-grey'></div>
-        <div className='h-10 w-4/6 animate-pulse rounded bg-background-grey'></div>
+        <div className='flex items-center justify-between'>
+          <div className='flex h-6 w-24 animate-pulse items-center rounded-xl bg-background-grey px-3 py-2 '></div>
+          <div className='animate-pulse'>
+            {/* Assuming Heart is an icon, you can replace this with your Heart component */}
+            <div className='aspect-square h-6 w-6 rounded-md bg-background-grey'></div>
+          </div>
+        </div>
+        <div className='flex w-4/6 flex-col gap-0.5'>
+          <div className='h-8 w-3/4 animate-pulse rounded bg-background-grey text-2xl font-medium'></div>
+          <div className='h-4 w-2/3 animate-pulse rounded bg-background-grey text-sm text-foreground-grey'></div>
+        </div>
         <div className='h-24 w-full animate-pulse rounded bg-background-grey'></div>
-        <div className='flex flex-row gap-2 pt-2'>
-          <div className='aspect-square w-12 animate-pulse rounded bg-background-grey'></div>
-          <div className='aspect-square w-12 animate-pulse rounded bg-background-grey'></div>
-          <div className='aspect-square w-12 animate-pulse rounded bg-background-grey'></div>
-          <div className='aspect-square w-12 animate-pulse rounded bg-background-grey'></div>
+        <div className='flex gap-2'>
+          <div className='flex w-32 animate-pulse flex-col'>
+            <div className='h-4 w-full rounded bg-background-grey text-xs font-light text-foreground-grey'></div>
+            <div className='h-8 w-full rounded bg-background-grey text-lg font-medium text-primary'></div>
+          </div>
+          <div className='flex w-32 animate-pulse flex-col'>
+            <div className='h-4 w-full rounded bg-background-grey text-xs font-light text-foreground-grey'></div>
+            <div className='h-8 w-full rounded bg-background-grey text-lg font-medium text-primary'></div>
+          </div>
+          <div className='flex w-32 animate-pulse flex-col'>
+            <div className='h-4 w-full rounded bg-background-grey text-xs font-light text-foreground-grey'></div>
+            <div className='h-8 w-full rounded bg-background-grey text-lg font-medium text-primary'></div>
+          </div>
         </div>
       </div>
     </div>
